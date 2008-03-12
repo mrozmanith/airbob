@@ -1,0 +1,234 @@
+Alert {
+	buttonStyleName: "alertButton";
+}
+
+.alertButton {
+
+	letterSpacing: 0;
+	fontFamily:"EN Moist";		
+   	fontAntiAliasType:normal;	   
+   	font-size:8;
+	cornerRadius: 10;
+	fontWeight: normal;
+	textRollOverColor: white;
+	color: white;	
+}
+
+.smallText 
+{
+   	fontFamily:"EN Moist";		
+   	fontAntiAliasType:normal;	   
+   	font-size:8;
+}
+		
+.smallCombobox 
+{
+   	color:#0b333c;
+   	fontFamily:"Arial";		
+   	fontAntiAliasType:normal;
+   	font-size:9;
+   	/*dropdown-style-name:myComboBoxDropDowns;*/   	         
+}
+
+.myComboBoxDropDowns 
+{
+   	dropShadowEnabled: true;
+    shadowDistance: 3;
+    shadowDirection: "right";
+    cornerRadius: 5;	   
+}	
+
+.scrollBarPadding {
+   paddingRight: 25;
+}
+.noscrollBarPadding {
+   paddingRight: 0;
+}	
+
+Application
+{
+	backgroundImage: Embed(source="airbob_skins.swf",symbol="BackgroundImage");
+}
+
+ComboBox
+{
+
+	disabledSkin: Embed(source="airbob_skins.swf", symbol="ComboBoxArrow_disabledSkin");
+	downSkin: Embed(source="airbob_skins.swf", symbol="ComboBoxArrow_downSkin");
+	editableDisabledSkin: Embed(source="airbob_skins.swf", symbol="ComboBoxArrow_editableDisabledSkin");
+	editableDownSkin: Embed(source="airbob_skins.swf", symbol="ComboBoxArrow_editableDownSkin");
+	editableOverSkin: Embed(source="airbob_skins.swf", symbol="ComboBoxArrow_editableOverSkin");
+	editableUpSkin: Embed(source="airbob_skins.swf", symbol="ComboBoxArrow_editableUpSkin");
+	overSkin: Embed(source="airbob_skins.swf", symbol="ComboBoxArrow_overSkin");
+	upSkin: Embed(source="airbob_skins.swf", symbol="ComboBoxArrow_upSkin");
+}		
+
+Button
+{
+	disabledSkin: Embed(source="airbob_skins.swf", symbol="Button_disabledSkin");
+	downSkin: Embed(source="airbob_skins.swf", symbol="Button_downSkin");
+	overSkin: Embed(source="airbob_skins.swf", symbol="Button_overSkin");
+	upSkin: Embed(source="airbob_skins.swf", symbol="Button_upSkin");
+	padding-bottom: 0;
+	padding-left: 0;
+	padding-right: 0;
+	padding-top: 0;
+	button-padding: 0;
+	embedFont: true;
+	color: #FFFFFF;
+	textRollOverColor: #FFFFFF;
+	textSelectedColor: #FFCCCC;
+	disabledColor: #FF7777;
+}
+
+.WindowControlExit
+{
+	disabledSkin: Embed(source="airbob_skins.swf", symbol="WindowControlExit_disabledSkin");
+	downSkin: Embed(source="airbob_skins.swf", symbol="WindowControlExit_downSkin");
+	overSkin: Embed(source="airbob_skins.swf", symbol="WindowControlExit_overSkin");
+	upSkin: Embed(source="airbob_skins.swf", symbol="WindowControlExit_upSkin");
+}
+
+.WindowControlMaximize
+{
+	disabledSkin: Embed(source="airbob_skins.swf", symbol="WindowControlMaximize_disabledSkin");
+	downSkin: Embed(source="airbob_skins.swf", symbol="WindowControlMaximize_downSkin");
+	overSkin: Embed(source="airbob_skins.swf", symbol="WindowControlMaximize_overSkin");
+	upSkin: Embed(source="airbob_skins.swf", symbol="WindowControlMaximize_upSkin");
+}
+
+.WindowControlMinimize
+{
+	disabledSkin: Embed(source="airbob_skins.swf", symbol="WindowControlMinimize_disabledSkin");
+	downSkin: Embed(source="airbob_skins.swf", symbol="WindowControlMinimize_downSkin");
+	overSkin: Embed(source="airbob_skins.swf", symbol="WindowControlMinimize_overSkin");
+	upSkin: Embed(source="airbob_skins.swf", symbol="WindowControlMinimize_upSkin");
+}
+
+CheckBox
+{
+	disabledIcon: Embed(source="airbob_skins.swf", symbol="CheckBox_disabledIcon");
+	downIcon: Embed(source="airbob_skins.swf", symbol="CheckBox_downIcon");
+	overIcon: Embed(source="airbob_skins.swf", symbol="CheckBox_overIcon");
+	selectedDisabledIcon: Embed(source="airbob_skins.swf", symbol="CheckBox_selectedDisabledIcon");
+	selectedDownIcon: Embed(source="airbob_skins.swf", symbol="CheckBox_selectedDownIcon");
+	selectedOverIcon: Embed(source="airbob_skins.swf", symbol="CheckBox_selectedOverIcon");
+	selectedUpIcon: Embed(source="airbob_skins.swf", symbol="CheckBox_selectedUpIcon");
+	upIcon: Embed(source="airbob_skins.swf", symbol="CheckBox_upIcon");
+}		
+
+ ColorPicker {
+      swatchPanelStyleName:mySwatchPanelStyle;
+  }
+  
+  .mySwatchPanelStyle {
+      backgroundColor:#E5E6E7;
+      columnCount:5;
+      horizontalGap:0;
+      previewHeight:22;
+      previewWidth:45;
+      swatchGridBackgroundColor:#000000;
+      swatchGridBorderSize:0;
+      swatchHeight:25;
+      swatchHighlightColor:#FFFFFF;
+      swatchHighlightSize:1;
+      swatchWidth:25;
+      textFieldWidth:72;
+      verticalGap:0;
+  }
+
+
+DividedBox
+{
+	dividerSkin: Embed(source="airbob_skins.swf",symbol="DividedBox_dividerSkin");
+	horizontalCursor: Embed(source="airbob_skins.swf",symbol="DividedBox_horizontalCursor");
+	verticalCursor: Embed(source="airbob_skins.swf",symbol="DividedBox_verticalCursor");
+}
+
+HDividedBox
+{
+	dividerSkin: Embed(source="airbob_skins.swf",symbol="DividedBox_dividerSkin");
+	horizontalCursor: Embed(source="airbob_skins.swf",symbol="DividedBox_horizontalCursor");
+	verticalCursor: Embed(source="airbob_skins.swf",symbol="DividedBox_verticalCursor");
+}
+
+DragManager
+{
+	copyCursor: Embed(source="airbob_skins.swf",symbol="DragManager_copyCursor");
+
+	defaultDragImageSkin: Embed(source="airbob_skins.swf", symbol="DragManager_defaultDragImageSkin");
+
+	linkCursor: Embed(source="airbob_skins.swf",symbol="DragManager_linkCursor");
+	moveCursor: Embed(source="airbob_skins.swf",symbol="DragManager_moveCursor");
+	rejectCursor: Embed(source="airbob_skins.swf",symbol="DragManager_rejectCursor");
+}
+
+Image
+{
+
+	brokenImageSkin: Embed(source="airbob_skins.swf",symbol="Loader_brokenImageSkin");
+
+}
+
+
+Panel
+{
+
+	closeButtonDisabledSkin: Embed(source="airbob_skins.swf",symbol="Panel_closeButtonDisabledSkin");
+	closeButtonDownSkin: Embed(source="airbob_skins.swf",symbol="Panel_closeButtonDownSkin");
+	closeButtonOverSkin: Embed(source="airbob_skins.swf",symbol="Panel_closeButtonOverSkin");
+	closeButtonUpSkin: Embed(source="airbob_skins.swf",symbol="Panel_closeButtonUpSkin");
+	borderSkin: Embed(source="airbob_skins.swf", symbol="Panel_borderSkin");
+	titleBackgroundSkin: Embed(source="empty.swf", symbol="Panel_titleBackgroundSkin");
+
+}
+ProgressBar
+{
+
+	barSkin: Embed(source="airbob_skins.swf", symbol="ProgressBarSkin");
+	indeterminateSkin: Embed(source="airbob_skins.swf", symbol="ProgressIndeterminateSkin");
+	trackSkin: Embed(source="airbob_skins.swf", symbol="ProgressTrackSkin");
+
+}
+
+ScrollBar
+{
+
+	downArrowDisabledSkin: Embed(source="airbob_skins.swf", symbol="ScrollArrowDown_disabledSkin");
+	downArrowDownSkin: Embed(source="airbob_skins.swf", symbol="ScrollArrowDown_downSkin");
+	downArrowOverSkin: Embed(source="airbob_skins.swf", symbol="ScrollArrowDown_overSkin");
+	downArrowUpSkin: Embed(source="airbob_skins.swf", symbol="ScrollArrowDown_upSkin");
+	thumbDownSkin: Embed(source="airbob_skins.swf", symbol="ScrollThumb_downSkin");
+	thumbIcon: Embed(source="airbob_skins.swf", symbol="ScrollBar_thumbIcon");
+	thumbOverSkin: Embed(source="airbob_skins.swf", symbol="ScrollThumb_overSkin");
+	thumbUpSkin: Embed(source="airbob_skins.swf", symbol="ScrollThumb_upSkin");
+	trackSkin: Embed(source="airbob_skins.swf", symbol="ScrollTrack_Skin");
+	upArrowDisabledSkin: Embed(source="airbob_skins.swf", symbol="ScrollArrowUp_disabledSkin");
+	upArrowDownSkin: Embed(source="airbob_skins.swf", symbol="ScrollArrowUp_downSkin");
+	upArrowOverSkin: Embed(source="airbob_skins.swf", symbol="ScrollArrowUp_overSkin");
+	upArrowUpSkin: Embed(source="airbob_skins.swf", symbol="ScrollArrowUp_upSkin");
+
+}
+
+AirbobTextInput
+{
+	backgroundImage: Embed(source="airbob_skins.swf", symbol="InputField_backgroundImage");
+	borderSkin: Embed(source="airbob_skins.swf", symbol="InputField_borderSkin");
+	focusSkin: Embed(source="airbob_skins.swf", symbol="InputField_focusSkin");
+	error-color: #ffcc00;
+	fontFamily:"EN Moist";		
+   	fontAntiAliasType:normal;	   
+   	font-size:8;
+}
+
+
+ToolTip
+{
+
+	borderSkin: Embed(source="airbob_skins.swf", symbol="ToolTip_borderSkin");
+	fontFamily:"EN Moist";		
+   	fontAntiAliasType:normal;	   
+   	font-size:8;
+   	color: white;
+}
+
