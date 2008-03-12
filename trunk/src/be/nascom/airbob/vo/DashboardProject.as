@@ -1,13 +1,14 @@
 package be.nascom.airbob.vo
 {
+	import com.adobe.cairngorm.vo.ValueObject;
+	
 	import flash.events.EventDispatcher;
 	
 	import mx.logging.ILogger;
 	import mx.logging.Log;
-	import mx.rpc.http.HTTPService;
 	
 	[Bindable]
-	public class DashboardProject extends EventDispatcher
+	public class DashboardProject extends EventDispatcher implements ValueObject
 	{
 		public static const ACTIVITY_SLEEPING:String = "Sleeping";
 		public static const ACTIVITY_BUILDING:String = "Building";
@@ -38,6 +39,11 @@ package be.nascom.airbob.vo
 			this.lastBuildLabel = data.lastBuildLabel;
 			this.lastBuildTime = data.lastBuildTime;
 			this.webUrl = data.webUrl;
+		}
+		
+		public function hasChanged(project:DashboardProject):Boolean 
+		{
+			return (activity!=project.activity) || (lastBuildTime!=project.lastBuildTime);
 		}
 		
 		public function get state() : String 

@@ -1,5 +1,6 @@
 package be.nascom.airbob.model
 {
+	import be.nascom.airbob.vo.CCTrayConfig;
 	import be.nascom.airbob.vo.DashboardProject;
 	
 	import com.adobe.cairngorm.model.IModelLocator;
@@ -15,10 +16,7 @@ package be.nascom.airbob.model
 	public class AppModelLocator extends EventDispatcher implements IModelLocator 
 	{
 		private static var logger:ILogger = Log.getLogger("AppModelLocator");		
-		private static var model:AppModelLocator;
-		
-		public var projects:ArrayCollection = new ArrayCollection();		
-		public var settings:AppSettings ;				
+		private static var model:AppModelLocator;						
         
         [Embed(source="../../../../../assets/icons/systray_success.png")]
         private var IconSuccess:Class;
@@ -36,8 +34,12 @@ package be.nascom.airbob.model
         private var IconDisconnected:Class;
         private var iconDisconnected:BitmapData;
         
-        public var state:String;
+        public var projects:ArrayCollection = new ArrayCollection();		
+        public var configs:ArrayCollection = new ArrayCollection();
         
+		public var settings:AppSettings;	
+        
+        public var state:String;        
         public var selectedView:int = VIEW_DASHBOARD;
         
         public const VIEW_DASHBOARD:int = 0;
@@ -57,6 +59,10 @@ package be.nascom.airbob.model
         	iconDisconnected = new IconDisconnected().bitmapData;
         	
         	settings = new AppSettings();
+        	
+        	// TODO: initialize screen
+        	logger.warn("Adding hardcoded url: http://wombat.int.nascom.be:8080");
+        	configs.addItem(new CCTrayConfig("http://wombat.int.nascom.be:8080"));
 		}
 
 		/**
@@ -85,6 +91,66 @@ package be.nascom.airbob.model
 	  		}
 	  		return iconDisconnected;		
 		}
+		
+		public function update(data:Object):void
+		{			
+			if (projects.length!=data.length){	 
+	 			initModel(data);
+		   	} else {
+		   		updateModel(data);
+		   	}			
+		}
+		
+		private function initModel(data:Object):void
+		{	
+			for(var i:uint=0; i < data.length; i++) {
+				var project:DashboardProject = new DashboardProject(data[i]);
+	   			projects.addItem(project);
+	   		}
+	   		changeState();	
+		}
+		
+		private function updateModel(data:Object):void
+		{
+			for(var i:uint=0; i < data.length; i++) {
+	   			var project:DashboardProject = new DashboardProject(data[i]);
+	   			for(var j:uint=0; j < projects.length; j++) {
+	   				if (projects[j].name==project.name) {
+		   				if (projects[j].hasChanged(project)) {
+		   					projects[j] = project;		   		
+		   					changeState();					   					
+		   				}
+	   				}
+	   			}
+	   		}
+		}	
+		
+		private function changeState():void
+		{
+			var stateSuccess:int = 0;
+			var stateFailure:int = 0;
+			var stateBuilding:int = 0;
+			var stateOther:int = 0;
+			
+			for(var i:uint=0; i < projects.length; i++) {
+				if (DashboardProject(projects[i]).state == DashboardProject.STATUS_FAILURE) {
+					stateFailure++;	
+				} else if (DashboardProject(projects[i]).state == DashboardProject.STATUS_BUILDING) {
+					stateBuilding++;	
+				} else if (DashboardProject(projects[i]).state == DashboardProject.STATUS_SUCCESS) {
+					stateSuccess++;
+				} else {
+					stateOther++;
+				}
+			}	
+			
+			if (stateOther>0) state = DashboardProject.STATUS_INACTIVE;
+			if (stateSuccess>0) state = DashboardProject.STATUS_SUCCESS;
+			if (stateFailure>0) state = DashboardProject.STATUS_FAILURE;
+			if (stateBuilding>0) state = DashboardProject.STATUS_BUILDING;
+			
+			//dispatchEvent(new DashboardEvent(DashboardEvent.CHANGED, state));	
+		}				
 
 	}
 }

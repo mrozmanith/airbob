@@ -2,7 +2,8 @@
 <mx:WindowedApplication 
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:control="be.nascom.airbob.control.*" 
-	xmlns:view="be.nascom.airbob.view.*" 	
+	xmlns:view="be.nascom.airbob.view.*" 
+	xmlns:business="be.nascom.airbob.business.*"	
 	layout="absolute" 
 	closeEffect="fadeOut"
 	showEffect="fadeIn"
@@ -11,16 +12,20 @@
 	showStatusBar="false"
 	backgroundColor="White"
 	dropShadowEnabled="true" 
-	creationComplete="init()" >
+	creationComplete="init()">
+	
+	<control:AppController id="controller" />
+	<business:Services id="services"/>
 	
 	<mx:Script>
 		<![CDATA[
-			import com.adobe.cairngorm.model.ModelLocator;
-			import be.nascom.airbob.model.AppModelLocator;
-			import mx.logging.LogEventLevel;
-			import be.nascom.air.logging.FileTarget;
 			import mx.logging.Log;
 			import mx.logging.ILogger;
+			import be.nascom.airbob.vo.CCTrayConfig;
+			import be.nascom.airbob.events.LoadProjectsEvent;
+			import be.nascom.airbob.commands.LoadProjectsCommand;
+			import com.adobe.cairngorm.model.ModelLocator;
+			import be.nascom.airbob.model.AppModelLocator;
 			
 			private static var logger:ILogger = Log.getLogger("Airbob");
 			
@@ -32,21 +37,9 @@
 			 */
 			private function init():void 
 			{	
-				// Add file logger
-				var fileTarget:FileTarget = new FileTarget();
-				fileTarget.includeDate = true;
-				fileTarget.includeTime = true;
-				fileTarget.includeLevel = true;
-				fileTarget.includeCategory = true;
-				fileTarget.level = LogEventLevel.ALL;
-				
-				// Add the target
-				Log.addTarget(fileTarget);
-				logger.info("File Logging Active:" + new File(fileTarget.logURI).nativePath);								
-		    	
-		    	// Add the event listsners for systray
+				// Add the event listsners for systray
 		    	addEventListener(Event.ADDED, prepareForSystray);
-		    	addEventListener(Event.CLOSING, closingApplication);		    			    	
+		    	addEventListener(Event.CLOSING, closingApplication);			    			    				    			    	
 		    			    		    			    			    
 		  	}
 		  	
@@ -145,9 +138,7 @@
 		 	fontWeight:bold;
 		} 			
 		
-	</mx:Style>
-	
-	<control:AppController id="controller" />
+	</mx:Style>	
 	
 	<mx:ViewStack id="viewStack" selectedIndex="{model.selectedView}">
 	
