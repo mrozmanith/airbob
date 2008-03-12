@@ -20,19 +20,19 @@ package be.nascom.airbob.model
 		public var projects:ArrayCollection = new ArrayCollection();		
 		public var settings:AppSettings ;				
         
-        [Embed(source="Icons/Success.png")]
+        [Embed(source="../../../../../assets/icons/systray_success.png")]
         private var IconSuccess:Class;
         private var iconSuccess:BitmapData;
         
-        [Embed(source="Icons/Building.png")]
+        [Embed(source="../../../../../assets/icons/systray_building.png")]
         private var IconBuilding:Class;
         private var iconBuilding:BitmapData;
         
-        [Embed(source="Icons/Failure.png")]
+        [Embed(source="../../../../../assets/icons/systray_failure.png")]
         private var IconFailure:Class;
         private var iconFailure:BitmapData;
         
-        [Embed(source="Icons/Disconnected.png")]
+        [Embed(source="../../../../../assets/icons/systray_disconnected.png")]
         private var IconDisconnected:Class;
         private var iconDisconnected:BitmapData;
         
