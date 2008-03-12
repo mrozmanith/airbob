@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:WindowedApplication 
-	xmlns:mx="http://www.adobe.com/2006/mxml" 	
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:control="be.nascom.airbob.control.*" 
+	xmlns:view="be.nascom.airbob.view.*" 	
 	layout="absolute" 
 	closeEffect="fadeOut"
 	showEffect="fadeIn"
@@ -9,7 +11,7 @@
 	showStatusBar="false"
 	backgroundColor="White"
 	dropShadowEnabled="true" 
-	creationComplete="init()" xmlns:control="be.nascom.airbob.control.*" xmlns:view="be.nascom.airbob.view.*">
+	creationComplete="init()" >
 	
 	<mx:Script>
 		<![CDATA[
@@ -120,6 +122,30 @@
 			}			
 		]]>
 	</mx:Script>
+	
+	<mx:Style source="../assets/skin/airbob_skins.css" />
+	
+	<mx:Style >
+		@font-face {
+		 	src:url("../assets/skin/airbob_fonts.swf"); 
+		 	fontFamily: "EN Moist";
+		 	fontWeight:normal;
+		}	
+		@font-face {
+		 	src:url("../assets/skin/airbob_fonts.swf"); 
+		 	fontFamily: "Helvetica 35 Thin";
+		} 			
+		@font-face {
+		 	src:url("../assets/skin/airbob_fonts.swf"); 
+		 	fontFamily: "Helvetica 65 Medium";
+		} 
+		@font-face {
+		 	src:url("../assets/skin/airbob_fonts.swf"); 
+		 	fontFamily: "Helvetica 65 Medium";
+		 	fontWeight:bold;
+		} 			
+		
+	</mx:Style>
 	
 	<control:AppController id="controller" />
 	
