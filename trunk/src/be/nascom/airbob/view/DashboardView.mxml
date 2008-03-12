@@ -1,4 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%">
+<mx:Canvas 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 	
+	creationComplete="currentState='disconnected'"
+	currentStateChange="calculateHeight()"
+	horizontalScrollPolicy="off" xmlns:view="be.nascom.airbob.view.*">
+	
+	<mx:states>
+		<mx:State name="connected">
+			<mx:SetProperty target="{labelConnected}" name="text" value="Connected"/>
+			<mx:SetProperty target="{imageConnected}" name="source" value="@Embed('../assets/images/connected.png')"/>
+			<mx:SetStyle target="{labelConnected}" name="color" value="#020253"/>			
+		</mx:State>
+		<mx:State name="disconnected">
+			<mx:SetProperty target="{imageConnected}" name="source" value="@Embed('../assets/images/disconnected.png')"/>
+			<mx:SetStyle target="{labelConnected}" name="color" value="#979E9F"/>
+			<mx:SetProperty target="{label1}" name="visible" value="false"/>
+		</mx:State>
+	</mx:states>
+	
+	<!--<mx:HTTPService id="cctrayService" result="handleCCTrayServiceResult(event)" fault="handleCCTrayServiceFault(event)"/>--> 	
+
+	<mx:VBox width="100%" left="5" right="5">
+	
+		<mx:Canvas height="90" width="100%">
+			<mx:Label id="labelConnected" top="19" text="Disconnected" right="34" styleName="smallText"/>
+			<mx:Image id="imageLogo" source="@Embed('../assets/images/logo.png')" top="19" left="8"/>			
+			<mx:Image id="imageConnected" height="16" source="@Embed('../assets/images/disconnected.png')" top="19" right="10" width="16"/>			
+			<mx:Label y="62" text="{model.projects.length} project build(s)" right="10" id="label1" styleName="smallText"/>						
+		</mx:Canvas>				
+		
+		<mx:ViewStack id="viewStack" 
+			width="100%" height="100%" 
+			selectedIndex="0"  
+			visible="{currentState=='connected'}" 
+			includeInLayout="{currentState=='connected'}" >
+			
+			<mx:VBox id="fullView" width="100%" height="100%">
+				<mx:Repeater id="projectRepeater" dataProvider="{model.projects}">
+					<view:DashboadProjectView project="{projectRepeater.currentItem}" currentState="{projectRepeater.currentItem.state}" />										
+				</mx:Repeater>	
+			</mx:VBox>	
+			
+			<mx:Tile id="iconView" width="100%" height="100%">
+				<mx:Repeater id="projectRepeater2" dataProvider="{model.projects}">
+					<mx:Label text="{projectRepeater2.currentItem.name}"/>
+				</mx:Repeater>
+			</mx:Tile>
+				
+		</mx:ViewStack>	
+		
+		<mx:Canvas width="100%" height="100%">
+			<mx:Image source="images/nascom_logo.png" right="0" bottom="9"/>					
+		</mx:Canvas>		
+			
+	</mx:VBox>
+	
+	<mx:Script>
+		<![CDATA[
+			import be.nascom.airbob.model.AppModelLocator;
+			import mx.logging.Log;
+			import mx.logging.ILogger;
+			import mx.rpc.events.FaultEvent;
+			import mx.collections.ArrayCollection;
+		  	import mx.collections.XMLListCollection;
+		  	import mx.rpc.events.ResultEvent;
+		  	
+		  	[Bindable]
+		  	public var model:AppModelLocator = AppModelLocator.getInstance();
+		  	
+		  	[Bindable]
+		  	private var connectedText:String;
+		  	
+		  	private var blockHeight:int = 50;
+		  	
+		  	private static var logger:ILogger = Log.getLogger("Dashboard");		  		  
+		  	
+		  	private function calculateHeight():void
+		  	{
+		  		var appHeight:int = blockHeight;
+		  		if (viewStack.selectedIndex==0) {		  			
+			  		if (currentState=="disconnected") {
+			  			this.parentApplication.height=appHeight;
+			  		} else {
+			  			appHeight+=((blockHeight+6)*(model.projects.length+1))+50;
+			  			this.parentApplication.height=appHeight;
+			  		}	
+		  		} else {
+		  			this.parentApplication.height=350;
+		  			this.iconView.height = 200;
+		  		}
+		  		
+		  		logger.debug("Calculate height: " + appHeight);
+		  	}	
+		  			  	
+		  	public function pollHttpService():void
+		  	{
+//		  		logger.debug("Polling service: " + Config.cctrayUrl);
+//		    	cctrayService.url= Config.cctrayUrl; 
+//		    	cctrayService.send();  
+		  	}		 		 	
+		 	
+		 	private function handleCCTrayServiceResult(event:ResultEvent):void
+		 	{	
+		 		currentState = "connected";
+//		 		var projectCount:int = model.projects.length;
+//		 		if (event.result.Projects!=null){
+//		 			if (event.result.Projects.Project is ArrayCollection) {
+//		 				model.update(event.result.Projects.Project);
+//		 			} else {
+//		 				var projects:ArrayCollection = new ArrayCollection();
+//		 				projects.addItem(event.result.Projects.Project);
+//		 				model.update(projects);		 				
+//		 			}		 			
+//		 		}	
+//		 		if (model.projects.length!=projectCount){
+//		 			calculateHeight();
+//		 		}	 		
+		 				 				 				 							   
+		 	}
+		 	
+		 	private function handleCCTrayServiceFault(event:FaultEvent):void
+		 	{	
+		 		currentState = "disconnected";
+		 		logger.error("Error: " + event.fault.faultDetail);	 				 					   
+		 	}			 
+	        
+ 
+		]]>
+	</mx:Script>
 	
 </mx:Canvas>
