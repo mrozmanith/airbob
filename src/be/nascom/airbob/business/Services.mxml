@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cairngorm:ServiceLocator
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:cairngorm="com.adobe.cairngorm.business.*" xmlns:net="be.nascom.net.*">
+	<mx:Script>
+		<![CDATA[
+			import be.nascom.airbob.model.AppModelLocator;
+			
+			[Bindable]
+			private var model:AppModelLocator = AppModelLocator.getInstance();
+		]]>
+	</mx:Script>
+	
+	<mx:HTTPService id="forceBuildService" method="GET" url="{model.settings.forceBuildUrl}"/>	
+	<mx:HTTPService id="ccTrayService" method="GET" url="{model.settings.cctrayUrl}"/>
+
+</cairngorm:ServiceLocator>

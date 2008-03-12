@@ -17,9 +17,7 @@
 </libraryPath>
 <sourceAttachmentPath/>
 </compiler>
-<applications>
-<application path="Airbob.mxml"/>
-</applications>
+<applications/>
 <modules/>
 <buildCSSFiles/>
 </actionScriptProperties>
