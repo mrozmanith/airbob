@@ -18,8 +18,6 @@
 		</mx:State>
 	</mx:states>
 	
-	<!--<mx:HTTPService id="cctrayService" result="handleCCTrayServiceResult(event)" fault="handleCCTrayServiceFault(event)"/>--> 	
-
 	<mx:VBox width="100%" left="5" right="5">
 	
 		<mx:Canvas height="90" width="100%">
@@ -93,14 +91,7 @@
 		  		logger.debug("Calculate height: " + appHeight);
 		  	}	
 		  			  	
-		  	public function pollHttpService():void
-		  	{
-//		  		logger.debug("Polling service: " + Config.cctrayUrl);
-//		    	cctrayService.url= Config.cctrayUrl; 
-//		    	cctrayService.send();  
-		  	}		 		 	
-		 	
-		 	private function handleCCTrayServiceResult(event:ResultEvent):void
+		  	private function handleCCTrayServiceResult(event:ResultEvent):void
 		 	{	
 		 		currentState = "connected";
 //		 		var projectCount:int = model.projects.length;
@@ -119,13 +110,6 @@
 		 				 				 				 							   
 		 	}
 		 	
-		 	private function handleCCTrayServiceFault(event:FaultEvent):void
-		 	{	
-		 		currentState = "disconnected";
-		 		logger.error("Error: " + event.fault.faultDetail);	 				 					   
-		 	}			 
-	        
- 
 		]]>
 	</mx:Script>
 	

@@ -6,11 +6,12 @@ package be.nascom.airbob.business
 	
 	import mx.rpc.AsyncToken;
 	import mx.rpc.IResponder;
+	import mx.rpc.http.HTTPService;
 	
 	public class ForceBuildDelegate
 	{
 		private var command:IResponder;
-		private var service:Object;
+		private var service:HTTPService;
 
 		public function ForceBuildDelegate( command:IResponder ) 
 		{

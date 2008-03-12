@@ -28,7 +28,7 @@
 			private function init() :void {
 				bg = new ProjectBlock();				
 				bgContainer.addChild(bg);
-				fillColor(bg, "Inactive");
+				fillColor(bg, DashboardProject.STATUS_INACTIVE);
 				
 				resize();
 			}
@@ -56,13 +56,13 @@
 			{
 				switch (state) 
 				{
-					case "Success":
+					case DashboardProject.STATUS_SUCCESS:
 						Tweener.addTween(movieClip, {_color_ra:0.35, _color_rb:66, _color_ga:0.35, _color_gb:166, _color_ba:0.35, _color_bb:0});
 						break;						
-					case "Building":
+					case DashboardProject.STATUS_BUILDING:
 						Tweener.addTween(movieClip, {_color_ra:0.35, _color_rb:166, _color_ga:0.35, _color_gb:166, _color_ba:0.35, _color_bb:0});
 						break;						
-					case "Failure":
+					case DashboardProject.STATUS_FAILURE:
 						Tweener.addTween(movieClip, {_color_ra:0.35, _color_rb:166, _color_ga:0.35, _color_gb:0, _color_ba:0.35, _color_bb:0});
 						break;					
 					default:
