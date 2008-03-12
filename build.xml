@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="AirbobBuild" basedir="." default="compile">
+	<property file="../build.properties"/>	
+
+	<taskdef resource="flexTasks.tasks"/>      
+	<property name="app.name" value="Airbob"/>
+	<property name="build.home" location="${basedir}/bin-debug"/>
+	<property name="src.home" location="${basedir}/src"/>
+	<property name="lib.home" location="${basedir}/libs"/>		
+	<property name="assets.home" location="${basedir}/assets"/>
+	<property name="doc.home" location="${basedir}/doc"/>
+	
+	<!--Cleanup old data before the build-->
+	<target name="clean">
+		<delete includeemptydirs="true">
+			<fileset dir="${build.home}" includes="**/*"/>
+		</delete>    
+	</target>
+
+	<target name="prepare" depends="clean">    	
+		<mkdir dir="${build.home}"/>  
+		<!--
+		<copy file="${src.home}/system.db" tofile="${build.home}/system.db"/>  
+		<copy file="${src.home}/icons/icon_16.png" tofile="${build.home}/icons/icon_16.png"/>
+		<copy file="${src.home}/icons/icon_32.png" tofile="${build.home}/icons/icon_32.png"/>
+		<copy file="${src.home}/icons/icon_48.png" tofile="${build.home}/icons/icon_48.png"/>
+		<copy file="${src.home}/icons/icon_128.png" tofile="${build.home}/icons/icon_128.png"/>
+		-->
+	</target>		
+
+	<!--Compile the MXML Application-->
+	<target name="compile" depends="prepare">		
+		<!--Compile the MXML Application-->
+		<mxmlc file="${src.home}/Airbob.mxml"  
+			output="${build.home}/Airbob.swf" 
+			actionscript-file-encoding="UTF-8">
+			<!-- Get default compiler options. -->
+			<load-config filename="${FLEX_HOME}/frameworks/air-config.xml"/>            
+			<!-- List of path elements that form the roots of ActionScript class hierarchies. -->
+			<source-path path-element="${FLEX_HOME}/frameworks"/>
+			<source-path path-element="${src.home}"/>
+			<!-- List of SWC files or directories that contain SWC files. -->
+			<compiler.library-path dir="${basedir}" append="true">
+				<include name="libs"/>
+			</compiler.library-path>
+			<compiler.library-path dir="${FLEX_HOME}/frameworks" append="true">
+				<include name="lib" />
+				<include name="../bundles/{locale}" />
+			</compiler.library-path>			
+		</mxmlc>
+	</target>  
+	
+	<target name="asdoc" depends="compile">
+		<echo message="Generating ASDOC files"/>
+		<exec executable="${FLEX_HOME}/bin/asdoc.exe" failonerror="true">
+			<arg line="-doc-sources '${src.home}'" />
+			<arg line="-main-title 'Airbob'" />
+			<arg line="-window-title 'Airbob'" />
+			<arg line="-output '${doc.home}'" />
+			<arg line="-load-config '${FLEX_HOME}/frameworks/air-config.xml'"></arg>
+			<arg line="-library-path '${lib.home}'"></arg>
+			<arg line="-library-path '${FLEX_HOME}/frameworks/libs/'"></arg>
+			<arg line="-library-path '${FLEX_HOME}/frameworks/libs/air'"></arg>
+		</exec>		
+	</target>
+
+
+</project>
