@@ -11,6 +11,7 @@ package be.nascom.airbob.model
 	import mx.collections.ArrayCollection;
 	import mx.logging.ILogger;
 	import mx.logging.Log;
+	import mx.messaging.channels.StreamingAMFChannel;
 	
 	[Bindable]
 	public class AppModelLocator extends EventDispatcher implements IModelLocator 
@@ -39,11 +40,15 @@ package be.nascom.airbob.model
         
 		public var settings:AppSettings;	
         
+        public var connectedState:String = STATE_CONNECTED;
         public var state:String;        
         public var selectedView:int = VIEW_DASHBOARD;
         
         public const VIEW_DASHBOARD:int = 0;
         public const VIEW_PREFERENCES:int = 1;
+        
+        public const STATE_CONNECTED:String = "connected";
+        public const STATE_DISCONNECTED:String = "disconnected";
 		
 		/**
 	     * singleton: constructor only allows one model locator
