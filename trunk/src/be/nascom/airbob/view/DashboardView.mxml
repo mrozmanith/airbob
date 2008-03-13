@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Canvas 
 	xmlns:mx="http://www.adobe.com/2006/mxml" 	
-	creationComplete="currentState='disconnected'"
+	creationComplete="{currentState=model.connectedState}"
 	currentStateChange="calculateHeight()"
 	horizontalScrollPolicy="off" xmlns:view="be.nascom.airbob.view.*">
 	
@@ -48,7 +48,7 @@
 		</mx:ViewStack>	
 		
 		<mx:Canvas width="100%" height="100%">
-			<mx:Image source="images/nascom_logo.png" right="0" bottom="9"/>					
+			<mx:Image source="@Embed('../assets/images/nascom_logo.png')" right="0" bottom="9"/>					
 		</mx:Canvas>		
 			
 	</mx:VBox>
