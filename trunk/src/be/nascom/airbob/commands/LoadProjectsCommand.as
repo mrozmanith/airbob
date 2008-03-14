@@ -3,6 +3,7 @@ package be.nascom.airbob.commands
 	import be.nascom.airbob.business.LoadProjectsDelegate;
 	import be.nascom.airbob.events.LoadProjectsEvent;
 	import be.nascom.airbob.model.AppModelLocator;
+	import be.nascom.airbob.vo.CCTrayConfig;
 	
 	import com.adobe.cairngorm.commands.ICommand;
 	import com.adobe.cairngorm.control.CairngormEvent;
@@ -18,12 +19,14 @@ package be.nascom.airbob.commands
 		private var logger:ILogger = Log.getLogger("LoadProjectsCommand");
 		
 		private var model:AppModelLocator = AppModelLocator.getInstance();
+		private var config:CCTrayConfig;
 		
 		public function execute(event:CairngormEvent):void
 		{
 			logger.info("Loading projects");
 			var delegate : LoadProjectsDelegate = new LoadProjectsDelegate(this);
-			delegate.send(LoadProjectsEvent(event).config);	
+			config = LoadProjectsEvent(event).config;
+			delegate.send(config);	
 		}
 		
 		public function result( rpcEvent : Object ) : void 
@@ -31,29 +34,13 @@ package be.nascom.airbob.commands
 			logger.debug(ObjectUtil.toString(rpcEvent));
 			if (rpcEvent.result.Projects!=null) {
 				if (rpcEvent.result.Projects.Project is ArrayCollection) {
-		 			model.update(rpcEvent.result.Projects.Project);
+		 			model.update(rpcEvent.result.Projects.Project, config);
 	 			} else {
 	 				var projects:ArrayCollection = new ArrayCollection();
 	 				projects.addItem(rpcEvent.result.Projects.Project);
-	 				model.update(projects);		 				
+	 				model.update(projects, config);		 				
 	 			}		 
-			}
-			
-//		 		var projectCount:int = model.projects.length;
-//		 		if (event.result.Projects!=null){
-//		 			if (event.result.Projects.Project is ArrayCollection) {
-//		 				model.update(event.result.Projects.Project);
-//		 			} else {
-//		 				var projects:ArrayCollection = new ArrayCollection();
-//		 				projects.addItem(event.result.Projects.Project);
-//		 				model.update(projects);		 				
-//		 			}		 			
-//		 		}	
-//		 		if (model.projects.length!=projectCount){
-//		 			calculateHeight();
-//		 		}	 		
-		 				 			
-										
+			}										
 		}
 		
 		public function fault( rpcEvent : Object ) : void 

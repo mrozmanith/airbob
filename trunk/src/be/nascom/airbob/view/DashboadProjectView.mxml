@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Canvas 
-	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:vo="be.nascom.airbob.vo.*" 
 	width="100%"
 	height="50"
 	verticalScrollPolicy="off"
 	horizontalScrollPolicy="off"
 	dropShadowEnabled="true"
 	creationComplete="init()"
-	currentStateChange="handleStateChange(event)" xmlns:vo="be.nascom.airbob.vo.*">		
+	currentStateChange="handleStateChange(event)" >		
 	<mx:Script>
 		<![CDATA[
+			import be.nascom.airbob.events.ForceBuildEvent;
 			import flash.net.navigateToURL;
 			import mx.events.StateChangeEvent;
 			import mx.logging.Log;
@@ -72,7 +74,7 @@
 			}	
 			
 			private function forceBuild():void {
-				
+				new ForceBuildEvent(project).dispatch();	
 			}				
 
 		]]>
