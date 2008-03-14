@@ -25,6 +25,8 @@ package be.nascom.airbob.vo
 		public var lastBuildTime:String; 
 		public var webUrl:String;
 		
+		public var config:CCTrayConfig;
+		
 		private var _state:String;
 		
 		private static var logger:ILogger = Log.getLogger("DashboardProject");

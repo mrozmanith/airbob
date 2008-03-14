@@ -11,7 +11,6 @@ package be.nascom.airbob.model
 	import mx.collections.ArrayCollection;
 	import mx.logging.ILogger;
 	import mx.logging.Log;
-	import mx.messaging.channels.StreamingAMFChannel;
 	
 	[Bindable]
 	public class AppModelLocator extends EventDispatcher implements IModelLocator 
@@ -97,31 +96,33 @@ package be.nascom.airbob.model
 	  		return iconDisconnected;		
 		}
 		
-		public function update(data:Object):void
+		public function update(data:Object, config:CCTrayConfig):void
 		{			
 			if (projects.length!=data.length){	 
-	 			initModel(data);
+	 			initModel(data, config);
 		   	} else {
-		   		updateModel(data);
+		   		updateModel(data, config);
 		   	}			
 		}
 		
-		private function initModel(data:Object):void
+		private function initModel(data:Object, config:CCTrayConfig):void
 		{	
 			for(var i:uint=0; i < data.length; i++) {
 				var project:DashboardProject = new DashboardProject(data[i]);
+				project.config = config;
 	   			projects.addItem(project);
 	   		}
 	   		changeState();	
 		}
 		
-		private function updateModel(data:Object):void
+		private function updateModel(data:Object, config:CCTrayConfig):void
 		{
 			for(var i:uint=0; i < data.length; i++) {
 	   			var project:DashboardProject = new DashboardProject(data[i]);
 	   			for(var j:uint=0; j < projects.length; j++) {
 	   				if (projects[j].name==project.name) {
 		   				if (projects[j].hasChanged(project)) {
+		   					project.config = config;
 		   					projects[j] = project;		   		
 		   					changeState();					   					
 		   				}
