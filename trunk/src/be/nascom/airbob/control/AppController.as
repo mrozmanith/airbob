@@ -57,7 +57,7 @@ package be.nascom.airbob.control
 			timer.start();
 		}
 		
-		private function onTimer(event:TimerEvent):void {
+		private function onTimer(event:TimerEvent=null):void {
 	 		for each (var config:ServerConfig in AppModelLocator.getInstance().configs) {
 	    		new LoadProjectsEvent(config).dispatch();
 	  		}	
