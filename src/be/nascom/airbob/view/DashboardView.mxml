@@ -22,7 +22,6 @@
 	
 		<mx:Canvas height="90" width="100%">
 			<mx:Label id="labelConnected" top="19" text="Disconnected" right="34" styleName="smallText"/>
-			<mx:Image id="imageLogo" source="@Embed('../assets/images/logo.png')" top="19" left="8"/>			
 			<mx:Image id="imageConnected" height="16" source="@Embed('../assets/images/disconnected.png')" top="19" right="10" width="16"/>			
 			<mx:Label y="62" text="{model.projects.length} project build(s)" right="10" id="label1" styleName="smallText"/>						
 		</mx:Canvas>				

@@ -5,6 +5,7 @@ package be.nascom.airbob.control
 	import be.nascom.airbob.commands.LoadConfigCommand;
 	import be.nascom.airbob.commands.LoadProjectsCommand;
 	import be.nascom.airbob.commands.SaveConfigCommand;
+	import be.nascom.airbob.events.LoadConfigEvent;
 	import be.nascom.airbob.events.LoadProjectsEvent;
 	import be.nascom.airbob.model.AppModelLocator;
 	import be.nascom.airbob.vo.ServerConfig;
@@ -27,14 +28,16 @@ package be.nascom.airbob.control
 		public static const LOAD_CONFIG_EVENT:String = "be.nascom.airbob.events.LoadConfigEvent";
 		public static const SAVE_CONFIG_EVENT:String = "be.nascom.airbob.events.SaveConfigEvent";
 		
-		public function AppController() {
-			initLogging();
-			initPolling();
-				
+		public function AppController() {			
 			addCommand(FORCE_BUILD_EVENT, ForceBuildCommand);
 			addCommand(LOAD_PROJECTS_EVENT, LoadProjectsCommand);
 			addCommand(LOAD_CONFIG_EVENT, LoadConfigCommand);
 			addCommand(SAVE_CONFIG_EVENT, SaveConfigCommand);
+			
+			new LoadConfigEvent().dispatch();
+			initLogging();
+			initPolling();			
+			
 		}
 		
 		private function initLogging():void {
