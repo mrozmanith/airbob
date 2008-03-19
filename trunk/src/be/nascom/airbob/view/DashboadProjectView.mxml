@@ -3,10 +3,8 @@
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:vo="be.nascom.airbob.vo.*" 
 	width="100%"
-	height="50"
 	verticalScrollPolicy="off"
 	horizontalScrollPolicy="off"
-	dropShadowEnabled="true"
 	creationComplete="init()"
 	currentStateChange="handleStateChange(event)" >		
 	<mx:Script>
@@ -19,7 +17,7 @@
 			import caurina.transitions.Tweener;
 			import mx.core.Window;
 			
-			private var bg:ProjectBlock;
+			private var block:ProjectBlock;
 			
 			private static var logger:ILogger = Log.getLogger("DashboardProjectView");
 			
@@ -28,19 +26,20 @@
 			}
 			
 			private function init() :void {
-				bg = new ProjectBlock();				
-				bgContainer.addChild(bg);
-				fillColor(bg, DashboardProject.STATUS_INACTIVE);
-				
+				block = new ProjectBlock();				
+				bgContainer.addChild(block);
 				resize();
 			}
 			
 			private function resize():void {
-				if (bgContainer!=null && bg!=null) {					
-					bg.width = bgContainer.width;					
-					bg.height = bgContainer.height;
-				}				
+				try {					
+					block.width = bgContainer.width;
+					block.height = bgContainer.height;
+				} catch (error:Error) {
+					logger.debug(error.toString());
+				}
 			}
+		  	
 			
 			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
 				super.updateDisplayList(unscaledWidth, unscaledHeight);
@@ -48,25 +47,7 @@
 			}
 			
 			private function handleStateChange(event:StateChangeEvent):void {
-				fillColor(bg, event.newState);				
-			}
-			
-			public function fillColor(movieClip:MovieClip, state:String):void {
-				switch (state) {
-					case DashboardProject.STATUS_SUCCESS:
-						Tweener.addTween(movieClip, {_color_ra:0.35, _color_rb:66, _color_ga:0.35, _color_gb:166, _color_ba:0.35, _color_bb:0});
-						break;						
-					case DashboardProject.STATUS_BUILDING:
-						Tweener.addTween(movieClip, {_color_ra:0.35, _color_rb:166, _color_ga:0.35, _color_gb:166, _color_ba:0.35, _color_bb:0});
-						break;						
-					case DashboardProject.STATUS_FAILURE:
-						Tweener.addTween(movieClip, {_color_ra:0.35, _color_rb:166, _color_ga:0.35, _color_gb:0, _color_ba:0.35, _color_bb:0});
-						break;					
-					default:
-						Tweener.addTween(movieClip, {_color_ra:0.35, _color_rb:0, _color_ga:0.35, _color_gb:133, _color_ba:0.35, _color_bb:166});
-						break;
-				}				
-			}	
+			}						
 			
 			private function forceBuild():void {
 				new ForceBuildEvent(project).dispatch();	
@@ -77,24 +58,20 @@
 		
 	<mx:states>
 		<mx:State name="Success">	
-			<!--<mx:SetProperty target="{buildImage}" name="source" value="images/success.png"/>-->							
 		</mx:State>
 		<mx:State name="Building">	
-			<!--<mx:SetProperty target="{buildImage}" name="source" value="images/building.png"/>-->
 			<mx:SetProperty target="{labelForceBuild}" name="visible" value="false"/>
 			<mx:SetProperty target="{labelInfo}" name="text" value="{project.activity}" />			
 		</mx:State>
 		<mx:State name="Failure">
-			<!--<mx:SetProperty target="{buildImage}" name="source" value="images/failure.png"/>-->			
 		</mx:State>
 		<mx:State name="Inactive"/>
 	</mx:states>
 	
-	<vo:DashboardProject id="project"/>
-	
 	<mx:UIComponent id="bgContainer" width="100%" height="100%" />
 	
-	<!--<mx:Image id="buildImage" source="images/inactive.png"  x="10" y="10" width="48" height="48" />-->
+	<vo:DashboardProject id="project"/>
+	
 	<mx:Label id="labelInfo" text="Last build:{project.lastBuildTime}" x="8" y="27" styleName="smallText" color="White"/>
 	<mx:Label id="labelProjectName" x="8" y="4" text="{project.name}" color="White" styleName="smallText" />
 	<mx:Label id="labelForceBuild" text="Force build" styleName="smallText" buttonMode="true" mouseChildren="false" click="forceBuild()" y="4" right="56" color="White"/>

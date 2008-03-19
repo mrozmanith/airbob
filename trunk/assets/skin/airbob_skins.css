@@ -81,7 +81,7 @@ Button
 	disabledColor: #FF7777;
 }
 
-.WindowControlExit
+WindowControlExit
 {
 	disabledSkin: Embed(source="airbob_skins.swf", symbol="WindowControlExit_disabledSkin");
 	downSkin: Embed(source="airbob_skins.swf", symbol="WindowControlExit_downSkin");
@@ -89,7 +89,7 @@ Button
 	upSkin: Embed(source="airbob_skins.swf", symbol="WindowControlExit_upSkin");
 }
 
-.WindowControlMaximize
+WindowControlMaximize
 {
 	disabledSkin: Embed(source="airbob_skins.swf", symbol="WindowControlMaximize_disabledSkin");
 	downSkin: Embed(source="airbob_skins.swf", symbol="WindowControlMaximize_downSkin");
@@ -97,7 +97,7 @@ Button
 	upSkin: Embed(source="airbob_skins.swf", symbol="WindowControlMaximize_upSkin");
 }
 
-.WindowControlMinimize
+WindowControlMinimize
 {
 	disabledSkin: Embed(source="airbob_skins.swf", symbol="WindowControlMinimize_disabledSkin");
 	downSkin: Embed(source="airbob_skins.swf", symbol="WindowControlMinimize_downSkin");

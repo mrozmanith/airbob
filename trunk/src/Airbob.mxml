@@ -3,15 +3,19 @@
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:control="be.nascom.airbob.control.*" 
 	xmlns:view="be.nascom.airbob.view.*" 
-	xmlns:business="be.nascom.airbob.business.*"	
+	xmlns:business="be.nascom.airbob.business.*"
+	xmlns:chrome="be.nascom.airbob.view.components.*"
+	title="Airbob"	
 	layout="absolute" 
-	closeEffect="fadeOut"
+	closeEffect="fadeOut"	
 	showEffect="fadeIn"
+	showStatusBar="false"		
 	showGripper="true"
-	showTitleBar="true"
-	showStatusBar="false"
-	backgroundColor="White"
-	dropShadowEnabled="true" 
+	gripperPadding="7"
+	showTitleBar="false"
+	borderStyle="none"
+	backgroundAlpha="0"
+	doubleClickEnabled="true"
 	creationComplete="init()">
 	
 	<control:AppController id="controller" />
@@ -33,17 +37,37 @@
 			[Bindable]
 			private var model:AppModelLocator = AppModelLocator.getInstance();	
 			
+			private var background:AircampBackground;
+			private var maximized:Boolean = false;
+			
 			/**
 			 * Init the app
 			 */
 			private function init():void {	
-				new LoadConfigEvent().dispatch();
+				// Init background
+				background = new AircampBackground();			
+				bgContainer.addChild(background);
+				resizeBackground();
 				
 				// Add the event listsners for systray
 		    	addEventListener(Event.ADDED, prepareForSystray);
 		    	addEventListener(Event.CLOSING, closingApplication);			    			    				    			    	
 		    			    		    			    			    
 		  	}
+		  	
+		  	override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
+				super.updateDisplayList(unscaledWidth, unscaledHeight);
+				resizeBackground();
+			}
+		  	
+		  	private function resizeBackground():void {
+				try {					
+					background.width = bgContainer.width;
+					background.height = bgContainer.height;
+				} catch (error:Error) {
+					logger.debug(error.toString());
+				}
+			}
 		  	
 		  	public function prepareForSystray(event:Event):void {											
 				if (NativeApplication.supportsSystemTrayIcon){
@@ -113,7 +137,20 @@
 			
 			private function closeApp(event:Event):void {
 				stage.nativeWindow.close();
-			}			
+			}		
+			
+			/**
+			 * Custom chrome beaviour foe max/restore 
+			 **/
+			private function doMaxRestore():void {
+				if (maximized) {
+					restore();
+					maximized = false;			
+				} else {
+					maximize();
+					maximized = true;
+				}
+			}	
 		]]>
 	</mx:Script>
 	
@@ -141,15 +178,20 @@
 		
 	</mx:Style>	
 	
-	<mx:ViewStack id="viewStack" selectedIndex="{model.selectedView}" width="100%" height="100%">
-	
-		<view:DashboardView id="dashboardView" width="100%" height="100%"/>
-		<view:ConfigView id="preferencesView" width="100%" height="100%"/>
-	
-	</mx:ViewStack>
-	
-	<mx:Canvas width="100%" height="100%">
-		<mx:Image source="@Embed('../assets/images/nascom_logo.png')" left="10" bottom="10"/>					
-	</mx:Canvas>		
+	<mx:UIComponent id="bgContainer" width="100%" height="100%"/>
+	<mx:VBox width="100%" height="100%" >
+		<mx:Spacer height="0.5" width="100%"/>
+		<mx:HBox id="fakeTitleBar" height="25" width="100%" horizontalAlign="right" horizontalGap="1">			
+			<mx:Canvas mouseDown="nativeWindow.startMove()" doubleClick="doMaxRestore()" width="100%" height="25" />
+			<chrome:WindowControlMinimize click="minimize()"/>
+			<chrome:WindowControlMaximize click="doMaxRestore() "/>
+			<chrome:WindowControlExit click="close()"/>
+			<mx:Spacer width="2.5"/>
+		</mx:HBox> 
+		<mx:ViewStack id="viewStack" selectedIndex="{model.selectedView}" width="100%" height="100%">		
+			<view:DashboardView id="dashboardView" width="100%" height="100%"/>
+			<view:ConfigView id="preferencesView" width="100%" height="100%"/>		
+		</mx:ViewStack>
+	</mx:VBox>	
 	
 </mx:WindowedApplication>
