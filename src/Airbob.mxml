@@ -117,7 +117,7 @@
 		]]>
 	</mx:Script>
 	
-	<mx:Style source="../assets/skin/airbob_skins.css" />
+	<!--mx:Style source="../assets/skin/airbob_skins.css" />-->
 	
 	<mx:Style >
 		@font-face {

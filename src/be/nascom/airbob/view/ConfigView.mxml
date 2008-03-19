@@ -11,23 +11,36 @@
 			[Bindable]
 			public var model:AppModelLocator = AppModelLocator.getInstance();
 			
-			private function addConfig():void {
+			private function add():void {
 				if (model.configs==null) {
 					model.configs = new ArrayCollection();					
 				}
 				model.configs.addItem(new ServerConfig(urlInput.text));
 			}
+			
+			private function remove():void {
+				
+			}
+			
+			private function save():void {
+				new SaveConfigEvent().dispatch();
+			}
+			
 		]]>
 	</mx:Script>
 	
 	<mx:HBox width="100%" height="50" verticalCenter="true">
-		<mx:TextInput id="urlInput"/>
-		<mx:Button label="Add" click="addConfig()"/>
-		<mx:Button label="Save" click="new SaveConfigEvent().dispatch()"/>
+		<mx:TextInput id="urlInput" text="{grid.selectedItem.url}"/>
+		<mx:Button label="Add" click="add()"/>
+		<mx:Button label="Save" click="save()"/>
+		<mx:Button label="Delete" click="remove()" enabled="false"/>
 	</mx:HBox>
 	
-	<mx:DataGrid dataProvider="{model.configs}" width="100%" height="100%">
-		
+	<mx:DataGrid id="grid" dataProvider="{model.configs}" width="100%" height="100%">
+		<mx:columns>
+			<mx:DataGridColumn dataField="url"/>
+			<mx:DataGridColumn dataField="enabled" width="75"/>
+		</mx:columns>
 	</mx:DataGrid>
 	
 </mx:VBox>
