@@ -8,8 +8,7 @@ package be.nascom.airbob.vo
 	import mx.logging.Log;
 	
 	[Bindable]
-	public class DashboardProject extends EventDispatcher implements ValueObject
-	{
+	public class DashboardProject extends EventDispatcher implements ValueObject {
 		public static const ACTIVITY_SLEEPING:String = "Sleeping";
 		public static const ACTIVITY_BUILDING:String = "Building";
 		
@@ -24,15 +23,14 @@ package be.nascom.airbob.vo
 		public var lastBuildLabel:String; 
 		public var lastBuildTime:String; 
 		public var webUrl:String;
-		
-		public var config:CCTrayConfig;
+				
+		public var config:ServerConfig;
 		
 		private var _state:String;
 		
 		private static var logger:ILogger = Log.getLogger("DashboardProject");
 		
-		public function DashboardProject(data:Object=null):void 
-		{ 
+		public function DashboardProject(data:Object=null):void { 
 			if (data==null) return;
 			
 			this.name = data.name;
@@ -43,13 +41,11 @@ package be.nascom.airbob.vo
 			this.webUrl = data.webUrl;
 		}
 		
-		public function hasChanged(project:DashboardProject):Boolean 
-		{
+		public function hasChanged(project:DashboardProject):Boolean {
 			return (activity!=project.activity) || (lastBuildTime!=project.lastBuildTime);
 		}
 		
-		public function get state() : String 
-		{			
+		public function get state() : String {			
 			if (activity==ACTIVITY_BUILDING) {
 				return STATUS_BUILDING;
 			} else if (activity==ACTIVITY_SLEEPING) {
@@ -62,8 +58,7 @@ package be.nascom.airbob.vo
 			return STATUS_INACTIVE;
 		}
 		
-		public function set state(value : String) : void 
-		{
+		public function set state(value : String) : void {
 			_state = value;
 		}
 		

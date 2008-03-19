@@ -5,19 +5,24 @@ package be.nascom.airbob.vo
 	import flash.events.EventDispatcher;
 		
 	[Bindable]
-	public class CCTrayConfig extends EventDispatcher implements ValueObject
-	{
+	[Table(name="serverconfig")]
+	public class ServerConfig extends EventDispatcher implements ValueObject {
+		[Id]
+		public var id:int = 0;
 		public var url:String;	
+		public var enabled:Boolean = true;
 		
+		[Ignore]
 		public function get ccTrayUrl():String {
 			return url + "/dashboard/cctray.xml";
 		}
 		
+		[Ignore]
 		public function get forceBuildUrl():String {
 			return url + "/invoke";
 		}
 		
-		public function CCTrayConfig(url:String) {
+		public function ServerConfig(url:String=null) {						
 			this.url = url;			
 		}
 	}

@@ -35,17 +35,14 @@
 				resize();
 			}
 			
-			private function resize():void
-			{
-				if (bgContainer!=null && bg!=null) 
-				{					
+			private function resize():void {
+				if (bgContainer!=null && bg!=null) {					
 					bg.width = bgContainer.width;					
 					bg.height = bgContainer.height;
 				}				
 			}
 			
-			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
-			{
+			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
 				super.updateDisplayList(unscaledWidth, unscaledHeight);
 				resize();
 			}
@@ -54,10 +51,8 @@
 				fillColor(bg, event.newState);				
 			}
 			
-			public function fillColor(movieClip:MovieClip, state:String):void
-			{
-				switch (state) 
-				{
+			public function fillColor(movieClip:MovieClip, state:String):void {
+				switch (state) {
 					case DashboardProject.STATUS_SUCCESS:
 						Tweener.addTween(movieClip, {_color_ra:0.35, _color_rb:66, _color_ga:0.35, _color_gb:166, _color_ba:0.35, _color_bb:0});
 						break;						

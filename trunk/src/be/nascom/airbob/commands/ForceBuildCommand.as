@@ -12,26 +12,22 @@ package be.nascom.airbob.commands
 	import mx.rpc.IResponder;
 	import mx.utils.ObjectUtil;
 
-	public class ForceBuildCommand implements ICommand, IResponder
-	{
+	public class ForceBuildCommand implements ICommand, IResponder {
 		private var logger:ILogger = Log.getLogger("ForceBuildCommand");
 		public var project:DashboardProject;
 		
-		public function execute(event:CairngormEvent):void
-		{
+		public function execute(event:CairngormEvent):void {
 			project = ForceBuildEvent(event).project;
 			logger.info("Force build for " + project.name);
 			var delegate : ForceBuildDelegate = new ForceBuildDelegate(this);
 			delegate.send();	
 		}
 		
-		public function result( rpcEvent : Object ) : void 
-		{
+		public function result( rpcEvent : Object ) : void {
 			logger.debug(ObjectUtil.toString(rpcEvent));							
 		}
 		
-		public function fault( rpcEvent : Object ) : void 
-		{
+		public function fault( rpcEvent : Object ) : void {
 			logger.error(rpcEvent.fault.faultDetail);				
 		}
 		

@@ -1,7 +1,8 @@
 package be.nascom.airbob.model
 {
-	import be.nascom.airbob.vo.CCTrayConfig;
+	import be.nascom.airbob.vo.ApplicationConfig;
 	import be.nascom.airbob.vo.DashboardProject;
+	import be.nascom.airbob.vo.ServerConfig;
 	
 	import com.adobe.cairngorm.model.IModelLocator;
 	
@@ -13,8 +14,7 @@ package be.nascom.airbob.model
 	import mx.logging.Log;
 	
 	[Bindable]
-	public class AppModelLocator extends EventDispatcher implements IModelLocator 
-	{
+	public class AppModelLocator extends EventDispatcher implements IModelLocator {
 		private static var logger:ILogger = Log.getLogger("AppModelLocator");		
 		private static var model:AppModelLocator;						
         
@@ -37,23 +37,22 @@ package be.nascom.airbob.model
         public var projects:ArrayCollection = new ArrayCollection();		
         public var configs:ArrayCollection = new ArrayCollection();
         
-		public var settings:AppSettings;	
+		public var settings:ApplicationConfig;	
         
         public var connectedState:String = STATE_CONNECTED;
         public var state:String;        
         public var selectedView:int = VIEW_DASHBOARD;
         
-        public const VIEW_DASHBOARD:int = 0;
-        public const VIEW_PREFERENCES:int = 1;
+        public static const VIEW_DASHBOARD:int = 0;
+        public static const VIEW_PREFERENCES:int = 1;
         
-        public const STATE_CONNECTED:String = "connected";
-        public const STATE_DISCONNECTED:String = "disconnected";
+        public static const STATE_CONNECTED:String = "connected";
+        public static const STATE_DISCONNECTED:String = "disconnected";
 		
 		/**
 	     * singleton: constructor only allows one model locator
 	     */
-		public function AppModelLocator():void 
-		{
+		public function AppModelLocator():void {
 			if ( AppModelLocator.model != null ) {
 				throw new Error( "Only one ModelLocator instance should be instantiated" );
 			}
@@ -62,18 +61,13 @@ package be.nascom.airbob.model
         	iconFailure = new IconFailure().bitmapData;
         	iconDisconnected = new IconDisconnected().bitmapData;
         	
-        	settings = new AppSettings();
-        	
-        	// TODO: initialize screen
-        	logger.warn("Adding hardcoded url: http://wombat.int.nascom.be:8080");
-        	configs.addItem(new CCTrayConfig("http://wombat.int.nascom.be:8080"));
+        	settings = new ApplicationConfig();        	   	
 		}
 
 		/**
 	     * singleton: always returns the one existing static instance to itself
 	     */
-		public static function getInstance():AppModelLocator 
-		{
+		public static function getInstance():AppModelLocator {
 			if ( model == null ) {
 				logger.info("init model");
 				model = new AppModelLocator();								
@@ -81,23 +75,19 @@ package be.nascom.airbob.model
 			return model;
 		}
 		
-		public function get trayIcon():BitmapData
-		{			
-			switch(state)
-	  		{
+		public function get trayIcon():BitmapData{			
+			switch(state) {
 	  			case DashboardProject.STATUS_SUCCESS:
 	  				return iconSuccess;
 	  			case DashboardProject.STATUS_BUILDING:
 	  				return iconBuilding;
 	  			case DashboardProject.STATUS_FAILURE:
-	  				return iconFailure;
-	  					  		
+	  				return iconFailure;	  					  	
 	  		}
 	  		return iconDisconnected;		
 		}
 		
-		public function update(data:Object, config:CCTrayConfig):void
-		{			
+		public function update(data:Object, config:ServerConfig):void {			
 			if (projects.length!=data.length){	 
 	 			initModel(data, config);
 		   	} else {
@@ -105,8 +95,7 @@ package be.nascom.airbob.model
 		   	}			
 		}
 		
-		private function initModel(data:Object, config:CCTrayConfig):void
-		{	
+		private function initModel(data:Object, config:ServerConfig):void {	
 			for(var i:uint=0; i < data.length; i++) {
 				var project:DashboardProject = new DashboardProject(data[i]);
 				project.config = config;
@@ -115,8 +104,7 @@ package be.nascom.airbob.model
 	   		changeState();	
 		}
 		
-		private function updateModel(data:Object, config:CCTrayConfig):void
-		{
+		private function updateModel(data:Object, config:ServerConfig):void {
 			for(var i:uint=0; i < data.length; i++) {
 	   			var project:DashboardProject = new DashboardProject(data[i]);
 	   			for(var j:uint=0; j < projects.length; j++) {
@@ -131,8 +119,7 @@ package be.nascom.airbob.model
 	   		}
 		}	
 		
-		private function changeState():void
-		{
+		private function changeState():void {
 			var stateSuccess:int = 0;
 			var stateFailure:int = 0;
 			var stateBuilding:int = 0;
