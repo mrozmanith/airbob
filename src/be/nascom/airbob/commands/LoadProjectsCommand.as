@@ -3,7 +3,7 @@ package be.nascom.airbob.commands
 	import be.nascom.airbob.business.LoadProjectsDelegate;
 	import be.nascom.airbob.events.LoadProjectsEvent;
 	import be.nascom.airbob.model.AppModelLocator;
-	import be.nascom.airbob.vo.CCTrayConfig;
+	import be.nascom.airbob.vo.ServerConfig;
 	
 	import com.adobe.cairngorm.commands.ICommand;
 	import com.adobe.cairngorm.control.CairngormEvent;
@@ -14,23 +14,20 @@ package be.nascom.airbob.commands
 	import mx.rpc.IResponder;
 	import mx.utils.ObjectUtil;
 
-	public class LoadProjectsCommand implements ICommand, IResponder
-	{
+	public class LoadProjectsCommand implements ICommand, IResponder {
 		private var logger:ILogger = Log.getLogger("LoadProjectsCommand");
 		
 		private var model:AppModelLocator = AppModelLocator.getInstance();
-		private var config:CCTrayConfig;
+		private var config:ServerConfig;
 		
-		public function execute(event:CairngormEvent):void
-		{
+		public function execute(event:CairngormEvent):void {
 			logger.info("Loading projects");
 			var delegate : LoadProjectsDelegate = new LoadProjectsDelegate(this);
 			config = LoadProjectsEvent(event).config;
 			delegate.send(config);	
 		}
 		
-		public function result( rpcEvent : Object ) : void 
-		{
+		public function result( rpcEvent : Object ) : void  {
 			logger.debug(ObjectUtil.toString(rpcEvent));
 			if (rpcEvent.result.Projects!=null) {
 				if (rpcEvent.result.Projects.Project is ArrayCollection) {
@@ -43,8 +40,7 @@ package be.nascom.airbob.commands
 			}										
 		}
 		
-		public function fault( rpcEvent : Object ) : void 
-		{
+		public function fault( rpcEvent : Object ) : void {
 			logger.error(rpcEvent.fault.faultDetail);				
 		}
 		

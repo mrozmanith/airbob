@@ -2,10 +2,12 @@ package be.nascom.airbob.control
 {
 	import be.nascom.air.logging.FileTarget;
 	import be.nascom.airbob.commands.ForceBuildCommand;
+	import be.nascom.airbob.commands.LoadConfigCommand;
 	import be.nascom.airbob.commands.LoadProjectsCommand;
+	import be.nascom.airbob.commands.SaveConfigCommand;
 	import be.nascom.airbob.events.LoadProjectsEvent;
 	import be.nascom.airbob.model.AppModelLocator;
-	import be.nascom.airbob.vo.CCTrayConfig;
+	import be.nascom.airbob.vo.ServerConfig;
 	
 	import com.adobe.cairngorm.control.FrontController;
 	
@@ -17,20 +19,22 @@ package be.nascom.airbob.control
 	import mx.logging.Log;
 	import mx.logging.LogEventLevel;
 
-	public class AppController extends FrontController
-	{
+	public class AppController extends FrontController {
 		private var logger:ILogger = Log.getLogger("AppController");
 		
 		public static const FORCE_BUILD_EVENT:String = "be.nascom.airbob.events.ForceBuildEvent";
 		public static const LOAD_PROJECTS_EVENT:String = "be.nascom.airbob.events.LoadProjectsEvent";				
+		public static const LOAD_CONFIG_EVENT:String = "be.nascom.airbob.events.LoadConfigEvent";
+		public static const SAVE_CONFIG_EVENT:String = "be.nascom.airbob.events.SaveConfigEvent";
 		
-		public function AppController()
-		{
+		public function AppController() {
 			initLogging();
 			initPolling();
 				
 			addCommand(FORCE_BUILD_EVENT, ForceBuildCommand);
 			addCommand(LOAD_PROJECTS_EVENT, LoadProjectsCommand);
+			addCommand(LOAD_CONFIG_EVENT, LoadConfigCommand);
+			addCommand(SAVE_CONFIG_EVENT, SaveConfigCommand);
 		}
 		
 		private function initLogging():void {
@@ -53,10 +57,8 @@ package be.nascom.airbob.control
 			timer.start();
 		}
 		
-		private function onTimer(event:TimerEvent):void 
-	 	{
-	 		for each (var config:CCTrayConfig in AppModelLocator.getInstance().configs)
-			{
+		private function onTimer(event:TimerEvent):void {
+	 		for each (var config:ServerConfig in AppModelLocator.getInstance().configs) {
 	    		new LoadProjectsEvent(config).dispatch();
 	  		}	
 	  	}

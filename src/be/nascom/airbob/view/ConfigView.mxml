@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%">
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import be.nascom.airbob.vo.ServerConfig;
+			import be.nascom.airbob.events.SaveConfigEvent;
+			import be.nascom.airbob.model.AppModelLocator;
+			
+			[Bindable]
+			public var model:AppModelLocator = AppModelLocator.getInstance();
+			
+			private function addConfig():void {
+				if (model.configs==null) {
+					model.configs = new ArrayCollection();					
+				}
+				model.configs.addItem(new ServerConfig(urlInput.text));
+			}
+		]]>
+	</mx:Script>
+	
+	<mx:HBox width="100%" height="50" verticalCenter="true">
+		<mx:TextInput id="urlInput"/>
+		<mx:Button label="Add" click="addConfig()"/>
+		<mx:Button label="Save" click="new SaveConfigEvent().dispatch()"/>
+	</mx:HBox>
+	
+	<mx:DataGrid dataProvider="{model.configs}" width="100%" height="100%">
+		
+	</mx:DataGrid>
+	
+</mx:VBox>
