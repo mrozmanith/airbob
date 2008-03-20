@@ -18,7 +18,7 @@
 		</mx:State>
 	</mx:states>
 	
-	<mx:VBox width="100%" left="5" right="5">
+	<mx:VBox width="100%" left="20" right="20">
 	
 		<mx:Canvas height="90" width="100%">
 			<mx:Label id="labelConnected" top="19" text="Disconnected" right="34" styleName="smallText"/>
@@ -38,11 +38,13 @@
 				</mx:Repeater>	
 			</mx:VBox>	
 			
+			<!--
 			<mx:Tile id="iconView" width="100%" height="100%">
 				<mx:Repeater id="projectRepeater2" dataProvider="{model.projects}">
 					<mx:Label text="{projectRepeater2.currentItem.name}"/>
 				</mx:Repeater>
 			</mx:Tile>
+			-->
 				
 		</mx:ViewStack>					
 			
@@ -79,7 +81,7 @@
 			  		}	
 		  		} else {
 		  			this.parentApplication.height=350;
-		  			this.iconView.height = 200;
+//		  			this.iconView.height = 200;
 		  		}
 		  		
 		  		logger.debug("Calculate height: " + appHeight);
