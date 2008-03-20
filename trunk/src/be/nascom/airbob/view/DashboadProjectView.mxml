@@ -18,6 +18,7 @@
 			import mx.core.Window;
 			
 			private var block:ProjectBlock;
+			private var status:ProjectStatus;
 			
 			private static var logger:ILogger = Log.getLogger("DashboardProjectView");
 			
@@ -26,15 +27,20 @@
 			}
 			
 			private function init() :void {
-				block = new ProjectBlock();				
-				bgContainer.addChild(block);
+				block = new ProjectBlock();	
+				status = new ProjectStatus();
+							
+				backgroundContainer.addChild(block);
+				statusContainer.addChild(status);
+				
 				resize();
 			}
 			
 			private function resize():void {
 				try {					
-					block.width = bgContainer.width;
-					block.height = bgContainer.height;
+					block.width = backgroundContainer.width;
+					block.height = backgroundContainer.height;
+					//status.height = statusContainer.height;
 				} catch (error:Error) {
 					logger.debug(error.toString());
 				}
@@ -68,7 +74,8 @@
 		<mx:State name="Inactive"/>
 	</mx:states>
 	
-	<mx:UIComponent id="bgContainer" width="100%" height="100%" />
+	<mx:UIComponent id="backgroundContainer" width="100%" height="100%"/>
+	<mx:UIComponent id="statusContainer" height="100%" />
 	
 	<vo:DashboardProject id="project"/>
 	
