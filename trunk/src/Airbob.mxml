@@ -69,28 +69,34 @@
 				}
 			}
 		  	
-		  	public function prepareForSystray(event:Event):void {											
+		  	public function prepareForSystray(event:Event):void {	
+		  												
 				if (NativeApplication.supportsSystemTrayIcon){
 					setSystemTrayProperties();
 					SystemTrayIcon(NativeApplication.nativeApplication.icon).menu = createSystrayRootMenu();	
 					NativeApplication.nativeApplication.icon.bitmaps = [model.trayIcon];				
-				}													
+				} else if (NativeApplication.supportsDockIcon) {
+				    // For mac systems we can set the Dock menu
+				    DockIcon(NativeApplication.nativeApplication.icon).menu = createSystrayRootMenu();				
+				}														
 			}	
 			
 			private function createSystrayRootMenu():NativeMenu {
 				var menu:NativeMenu = new NativeMenu();
 				var openNativeMenuItem:NativeMenuItem = new NativeMenuItem("Dashboard");
-				var configNativeMenuItem:NativeMenuItem = new NativeMenuItem("Config");
-				var exitNativeMenuItem:NativeMenuItem = new NativeMenuItem("Close");
-				
 				openNativeMenuItem.addEventListener(Event.SELECT, undock);
-				configNativeMenuItem.addEventListener(Event.SELECT, openConfig);
-				exitNativeMenuItem.addEventListener(Event.SELECT, closeApp);
-				
 				menu.addItem(openNativeMenuItem);
+				
+				var configNativeMenuItem:NativeMenuItem = new NativeMenuItem("Config");
+				configNativeMenuItem.addEventListener(Event.SELECT, openConfig);
 				menu.addItem(configNativeMenuItem);
-				menu.addItem(new NativeMenuItem("",true));
-				menu.addItem(exitNativeMenuItem);
+				
+				if (NativeApplication.supportsSystemTrayIcon){
+					var exitNativeMenuItem:NativeMenuItem = new NativeMenuItem("Exit");
+					exitNativeMenuItem.addEventListener(Event.SELECT, closeApp);
+					menu.addItem(new NativeMenuItem("",true));
+					menu.addItem(exitNativeMenuItem);
+				}
 				
 				return menu;
 			}
@@ -131,8 +137,12 @@
 			
 			private function closingApplication(event:Event):void {	
 				logger.debug("Closing application");			
-				event.preventDefault();
-				dock();		
+				if (NativeApplication.supportsSystemTrayIcon){
+					event.preventDefault();
+					dock();		
+				} else {
+					closeApp(event);
+				}
 			}				
 			
 			private function closeApp(event:Event):void {
