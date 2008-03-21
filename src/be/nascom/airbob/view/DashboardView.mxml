@@ -7,23 +7,17 @@
 	
 	<mx:states>
 		<mx:State name="connected">
-			<mx:SetProperty target="{labelConnected}" name="text" value="Connected"/>
-			<mx:SetProperty target="{imageConnected}" name="source" value="@Embed('../assets/images/connected.png')"/>
-			<mx:SetStyle target="{labelConnected}" name="color" value="#020253"/>			
+			<mx:SetStyle target="{label1}" name="color" value="#FFFFFF"/>
 		</mx:State>
 		<mx:State name="disconnected">
-			<mx:SetProperty target="{imageConnected}" name="source" value="@Embed('../assets/images/disconnected.png')"/>
-			<mx:SetStyle target="{labelConnected}" name="color" value="#979E9F"/>
 			<mx:SetProperty target="{label1}" name="visible" value="false"/>
 		</mx:State>
 	</mx:states>
 	
 	<mx:VBox width="100%" left="15" right="15">
 	
-		<mx:Canvas height="90" width="100%">
-			<mx:Label id="labelConnected" top="19" text="Disconnected" right="34" styleName="smallText"/>
-			<mx:Image id="imageConnected" height="16" source="@Embed('../assets/images/disconnected.png')" top="19" right="10" width="16"/>			
-			<mx:Label y="62" text="{model.projects.length} project build(s)" right="10" id="label1" styleName="smallText"/>						
+		<mx:Canvas height="26" width="100%">
+			<mx:Label y="4" text="{model.projects.length} project build(s)" right="0" id="label1" styleName="smallText"/>						
 		</mx:Canvas>				
 		
 		<mx:ViewStack id="viewStack" 

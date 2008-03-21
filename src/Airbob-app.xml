@@ -72,10 +72,10 @@
 		<!-- <y></y> -->
 
 		<!-- The window's minimum size, specified as a width/height pair, such as "400 200". Optional. -->
-		<minSize>250 250</minSize>
+		<minSize>350 250</minSize>
 
 		<!-- The window's initial maximum size, specified as a width/height pair, such as "1600 1200". Optional. -->
-		<!-- <maxSize></maxSize> -->
+		<maxSize>350 1200</maxSize>
 	</initialWindow>
 
 	<!-- The subpath of the standard default installation location to use. Optional. -->
