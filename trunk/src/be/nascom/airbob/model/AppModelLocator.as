@@ -111,7 +111,10 @@ package be.nascom.airbob.model
 	   				if (projects[j].name==project.name) {
 		   				if (projects[j].hasChanged(project)) {
 		   					project.config = config;
-		   					projects[j] = project;		   		
+		   					projects[j].activity = project.activity;		   		
+		   					projects[j].lastBuildLabel = project.lastBuildLabel;
+		   					projects[j].lastBuildStatus = project.lastBuildStatus;
+		   					projects[j].lastBuildTime = project.lastBuildTime;
 		   					changeState();					   					
 		   				}
 	   				}

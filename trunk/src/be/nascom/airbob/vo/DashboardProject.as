@@ -17,8 +17,7 @@ package be.nascom.airbob.vo
 		public static const STATUS_FAILURE:String = "Failure";		
 		public static const STATUS_INACTIVE:String = "Inactive";
 		
-		public var name:String; 
-		public var activity:String; 
+		public var name:String; 		 
 		public var lastBuildStatus:String; 
 		public var lastBuildLabel:String; 
 		public var lastBuildTime:String; 
@@ -27,6 +26,7 @@ package be.nascom.airbob.vo
 		public var config:ServerConfig;
 		
 		private var _state:String;
+		private var _activity:String;
 		
 		private static var logger:ILogger = Log.getLogger("DashboardProject");
 		
@@ -43,6 +43,14 @@ package be.nascom.airbob.vo
 		
 		public function hasChanged(project:DashboardProject):Boolean {
 			return (activity!=project.activity) || (lastBuildTime!=project.lastBuildTime);
+		}
+		
+		public function get activity() : String {
+			return _activity;
+		}
+		
+		public function set activity(value : String) : void{
+			_activity = value;
 		}
 		
 		public function get state() : String {			
