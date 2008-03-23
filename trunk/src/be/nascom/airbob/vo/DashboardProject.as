@@ -54,9 +54,9 @@ package be.nascom.airbob.vo
 		}
 		
 		public function set activity(value : String) : void {
-			if (_activity!=value) {
-				dispatchEvent(new Event(EVENT_ACTIVITY_CHANGE));
+			if (_activity!=value) {				
 				_activity = value;
+				dispatchEvent(new Event(EVENT_ACTIVITY_CHANGE));
 			}
 		}
 		
