@@ -5,8 +5,7 @@
 	width="100%"
 	verticalScrollPolicy="off"
 	horizontalScrollPolicy="off"
-	creationComplete="init()"
-	currentStateChange="handleStateChange(event)" >		
+	creationComplete="init()" >		
 	<mx:Script>
 		<![CDATA[
 			import be.nascom.airbob.events.ForceBuildEvent;
@@ -26,14 +25,22 @@
 				navigateToURL(new URLRequest(project.webUrl));
 			}
 			
-			private function init() :void {
+			private function init() :void {				
+				project.addEventListener(DashboardProject.EVENT_ACTIVITY_CHANGE, handleActivityChange);
+				
 				block = new ProjectBlock();	
 				status = new ProjectStatus();
+				status.gotoAndStop(project.state.toLowerCase());
 													
 				backgroundContainer.addChild(block);
 				statusContainer.addChild(status);
 				
 				resize();
+			}
+			
+			private function handleActivityChange(event:Event) :void {
+				currentState = project.state;
+				status.gotoAndStop(project.state.toLowerCase());
 			}
 			
 			private function resize():void {
@@ -49,11 +56,7 @@
 			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
 				super.updateDisplayList(unscaledWidth, unscaledHeight);
 				resize();
-			}
-			
-			private function handleStateChange(event:StateChangeEvent):void {
-				status.gotoAndPlay(project.state.toLowerCase());
-			}						
+			}											
 			
 			private function forceBuild():void {
 				new ForceBuildEvent(project).dispatch();	

@@ -2,6 +2,7 @@ package be.nascom.airbob.vo
 {
 	import com.adobe.cairngorm.vo.ValueObject;
 	
+	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	
 	import mx.logging.ILogger;
@@ -9,6 +10,7 @@ package be.nascom.airbob.vo
 	
 	[Bindable]
 	public class DashboardProject extends EventDispatcher implements ValueObject {
+		
 		public static const ACTIVITY_SLEEPING:String = "Sleeping";
 		public static const ACTIVITY_BUILDING:String = "Building";
 		
@@ -30,6 +32,8 @@ package be.nascom.airbob.vo
 		
 		private static var logger:ILogger = Log.getLogger("DashboardProject");
 		
+		public static const EVENT_ACTIVITY_CHANGE:String = "EVENT_ACTIVITY_CHANGE";		
+		
 		public function DashboardProject(data:Object=null):void { 
 			if (data==null) return;
 			
@@ -49,8 +53,11 @@ package be.nascom.airbob.vo
 			return _activity;
 		}
 		
-		public function set activity(value : String) : void{
-			_activity = value;
+		public function set activity(value : String) : void {
+			if (_activity!=value) {
+				dispatchEvent(new Event(EVENT_ACTIVITY_CHANGE));
+				_activity = value;
+			}
 		}
 		
 		public function get state() : String {			
