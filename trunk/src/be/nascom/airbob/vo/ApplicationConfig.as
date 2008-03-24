@@ -5,7 +5,8 @@ package be.nascom.airbob.vo
 	public class ApplicationConfig {				
 		public var interval:Number = 5000;
 		
-		public function ApplicationConfig(){
+		public function ApplicationConfig()
+		{
 			
 		}
 	}

@@ -56,16 +56,23 @@
 		  	
 		  	private static var logger:ILogger = Log.getLogger("Dashboard");		  		  
 		  	
-		  	private function calculateHeight():void {
+		  	private function calculateHeight():void 
+		  	{
 		  		var appHeight:int = blockHeight;
-		  		if (viewStack.selectedIndex==0) {		  			
-			  		if (currentState=="disconnected") {
+		  		if (viewStack.selectedIndex==0) 
+		  		{		  			
+			  		if (currentState=="disconnected") 
+			  		{
 			  			this.parentApplication.height=appHeight;
-			  		} else {
+			  		} 
+			  		else 
+			  		{
 			  			appHeight+=((blockHeight+6)*(model.projects.length+1))+50;
 			  			this.parentApplication.height=appHeight;
 			  		}	
-		  		} else {
+		  		} 
+		  		else 
+		  		{
 		  			this.parentApplication.height=350;
 //		  			this.iconView.height = 200;
 		  		}
@@ -73,8 +80,8 @@
 		  		logger.debug("Calculate height: " + appHeight);
 		  	}	
 		  			  	
-		  	private function handleCCTrayServiceResult(event:ResultEvent):void {	
-		 		currentState = "connected";
+//		  	private function handleCCTrayServiceResult(event:ResultEvent):void {	
+//		 		currentState = "connected";
 //		 		var projectCount:int = model.projects.length;
 //		 		if (event.result.Projects!=null){
 //		 			if (event.result.Projects.Project is ArrayCollection) {
@@ -88,8 +95,8 @@
 //		 		if (model.projects.length!=projectCount){
 //		 			calculateHeight();
 //		 		}	 		
-		 				 				 				 							   
-		 	}
+		 				 				 				 							  
+//		 	}
 		 	
 		]]>
 	</mx:Script>

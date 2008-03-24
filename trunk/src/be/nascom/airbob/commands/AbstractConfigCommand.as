@@ -12,7 +12,8 @@ package be.nascom.airbob.commands
 	import mx.logging.ILogger;
 	import mx.logging.Log;
 	
-	internal class AbstractConfigCommand {
+	internal class AbstractConfigCommand 
+	{
 		private static var logger:ILogger = Log.getLogger("AbstractConfigDelegate");
 		
 		private const DB_PATH:String = "app-storage:/config.db";	
@@ -22,10 +23,12 @@ package be.nascom.airbob.commands
 		protected var entityManager:EntityManager;		
 		protected var connection:SQLConnection;
 		
-		public function prepare():void {
+		public function prepare():void 
+		{
 			var dbFile:File = new File(DB_PATH);
 			logger.info("open config database " +  dbFile.nativePath);
-			if (!dbFile.exists){
+			if (!dbFile.exists)
+			{
 				logger.warn("create new config database")
 			}
 			connection = new SQLConnection();

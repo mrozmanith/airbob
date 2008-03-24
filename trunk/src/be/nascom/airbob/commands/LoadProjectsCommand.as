@@ -14,25 +14,32 @@ package be.nascom.airbob.commands
 	import mx.rpc.IResponder;
 	import mx.utils.ObjectUtil;
 
-	public class LoadProjectsCommand implements ICommand, IResponder {
+	public class LoadProjectsCommand implements ICommand, IResponder 
+	{
 		private var logger:ILogger = Log.getLogger("LoadProjectsCommand");
 		
 		private var model:AppModelLocator = AppModelLocator.getInstance();
 		private var config:ServerConfig;
 		
-		public function execute(event:CairngormEvent):void {
+		public function execute(event:CairngormEvent):void 
+		{
 			logger.info("Loading projects");
 			var delegate : LoadProjectsDelegate = new LoadProjectsDelegate(this);
 			config = LoadProjectsEvent(event).config;
 			delegate.send(config);	
 		}
 		
-		public function result( rpcEvent : Object ) : void  {
+		public function result( rpcEvent : Object ) : void  
+		{
 			logger.debug(ObjectUtil.toString(rpcEvent));
-			if (rpcEvent.result.Projects!=null) {
-				if (rpcEvent.result.Projects.Project is ArrayCollection) {
+			if (rpcEvent.result.Projects!=null) 
+			{
+				if (rpcEvent.result.Projects.Project is ArrayCollection) 
+				{
 		 			model.update(rpcEvent.result.Projects.Project, config);
-	 			} else {
+	 			} 
+	 			else 
+	 			{
 	 				var projects:ArrayCollection = new ArrayCollection();
 	 				projects.addItem(rpcEvent.result.Projects.Project);
 	 				model.update(projects, config);		 				

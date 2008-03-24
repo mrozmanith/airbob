@@ -20,7 +20,8 @@ package be.nascom.airbob.control
 	import mx.logging.Log;
 	import mx.logging.LogEventLevel;
 
-	public class AppController extends FrontController {
+	public class AppController extends FrontController 
+	{
 		private var logger:ILogger = Log.getLogger("AppController");
 		
 		public static const FORCE_BUILD_EVENT:String = "be.nascom.airbob.events.ForceBuildEvent";
@@ -28,7 +29,8 @@ package be.nascom.airbob.control
 		public static const LOAD_CONFIG_EVENT:String = "be.nascom.airbob.events.LoadConfigEvent";
 		public static const SAVE_CONFIG_EVENT:String = "be.nascom.airbob.events.SaveConfigEvent";
 		
-		public function AppController() {			
+		public function AppController() 
+		{			
 			addCommand(FORCE_BUILD_EVENT, ForceBuildCommand);
 			addCommand(LOAD_PROJECTS_EVENT, LoadProjectsCommand);
 			addCommand(LOAD_CONFIG_EVENT, LoadConfigCommand);
@@ -40,7 +42,8 @@ package be.nascom.airbob.control
 			
 		}
 		
-		private function initLogging():void {
+		private function initLogging():void 
+		{
 			// Add file logger
 			var fileTarget:FileTarget = new FileTarget();
 			fileTarget.includeDate = true;
@@ -54,14 +57,17 @@ package be.nascom.airbob.control
 			logger.info("File Logging Active:" + new File(fileTarget.logURI).nativePath);	
 		}
 		
-		private function initPolling():void {
+		private function initPolling():void 
+		{
 			var timer:Timer = new Timer(AppModelLocator.getInstance().settings.interval);
 			timer.addEventListener(TimerEvent.TIMER, onTimer);
 			timer.start();
 		}
 		
-		private function onTimer(event:TimerEvent=null):void {
-	 		for each (var config:ServerConfig in AppModelLocator.getInstance().configs) {
+		private function onTimer(event:TimerEvent=null):void 
+		{
+	 		for each (var config:ServerConfig in AppModelLocator.getInstance().configs) 
+	 		{
 	    		new LoadProjectsEvent(config).dispatch();
 	  		}	
 	  	}
