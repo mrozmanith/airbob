@@ -7,6 +7,7 @@ package be.nascom.airbob.model
 	import com.adobe.cairngorm.model.IModelLocator;
 	
 	import flash.display.BitmapData;
+	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	
 	import mx.collections.ArrayCollection;
@@ -49,6 +50,8 @@ package be.nascom.airbob.model
         
         public static const STATE_CONNECTED:String = "connected";
         public static const STATE_DISCONNECTED:String = "disconnected";
+        
+        public static const EVENT_MODEL_UPDATED:String = "EVENT_MODEL_UPDATED";
 		
 		/**
 	     * singleton: constructor only allows one model locator
@@ -103,7 +106,7 @@ package be.nascom.airbob.model
 		   	else 
 		   	{
 		   		updateModel(data, config);
-		   	}			
+		   	}			   		
 		}
 		
 		private function initModel(data:Object, config:ServerConfig):void 
@@ -172,7 +175,7 @@ package be.nascom.airbob.model
 			if (stateFailure>0) state = DashboardProject.STATUS_FAILURE;
 			if (stateBuilding>0) state = DashboardProject.STATUS_BUILDING;
 			
-			//dispatchEvent(new DashboardEvent(DashboardEvent.CHANGED, state));	
+			dispatchEvent(new Event(EVENT_MODEL_UPDATED));
 		}				
 
 	}

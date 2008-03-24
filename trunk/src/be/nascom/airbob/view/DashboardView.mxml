@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Canvas 
-	xmlns:mx="http://www.adobe.com/2006/mxml" 	
-	creationComplete="{currentState=model.connectedState}"
-	currentStateChange="calculateHeight()"
-	horizontalScrollPolicy="off" xmlns:view="be.nascom.airbob.view.*">
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:view="be.nascom.airbob.view.*" 	
+	creationComplete="init()"
+	horizontalScrollPolicy="off" >
 	
 	<mx:states>
 		<mx:State name="connected">
@@ -54,10 +54,17 @@
 		  	
 		  	private var blockHeight:int = 50;
 		  	
-		  	private static var logger:ILogger = Log.getLogger("Dashboard");		  		  
+		  	private static var logger:ILogger = Log.getLogger("Dashboard");		
 		  	
-		  	private function calculateHeight():void 
+		  	private function init():void 
 		  	{
+		  		currentState = model.connectedState;	
+		  		model.addEventListener(AppModelLocator.EVENT_MODEL_UPDATED, handleModelUpdated);
+		  	}  		  
+		  	
+		  	private function handleModelUpdated(event:Event):void 
+		  	{
+		  		currentState = model.connectedState;
 		  		var appHeight:int = blockHeight;
 		  		if (viewStack.selectedIndex==0) 
 		  		{		  			
