@@ -21,11 +21,13 @@
 			
 			private static var logger:ILogger = Log.getLogger("DashboardProjectView");
 			
-			private function openSite():void{
+			private function openSite():void
+			{
 				navigateToURL(new URLRequest(project.webUrl));
 			}
 			
-			private function init() :void {				
+			private function init() :void 
+			{				
 				project.addEventListener(DashboardProject.EVENT_ACTIVITY_CHANGE, handleActivityChange);
 				
 				block = new ProjectBlock();	
@@ -38,27 +40,34 @@
 				resize();
 			}
 			
-			private function handleActivityChange(event:Event) :void {
+			private function handleActivityChange(event:Event) :void 
+			{
 				currentState = project.state;
 				status.gotoAndStop(project.state.toLowerCase());
 			}
 			
-			private function resize():void {
-				try {					
+			private function resize():void 
+			{
+				try 
+				{					
 					block.width = backgroundContainer.width;
 					block.height = backgroundContainer.height;
 					//status.height = statusContainer.height;
-				} catch (error:Error) {
+				} 
+				catch (error:Error) 
+				{
 					logger.debug(error.toString());
 				}
 			}		  	
 			
-			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
+			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void 
+			{
 				super.updateDisplayList(unscaledWidth, unscaledHeight);
 				resize();
 			}											
 			
-			private function forceBuild():void {
+			private function forceBuild():void 
+			{
 				new ForceBuildEvent(project).dispatch();	
 			}				
 

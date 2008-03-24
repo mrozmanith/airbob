@@ -8,19 +8,25 @@ package be.nascom.airbob.commands
 	import mx.logging.ILogger;
 	import mx.logging.Log;
 	
-	public class SaveConfigCommand extends AbstractConfigCommand implements ICommand {
+	public class SaveConfigCommand extends AbstractConfigCommand implements ICommand 
+	{
 		private var logger:ILogger = Log.getLogger("SaveConfigCommand");
 		
-		public function execute(event:CairngormEvent):void {
+		public function execute(event:CairngormEvent):void 
+		{
 			prepare();
 			logger.debug("save config");			
-			try {		
+			try 
+			{		
 				entityManager.beginTransaction();
-				for each(var config:ServerConfig in model.configs){
+				for each(var config:ServerConfig in model.configs)
+				{
 					entityManager.save(config);		
 				}	
 				entityManager.commitTransaction();			
-			} catch (error:Error) {
+			} 
+			catch (error:Error) 
+			{
 				logger.error(error.message);
 				entityManager.rollbackTransaction();
 			}

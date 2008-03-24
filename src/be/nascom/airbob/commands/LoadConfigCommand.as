@@ -8,15 +8,20 @@ package be.nascom.airbob.commands
 	import mx.logging.ILogger;
 	import mx.logging.Log;
 
-	public class LoadConfigCommand extends AbstractConfigCommand implements ICommand {
+	public class LoadConfigCommand extends AbstractConfigCommand implements ICommand 
+	{
 		private var logger:ILogger = Log.getLogger("LoadConfigCommand");
 		
-		public function execute(event:CairngormEvent):void {
+		public function execute(event:CairngormEvent):void 
+		{
 			prepare();
 			logger.debug("load config");						
-			try {		
+			try 
+			{		
 				model.configs = entityManager.findAll(ServerConfig);		
-			} catch (error:Error) {
+			} 
+			catch (error:Error) 
+			{
 				logger.error(error.message);				
 			}
 		}

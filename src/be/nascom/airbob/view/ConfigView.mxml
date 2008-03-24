@@ -11,18 +11,22 @@
 			[Bindable]
 			public var model:AppModelLocator = AppModelLocator.getInstance();
 			
-			private function add():void {
-				if (model.configs==null) {
+			private function add():void 
+			{
+				if (model.configs==null) 
+				{
 					model.configs = new ArrayCollection();					
 				}
 				model.configs.addItem(new ServerConfig(urlInput.text));
 			}
 			
-			private function remove():void {
+			private function remove():void 
+			{
 				
 			}
 			
-			private function save():void {
+			private function save():void 
+			{
 				new SaveConfigEvent().dispatch();
 			}
 			

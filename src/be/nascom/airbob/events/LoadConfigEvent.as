@@ -4,8 +4,10 @@ package be.nascom.airbob.events
 	
 	import com.adobe.cairngorm.control.CairngormEvent;
 
-	public class LoadConfigEvent extends CairngormEvent {
-		public function LoadConfigEvent() {
+	public class LoadConfigEvent extends CairngormEvent 
+	{
+		public function LoadConfigEvent() 
+		{
 			super(AppController.LOAD_CONFIG_EVENT);
 		}
 	}
