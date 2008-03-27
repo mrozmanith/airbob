@@ -52,7 +52,6 @@
 				{					
 					block.width = backgroundContainer.width;
 					block.height = backgroundContainer.height;
-					//status.height = statusContainer.height;
 				} 
 				catch (error:Error) 
 				{
@@ -91,8 +90,8 @@
 	
 	<vo:DashboardProject id="project" />
 	
-	<mx:Label id="labelInfo" text="Last build:{project.lastBuildTime}" x="20" y="27" styleName="smallText" color="#333333"/>
+	<mx:Label id="labelInfo" text="Last successfull build: {project.lastBuildTime.replace('T', ' ')}" x="20" y="27" styleName="smallText" color="#333333"/>
 	<mx:Label id="labelProjectName" x="20" y="4" text="{project.name}" color="#333333" styleName="smallText" />
-	<mx:Label id="labelForceBuild" text="Force build" styleName="smallText" buttonMode="true" mouseChildren="false" click="forceBuild()" y="4" right="56" color="#333333"/>
-	<mx:Label id="labelMoreInfo" text="More info" styleName="smallText" right="10"  buttonMode="true" mouseChildren="false" click="openSite()" y="4" color="#333333"/>	
+	<mx:Label id="labelForceBuild" text="Force" styleName="smallText" buttonMode="true" mouseChildren="false" click="forceBuild()" y="2" right="37" color="#333333"/>
+	<mx:Label id="labelMoreInfo" text="Info" styleName="smallText" right="10"  buttonMode="true" mouseChildren="false" click="openSite()" y="4" color="#333333"/>	
 </mx:Canvas>
