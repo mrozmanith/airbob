@@ -41,8 +41,8 @@ package be.nascom.airbob.model
         
 		public var settings:ApplicationConfig;	
         
-        public var connectedState:String = STATE_CONNECTED;
-        public var state:String;        
+        public var connectedState:String = STATE_DISCONNECTED;
+        public var state:String = "Connecting...";        
         public var selectedView:int = VIEW_DASHBOARD;
         
         public static const VIEW_DASHBOARD:int = 0;
@@ -107,7 +107,8 @@ package be.nascom.airbob.model
 		   	else 
 		   	{
 		   		updateModel(data, config);
-		   	}			   		
+		   	}	
+		   	model.connectedState = STATE_CONNECTED;		   		
 		}
 		
 		private function initModel(data:Object, config:ServerConfig):void 

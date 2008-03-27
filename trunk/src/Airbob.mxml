@@ -23,6 +23,7 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import flash.net.navigateToURL;
 			import be.nascom.airbob.events.LoadConfigEvent;
 			import mx.logging.Log;
 			import mx.logging.ILogger;
@@ -94,13 +95,13 @@
 			private function createSystrayRootMenu():NativeMenu 
 			{
 				var menu:NativeMenu = new NativeMenu();
-				var openNativeMenuItem:NativeMenuItem = new NativeMenuItem("Dashboard");
+				var openNativeMenuItem:NativeMenuItem = new NativeMenuItem("Show");
 				openNativeMenuItem.addEventListener(Event.SELECT, undock);
 				menu.addItem(openNativeMenuItem);
 				
-				var configNativeMenuItem:NativeMenuItem = new NativeMenuItem("Config");
-				configNativeMenuItem.addEventListener(Event.SELECT, openConfig);
-				menu.addItem(configNativeMenuItem);
+				var aboutNativeMenuItem:NativeMenuItem = new NativeMenuItem("About");
+				aboutNativeMenuItem.addEventListener(Event.SELECT, openAbout);
+				menu.addItem(aboutNativeMenuItem);
 				
 				if (NativeApplication.supportsSystemTrayIcon)
 				{
@@ -134,12 +135,12 @@
 				NativeApplication.nativeApplication.icon.bitmaps = [model.trayIcon];
 			}	
 			
-			public function openConfig(event:Event):void 
+			public function openAbout(event:Event):void 
 			{
-				stage.nativeWindow.visible = true;	
-				stage.nativeWindow.orderToFront();
-				
-				model.selectedView = AppModelLocator.VIEW_PREFERENCES;
+//				stage.nativeWindow.visible = true;	
+//				stage.nativeWindow.orderToFront();				
+//				model.selectedView = AppModelLocator.VIEW_PREFERENCES;
+				navigateToURL(new URLRequest('http://airbob.googlecode.com'))
 			}
 			
 			/**
@@ -230,6 +231,11 @@
 			<view:DashboardView id="dashboardView" width="100%" height="100%"/>
 			<view:ConfigView id="preferencesView" width="100%" height="100%"/>		
 		</mx:ViewStack>		
+		
+		<mx:Canvas width="100%">
+			<mx:Canvas right="20" width="70" height="20" click="navigateToURL(new URLRequest('http://www.nascom.be'))" buttonMode="true" mouseChildren="false"/>	
+		</mx:Canvas>
+		
 		
 	</mx:VBox>	
 	

@@ -20,14 +20,12 @@ package be.nascom.airbob.business
 		{
 			project = ForceBuildCommand(command).project
 			this.service = ServiceLocator.getInstance().getHTTPService("forceBuildService");
-			this.service.request["operation"] = "build";
-			this.service.request["objectname"] = "CruiseControl+Project%3Aname%3D" + project.name;
 			this.command = command;
 		}
 
 		public function send():void 
 		{		
-			this.service.url = project.config.url;
+			this.service.url = project.config.forceBuildUrl + "?operation=build&objectname=CruiseControl+Project%3Aname%3D" + project.name;
 			var token:AsyncToken = service.send();
 			token.addResponder(command);
 		}
