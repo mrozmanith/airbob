@@ -3,6 +3,7 @@
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:vo="be.nascom.airbob.vo.*" 
 	width="100%"
+	height="45"
 	verticalScrollPolicy="off"
 	horizontalScrollPolicy="off"
 	creationComplete="init()" >		
@@ -80,7 +81,7 @@
 		<mx:State name="Success">	
 		</mx:State>
 		<mx:State name="Building">	
-			<mx:SetProperty target="{labelForceBuild}" name="visible" value="false"/>
+			<mx:SetProperty target="{forceBuildButton}" name="visible" value="false"/>
 			<mx:SetProperty target="{labelInfo}" name="text" value="{project.activity}" />			
 		</mx:State>
 		<mx:State name="Failure">
@@ -89,12 +90,16 @@
 	</mx:states>
 	
 	<mx:UIComponent id="backgroundContainer" width="100%" height="100%"/>
-	<mx:UIComponent id="statusContainer" height="100%" />
+	<mx:UIComponent id="statusContainer" height="100%" x="2" y="2.5"/>
 	
 	<vo:DashboardProject id="project" />
 	
-	<mx:Label id="labelInfo" text="Last successfull build: {project.lastBuildTime.replace('T', ' ')}" x="20" y="27" styleName="smallText" color="#333333"/>
 	<mx:Label id="labelProjectName" x="20" y="4" text="{project.name}" color="#333333" styleName="smallText" />
-	<mx:Label id="labelForceBuild" text="Force" styleName="smallText" buttonMode="true" mouseChildren="false" click="forceBuild()" y="2" right="37" color="#333333"/>
-	<mx:Label id="labelMoreInfo" text="Info" styleName="smallText" right="10"  buttonMode="true" mouseChildren="false" click="openSite()" y="4" color="#333333"/>	
+	<mx:Label id="labelInfo" x="20" y="25" text="Last successfull build: {project.lastBuildTime.replace('T', ' ')}"  styleName="smallText" color="#333333"/>
+	
+	<!--<mx:Label id="forceBuildButton" y="4" right="37" text="Force" styleName="smallText" buttonMode="true" mouseChildren="false" click="forceBuild()" color="#333333"/>-->
+	<!--<mx:Label id="moreInfoButton" y="4" text="Info" styleName="smallText" right="10"  buttonMode="true" mouseChildren="false" click="openSite()"  color="#333333"/>-->
+	
+	<mx:UIComponent id="forceBuildButton" y="4" right="37" buttonMode="true" mouseChildren="false" click="forceBuild()"/>
+	<mx:UIComponent id="moreInfoButton" y="4" buttonMode="true" mouseChildren="false" click="openSite()"/>
 </mx:Canvas>
