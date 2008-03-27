@@ -84,7 +84,7 @@
 		</mx:State>
 		<mx:State name="Building">	
 			<mx:SetProperty target="{forceBuildButton}" name="visible" value="false"/>
-			<mx:SetProperty target="{labelInfo}" name="text" value="{project.state}" />			
+			<mx:SetProperty target="{labelInfo}" name="text" value="Building..." />			
 		</mx:State>
 		<mx:State name="Failure">
 		</mx:State>
