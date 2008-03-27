@@ -115,7 +115,7 @@
 			
 			private function setSystemTrayProperties():void 
 			{
-				SystemTrayIcon(NativeApplication.nativeApplication.icon).tooltip = "Airbob";
+				SystemTrayIcon(NativeApplication.nativeApplication.icon).tooltip = "Airbob says: " + model.state;
 				SystemTrayIcon(NativeApplication.nativeApplication.icon).addEventListener(MouseEvent.CLICK, undock);				    	     		
 			}
 			
