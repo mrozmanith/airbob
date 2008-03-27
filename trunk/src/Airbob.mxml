@@ -43,7 +43,8 @@
 			/**
 			 * Init the app
 			 */
-			private function init():void {	
+			private function init():void 
+			{	
 				// Init background
 				background = new AircampBackground();			
 				bgContainer.addChild(background);
@@ -55,33 +56,43 @@
 		    			    		    			    			    
 		  	}
 		  	
-		  	override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
+		  	override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void 
+		  	{
 				super.updateDisplayList(unscaledWidth, unscaledHeight);
 				resizeBackground();
 			}
 		  	
-		  	private function resizeBackground():void {
-				try {					
+		  	private function resizeBackground():void 
+		  	{
+				try 
+				{					
 					background.width = bgContainer.width;
 					background.height = bgContainer.height;
-				} catch (error:Error) {
+				} 
+				catch (error:Error) 
+				{
 					logger.debug(error.toString());
 				}
 			}
 		  	
-		  	public function prepareForSystray(event:Event):void {	
-		  												
-				if (NativeApplication.supportsSystemTrayIcon){
+		  	public function prepareForSystray(event:Event):void 
+		  	{	
+		  											
+				if (NativeApplication.supportsSystemTrayIcon)
+				{
 					setSystemTrayProperties();
 					SystemTrayIcon(NativeApplication.nativeApplication.icon).menu = createSystrayRootMenu();	
 					NativeApplication.nativeApplication.icon.bitmaps = [model.trayIcon];				
-				} else if (NativeApplication.supportsDockIcon) {
+				} 
+				else if (NativeApplication.supportsDockIcon) 
+				{
 				    // For mac systems we can set the Dock menu
 				    DockIcon(NativeApplication.nativeApplication.icon).menu = createSystrayRootMenu();				
 				}														
 			}	
 			
-			private function createSystrayRootMenu():NativeMenu {
+			private function createSystrayRootMenu():NativeMenu 
+			{
 				var menu:NativeMenu = new NativeMenu();
 				var openNativeMenuItem:NativeMenuItem = new NativeMenuItem("Dashboard");
 				openNativeMenuItem.addEventListener(Event.SELECT, undock);
@@ -91,7 +102,8 @@
 				configNativeMenuItem.addEventListener(Event.SELECT, openConfig);
 				menu.addItem(configNativeMenuItem);
 				
-				if (NativeApplication.supportsSystemTrayIcon){
+				if (NativeApplication.supportsSystemTrayIcon)
+				{
 					var exitNativeMenuItem:NativeMenuItem = new NativeMenuItem("Exit");
 					exitNativeMenuItem.addEventListener(Event.SELECT, closeApp);
 					menu.addItem(new NativeMenuItem("",true));
@@ -101,24 +113,29 @@
 				return menu;
 			}
 			
-			private function setSystemTrayProperties():void {
+			private function setSystemTrayProperties():void 
+			{
 				SystemTrayIcon(NativeApplication.nativeApplication.icon).tooltip = "Airbob";
 				SystemTrayIcon(NativeApplication.nativeApplication.icon).addEventListener(MouseEvent.CLICK, undock);				    	     		
 			}
 			
-			private function nwMinimized(displayStateEvent:NativeWindowDisplayStateEvent):void {
-				if(displayStateEvent.afterDisplayState == NativeWindowDisplayState.MINIMIZED) {
+			private function nwMinimized(displayStateEvent:NativeWindowDisplayStateEvent):void 
+			{
+				if(displayStateEvent.afterDisplayState == NativeWindowDisplayState.MINIMIZED) 
+				{
 					displayStateEvent.preventDefault();
 					dock();
 				} 
 			}
 			
-			public function dock():void  {
+			public function dock():void  
+			{
 				stage.nativeWindow.visible = false;
 				NativeApplication.nativeApplication.icon.bitmaps = [model.trayIcon];
 			}	
 			
-			public function openConfig(event:Event):void {
+			public function openConfig(event:Event):void 
+			{
 				stage.nativeWindow.visible = true;	
 				stage.nativeWindow.orderToFront();
 				
@@ -128,35 +145,45 @@
 			/**
 			 * Show the application again and remove the application icon from the systray
 			 */
-			public function undock(event:Event):void {
+			public function undock(event:Event):void 
+			{
 				stage.nativeWindow.visible = true;	
 				stage.nativeWindow.orderToFront();
 				
 				model.selectedView = AppModelLocator.VIEW_DASHBOARD;
 			}
 			
-			private function closingApplication(event:Event):void {	
+			private function closingApplication(event:Event):void 
+			{	
 				logger.debug("Closing application");			
-				if (NativeApplication.supportsSystemTrayIcon){
+				if (NativeApplication.supportsSystemTrayIcon)
+				{
 					event.preventDefault();
 					dock();		
-				} else {
+				} 
+				else 
+				{
 					closeApp(event);
 				}
 			}				
 			
-			private function closeApp(event:Event):void {
+			private function closeApp(event:Event):void 
+			{
 				stage.nativeWindow.close();
 			}		
 			
 			/**
 			 * Custom chrome beaviour foe max/restore 
 			 **/
-			private function doMaxRestore():void {
-				if (maximized) {
+			private function doMaxRestore():void 
+			{
+				if (maximized) 
+				{
 					restore();
 					maximized = false;			
-				} else {
+				} 
+				else 
+				{
 					maximize();
 					maximized = true;
 				}
@@ -198,10 +225,12 @@
 			<chrome:WindowControlExit click="close()"/>
 			<mx:Spacer width="2.5"/>
 		</mx:HBox> 
+		
 		<mx:ViewStack id="viewStack" selectedIndex="{model.selectedView}" width="100%" height="100%">		
 			<view:DashboardView id="dashboardView" width="100%" height="100%"/>
 			<view:ConfigView id="preferencesView" width="100%" height="100%"/>		
-		</mx:ViewStack>
+		</mx:ViewStack>		
+		
 	</mx:VBox>	
 	
 </mx:WindowedApplication>

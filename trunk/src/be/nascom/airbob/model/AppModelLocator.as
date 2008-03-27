@@ -97,6 +97,7 @@ package be.nascom.airbob.model
 	  		return iconDisconnected;		
 		}
 		
+		
 		public function update(data:Object, config:ServerConfig):void 
 		{			
 			if (projects.length!=data.length)

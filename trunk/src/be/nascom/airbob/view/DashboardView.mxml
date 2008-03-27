@@ -74,37 +74,18 @@
 			  		} 
 			  		else 
 			  		{
-			  			appHeight+=((blockHeight+6)*(model.projects.length+1))+50;
+			  			appHeight+=((blockHeight)*(model.projects.length+1));
 			  			this.parentApplication.height=appHeight;
 			  		}	
 		  		} 
 		  		else 
 		  		{
 		  			this.parentApplication.height=350;
-//		  			this.iconView.height = 200;
 		  		}
 		  		
 		  		logger.debug("Calculate height: " + appHeight);
 		  	}	
-		  			  	
-//		  	private function handleCCTrayServiceResult(event:ResultEvent):void {	
-//		 		currentState = "connected";
-//		 		var projectCount:int = model.projects.length;
-//		 		if (event.result.Projects!=null){
-//		 			if (event.result.Projects.Project is ArrayCollection) {
-//		 				model.update(event.result.Projects.Project);
-//		 			} else {
-//		 				var projects:ArrayCollection = new ArrayCollection();
-//		 				projects.addItem(event.result.Projects.Project);
-//		 				model.update(projects);		 				
-//		 			}		 			
-//		 		}	
-//		 		if (model.projects.length!=projectCount){
-//		 			calculateHeight();
-//		 		}	 		
-		 				 				 				 							  
-//		 	}
-		 	
+		  			  			 	
 		]]>
 	</mx:Script>
 	

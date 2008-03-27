@@ -1,6 +1,7 @@
 package be.nascom.airbob.vo
 {
 	import com.adobe.cairngorm.vo.ValueObject;
+	import com.adobe.utils.DateUtil;
 	
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
@@ -9,6 +10,7 @@ package be.nascom.airbob.vo
 	import mx.logging.Log;
 	
 	[Bindable]
+	[Table(name="projects")]
 	public class DashboardProject extends EventDispatcher implements ValueObject 
 	{
 		
@@ -22,14 +24,15 @@ package be.nascom.airbob.vo
 		
 		public var name:String; 		 
 		public var lastBuildStatus:String; 
-		public var lastBuildLabel:String; 
-		public var lastBuildTime:String; 
+		public var lastBuildLabel:String; 		 
 		public var webUrl:String;
-				
+		public var isFavorite:Boolean = true;
+		public var lastBuildTime:String;		
 		public var config:ServerConfig;
 		
 		private var _state:String;
 		private var _activity:String;
+		
 		
 		private static var logger:ILogger = Log.getLogger("DashboardProject");
 		
@@ -89,7 +92,7 @@ package be.nascom.airbob.vo
 		public function set state(value : String) : void 
 		{
 			_state = value;
-		}
+		}			
 		
 	}
 }
