@@ -39,6 +39,8 @@
 													
 				backgroundContainer.addChild(block);
 				statusContainer.addChild(status);
+				forceBuildButton.addChild(new ForceIcon());
+				moreInfoButton.addChild(new InfoIcon());
 				
 				resize();
 			}
@@ -100,6 +102,6 @@
 	<!--<mx:Label id="forceBuildButton" y="4" right="37" text="Force" styleName="smallText" buttonMode="true" mouseChildren="false" click="forceBuild()" color="#333333"/>-->
 	<!--<mx:Label id="moreInfoButton" y="4" text="Info" styleName="smallText" right="10"  buttonMode="true" mouseChildren="false" click="openSite()"  color="#333333"/>-->
 	
-	<mx:UIComponent id="forceBuildButton" y="4" right="37" buttonMode="true" mouseChildren="false" click="forceBuild()"/>
-	<mx:UIComponent id="moreInfoButton" y="4" buttonMode="true" mouseChildren="false" click="openSite()"/>
+	<mx:UIComponent id="forceBuildButton" y="10.5" right="55.5" buttonMode="true" mouseChildren="false" click="forceBuild()"/>
+	<mx:UIComponent id="moreInfoButton" y="10.5" right="30.5" buttonMode="true" mouseChildren="false" click="openSite()"/>
 </mx:Canvas>
