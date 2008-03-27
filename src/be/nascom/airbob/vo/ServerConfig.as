@@ -19,7 +19,7 @@ package be.nascom.airbob.vo
 		
 		[Ignore]
 		public function get forceBuildUrl():String {
-			return url + "/invoke";
+			return url.replace("8080", "8000") + "/invoke";
 		}
 		
 		public function ServerConfig(url:String=null) {						
