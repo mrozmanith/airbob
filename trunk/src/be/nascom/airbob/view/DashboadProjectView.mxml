@@ -31,6 +31,8 @@
 				project.addEventListener(DashboardProject.EVENT_ACTIVITY_CHANGE, handleActivityChange);
 				
 				block = new ProjectBlock();	
+				block.gotoAndStop(project.state.toLowerCase());
+				
 				status = new ProjectStatus();
 				status.gotoAndStop(project.state.toLowerCase());
 													
@@ -44,6 +46,7 @@
 			{
 				currentState = project.state;
 				status.gotoAndStop(project.state.toLowerCase());
+				block.gotoAndStop(project.state.toLowerCase());
 			}
 			
 			private function resize():void 
