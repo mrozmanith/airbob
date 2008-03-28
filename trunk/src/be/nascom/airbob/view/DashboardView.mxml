@@ -14,7 +14,7 @@
 		</mx:State>
 	</mx:states>
 	
-	<mx:VBox width="100%" left="15" right="15" top="30">	
+	<mx:VBox width="100%" left="10" right="10" top="20" verticalGap="4">	
 		<mx:Repeater id="projectRepeater" dataProvider="{model.projects}">
 			<view:DashboadProjectView project="{projectRepeater.currentItem}" currentState="{projectRepeater.currentItem.state}" />										
 		</mx:Repeater>				
