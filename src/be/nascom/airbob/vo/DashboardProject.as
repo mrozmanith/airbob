@@ -23,7 +23,7 @@ package be.nascom.airbob.vo
 		public static const STATUS_INACTIVE:String = "Inactive";
 		
 		public var name:String; 		 
-		public var lastBuildStatus:String; 
+		 
 		public var lastBuildLabel:String; 		 
 		public var webUrl:String;
 		public var isFavorite:Boolean = true;
@@ -32,22 +32,24 @@ package be.nascom.airbob.vo
 		
 		private var _state:String;
 		private var _activity:String;
+		private var _lastBuildStatus:String;
 		
 		
 		private static var logger:ILogger = Log.getLogger("DashboardProject");
 		
 		public static const EVENT_ACTIVITY_CHANGE:String = "EVENT_ACTIVITY_CHANGE";		
+		public static const EVENT_STATUS_CHANGE:String = "EVENT_STATUS_CHANGE";
 		
 		public function DashboardProject(data:Object=null):void 
 		{ 
 			if (data==null) return;
 			
-			this.name = data.name;
-			this.activity = data.activity;
+			this.name = data.name;			
 			this.lastBuildStatus = data.lastBuildStatus;
 			this.lastBuildLabel = data.lastBuildLabel;
 			this.lastBuildTime = data.lastBuildTime;
 			this.webUrl = data.webUrl;
+			this.activity = data.activity;
 		}
 		
 		public function hasChanged(project:DashboardProject):Boolean 
@@ -66,6 +68,20 @@ package be.nascom.airbob.vo
 			{				
 				_activity = value;
 				dispatchEvent(new Event(EVENT_ACTIVITY_CHANGE));
+			}
+		}
+		
+		public function get lastBuildStatus() : String 
+		{
+			return _lastBuildStatus;
+		}
+		
+		public function set lastBuildStatus(value : String) : void 
+		{
+			if (_lastBuildStatus!=value) 
+			{				
+				_lastBuildStatus = value;
+				dispatchEvent(new Event(EVENT_STATUS_CHANGE));
 			}
 		}
 		
