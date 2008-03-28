@@ -7,6 +7,7 @@ package be.nascom.airbob.vo
 	[Bindable]
 	[Table(name="serverconfig")]
 	public class ServerConfig extends EventDispatcher implements ValueObject {
+		
 		[Id]
 		public var id:int = 0;
 		public var url:String;	
@@ -19,7 +20,14 @@ package be.nascom.airbob.vo
 		
 		[Ignore]
 		public function get forceBuildUrl():String {
-			return url.replace("8080", "8000") + "/invoke";
+			if (url.indexOf("8080") > 0)
+			{
+				return url.replace("8080", "8000") + "/invoke";
+			} 
+			else
+			{
+				return url + ":8000";
+			}
 		}
 		
 		public function ServerConfig(url:String=null) {						

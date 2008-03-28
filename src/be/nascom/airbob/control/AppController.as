@@ -8,7 +8,6 @@ package be.nascom.airbob.control
 	import be.nascom.airbob.events.LoadConfigEvent;
 	import be.nascom.airbob.events.LoadProjectsEvent;
 	import be.nascom.airbob.model.AppModelLocator;
-	import be.nascom.airbob.vo.ServerConfig;
 	
 	import com.adobe.cairngorm.control.FrontController;
 	
@@ -66,10 +65,7 @@ package be.nascom.airbob.control
 		
 		private function onTimer(event:TimerEvent=null):void 
 		{
-	 		for each (var config:ServerConfig in AppModelLocator.getInstance().configs) 
-	 		{
-	    		new LoadProjectsEvent(config).dispatch();
-	  		}	
+    		new LoadProjectsEvent(AppModelLocator.getInstance().config).dispatch();
 	  	}
 		
 	}

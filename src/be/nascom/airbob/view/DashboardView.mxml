@@ -15,8 +15,8 @@
 	</mx:states>
 	
 	<mx:VBox width="100%" left="10" right="10" top="25" verticalGap="4">	
-		<mx:VBox width="100%" visible="false" includeInLayout="false">
-			<components:AirbobTextInput text="{model.configs.getItemAt(0).url}" color="White" width="100%" paddingLeft="2" paddingTop="2" paddingBottom="2" paddingRight="2"/>
+		<mx:VBox id="urlBox" width="100%" visible="false" includeInLayout="false">
+			<components:AirbobTextInput id="urlInput" text="{model.config.url}" color="White" width="100%" paddingLeft="2" paddingTop="2" paddingBottom="2" paddingRight="2"/>
 		</mx:VBox>		
 		<mx:Repeater id="projectRepeater" dataProvider="{model.projects}">
 			<view:DashboadProjectView project="{projectRepeater.currentItem}" currentState="{projectRepeater.currentItem.state}" />										
@@ -25,6 +25,7 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import be.nascom.airbob.events.SaveConfigEvent;
 			import mx.events.StateChangeEvent;
 			import be.nascom.airbob.model.AppModelLocator;
 			import mx.logging.Log;
@@ -58,6 +59,21 @@
 		  	{
 		  		calculateHeight(event.newState);
 		  	}
+		  	
+		  	public function handleUrlButtonClick(event:Event):void 
+		  	{
+		  		if (urlBox.visible)
+		  		{		  	
+		  			if (model.config.url!=urlInput.text) 
+		  			{	
+			  			model.config.url = urlInput.text;
+			  			new SaveConfigEvent().dispatch();
+		  			}
+		  		}
+		  		urlBox.visible = !urlBox.visible;
+		  		urlBox.includeInLayout = !urlBox.includeInLayout;
+		  		
+		  	}		  			  	
 		  	
 		  	private function calculateHeight(state:String):void
 		  	{

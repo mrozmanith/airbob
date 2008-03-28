@@ -19,10 +19,7 @@ package be.nascom.airbob.commands
 			try 
 			{		
 				entityManager.beginTransaction();
-				for each(var config:ServerConfig in model.configs)
-				{
-					entityManager.save(config);		
-				}	
+				entityManager.save(model.config);		
 				entityManager.commitTransaction();			
 			} 
 			catch (error:Error) 
