@@ -37,7 +37,8 @@ package be.nascom.airbob.model
         private var iconDisconnected:BitmapData;
         
         public var projects:ArrayCollection = new ArrayCollection();		
-        public var configs:ArrayCollection = new ArrayCollection();
+        //public var configs:ArrayCollection = new ArrayCollection();
+        public var config:ServerConfig;
         
 		public var settings:ApplicationConfig;	
         

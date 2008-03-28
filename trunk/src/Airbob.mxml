@@ -221,8 +221,8 @@
 	</mx:Style>	
 	
 	<mx:UIComponent id="bgContainer" width="100%" height="100%"/>
-	<mx:UIComponent id="urlButton" right="65" top="35" buttonMode="true" mouseChildren="false"/>
-	<mx:UIComponent id="favButton" right="30" top="35" buttonMode="true" mouseChildren="false"/>	
+	<mx:UIComponent id="urlButton" right="65" top="35" buttonMode="true" mouseChildren="false" toolTip="Add cruise control url" click="dashboardView.handleUrlButtonClick(event)"/>
+	<mx:UIComponent id="favButton" right="30" top="35" buttonMode="true" mouseChildren="false" toolTip="Show/Hide projects"/>	
 	
 	<mx:VBox width="100%" height="100%" >
 		<mx:Spacer height="0.5" width="100%"/>
@@ -234,10 +234,7 @@
 			<mx:Spacer width="2.5"/>
 		</mx:HBox> 
 		
-		<mx:ViewStack id="viewStack" selectedIndex="{model.selectedView}" width="100%" height="100%">		
-			<view:DashboardView id="dashboardView" width="100%" height="100%"/>
-			<view:ConfigView id="preferencesView" width="100%" height="100%"/>		
-		</mx:ViewStack>		
+		<view:DashboardView id="dashboardView" width="100%" height="100%"/>			
 		
 		<mx:Canvas width="100%">
 			<mx:Canvas right="20" width="70" height="20" click="navigateToURL(new URLRequest('http://www.nascom.be'))" buttonMode="true" mouseChildren="false"/>	

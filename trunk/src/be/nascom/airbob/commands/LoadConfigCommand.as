@@ -18,7 +18,7 @@ package be.nascom.airbob.commands
 			logger.debug("load config");						
 			try 
 			{		
-				model.configs = entityManager.findAll(ServerConfig);		
+				model.config = entityManager.findAll(ServerConfig).getItemAt(0) as ServerConfig;		
 			} 
 			catch (error:Error) 
 			{
