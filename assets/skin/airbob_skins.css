@@ -50,19 +50,6 @@ Application
 	backgroundImage: Embed(source="airbob_skins.swf",symbol="BackgroundImage");
 }
 
-ComboBox
-{
-
-	disabledSkin: Embed(source="airbob_skins.swf", symbol="ComboBoxArrow_disabledSkin");
-	downSkin: Embed(source="airbob_skins.swf", symbol="ComboBoxArrow_downSkin");
-	editableDisabledSkin: Embed(source="airbob_skins.swf", symbol="ComboBoxArrow_editableDisabledSkin");
-	editableDownSkin: Embed(source="airbob_skins.swf", symbol="ComboBoxArrow_editableDownSkin");
-	editableOverSkin: Embed(source="airbob_skins.swf", symbol="ComboBoxArrow_editableOverSkin");
-	editableUpSkin: Embed(source="airbob_skins.swf", symbol="ComboBoxArrow_editableUpSkin");
-	overSkin: Embed(source="airbob_skins.swf", symbol="ComboBoxArrow_overSkin");
-	upSkin: Embed(source="airbob_skins.swf", symbol="ComboBoxArrow_upSkin");
-}		
-
 Button
 {
 	disabledSkin: Embed(source="airbob_skins.swf", symbol="Button_disabledSkin");
@@ -105,71 +92,6 @@ WindowControlMinimize
 	upSkin: Embed(source="airbob_skins.swf", symbol="WindowControlMinimize_upSkin");
 }
 
-CheckBox
-{
-	disabledIcon: Embed(source="airbob_skins.swf", symbol="CheckBox_disabledIcon");
-	downIcon: Embed(source="airbob_skins.swf", symbol="CheckBox_downIcon");
-	overIcon: Embed(source="airbob_skins.swf", symbol="CheckBox_overIcon");
-	selectedDisabledIcon: Embed(source="airbob_skins.swf", symbol="CheckBox_selectedDisabledIcon");
-	selectedDownIcon: Embed(source="airbob_skins.swf", symbol="CheckBox_selectedDownIcon");
-	selectedOverIcon: Embed(source="airbob_skins.swf", symbol="CheckBox_selectedOverIcon");
-	selectedUpIcon: Embed(source="airbob_skins.swf", symbol="CheckBox_selectedUpIcon");
-	upIcon: Embed(source="airbob_skins.swf", symbol="CheckBox_upIcon");
-}		
-
- ColorPicker {
-      swatchPanelStyleName:mySwatchPanelStyle;
-  }
-  
-  .mySwatchPanelStyle {
-      backgroundColor:#E5E6E7;
-      columnCount:5;
-      horizontalGap:0;
-      previewHeight:22;
-      previewWidth:45;
-      swatchGridBackgroundColor:#000000;
-      swatchGridBorderSize:0;
-      swatchHeight:25;
-      swatchHighlightColor:#FFFFFF;
-      swatchHighlightSize:1;
-      swatchWidth:25;
-      textFieldWidth:72;
-      verticalGap:0;
-  }
-
-
-DividedBox
-{
-	dividerSkin: Embed(source="airbob_skins.swf",symbol="DividedBox_dividerSkin");
-	horizontalCursor: Embed(source="airbob_skins.swf",symbol="DividedBox_horizontalCursor");
-	verticalCursor: Embed(source="airbob_skins.swf",symbol="DividedBox_verticalCursor");
-}
-
-HDividedBox
-{
-	dividerSkin: Embed(source="airbob_skins.swf",symbol="DividedBox_dividerSkin");
-	horizontalCursor: Embed(source="airbob_skins.swf",symbol="DividedBox_horizontalCursor");
-	verticalCursor: Embed(source="airbob_skins.swf",symbol="DividedBox_verticalCursor");
-}
-
-DragManager
-{
-	copyCursor: Embed(source="airbob_skins.swf",symbol="DragManager_copyCursor");
-
-	defaultDragImageSkin: Embed(source="airbob_skins.swf", symbol="DragManager_defaultDragImageSkin");
-
-	linkCursor: Embed(source="airbob_skins.swf",symbol="DragManager_linkCursor");
-	moveCursor: Embed(source="airbob_skins.swf",symbol="DragManager_moveCursor");
-	rejectCursor: Embed(source="airbob_skins.swf",symbol="DragManager_rejectCursor");
-}
-
-Image
-{
-
-	brokenImageSkin: Embed(source="airbob_skins.swf",symbol="Loader_brokenImageSkin");
-
-}
-
 
 Panel
 {
@@ -182,6 +104,7 @@ Panel
 	titleBackgroundSkin: Embed(source="empty.swf", symbol="Panel_titleBackgroundSkin");
 
 }
+
 ProgressBar
 {
 

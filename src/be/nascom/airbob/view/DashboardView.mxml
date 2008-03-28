@@ -5,7 +5,7 @@
 	creationComplete="init()"
 	currentState="{model.connectedState}"
 	currentStateChange="handleCurrentStateChange(event)"
-	horizontalScrollPolicy="off" >
+	horizontalScrollPolicy="off" xmlns:components="be.nascom.airbob.view.components.*">
 	
 	<mx:states>
 		<mx:State name="connected">		
@@ -14,7 +14,10 @@
 		</mx:State>
 	</mx:states>
 	
-	<mx:VBox width="100%" left="10" right="10" top="20" verticalGap="4">	
+	<mx:VBox width="100%" left="10" right="10" top="25" verticalGap="4">	
+		<mx:VBox width="100%" visible="false" includeInLayout="false">
+			<components:AirbobTextInput text="{model.configs.getItemAt(0).url}" color="White" width="100%" paddingLeft="2" paddingTop="2" paddingBottom="2" paddingRight="2"/>
+		</mx:VBox>		
 		<mx:Repeater id="projectRepeater" dataProvider="{model.projects}">
 			<view:DashboadProjectView project="{projectRepeater.currentItem}" currentState="{projectRepeater.currentItem.state}" />										
 		</mx:Repeater>				
@@ -43,7 +46,7 @@
 		  	
 		  	private function init():void 
 		  	{
-		  		model.addEventListener(AppModelLocator.EVENT_MODEL_UPDATED, handleModelUpdated);
+		  		model.addEventListener(AppModelLocator.EVENT_MODEL_UPDATED, handleModelUpdated);		  				  		
 		  	}  
 		  	
 		  	private function handleModelUpdated(event:Event):void 
