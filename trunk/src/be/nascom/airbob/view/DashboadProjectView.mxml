@@ -30,6 +30,7 @@
 			private function init() :void 
 			{				
 				project.addEventListener(DashboardProject.EVENT_ACTIVITY_CHANGE, handleActivityChange);
+				project.addEventListener(DashboardProject.EVENT_STATUS_CHANGE, handleStatusChange);
 				
 				block = new ProjectBlock();	
 				block.gotoAndStop(project.state.toLowerCase());
@@ -48,6 +49,13 @@
 			}
 			
 			private function handleActivityChange(event:Event) :void 
+			{
+				currentState = project.state;
+				status.gotoAndStop(project.state.toLowerCase());
+				block.gotoAndStop(project.state.toLowerCase());
+			}
+			
+			private function handleStatusChange(event:Event) :void 
 			{
 				currentState = project.state;
 				status.gotoAndStop(project.state.toLowerCase());
@@ -86,7 +94,10 @@
 	</mx:Script>
 		
 	<mx:states>
-		<mx:State name="Success"/>
+		<mx:State name="Success">
+			<mx:SetProperty target="{forceBuildButton}" name="visible" value="true"/>
+			<mx:SetProperty target="{moreInfoButton}" name="visible" value="true"/>
+		</mx:State>
 		<mx:State name="Building">	
 			<mx:SetProperty target="{forceBuildButton}" name="visible" value="false"/>
 			<mx:SetProperty target="{labelInfo}" name="text" value="Building..." />			
@@ -95,7 +106,10 @@
 			<mx:SetProperty target="{forceBuildButton}" name="visible" value="false"/>
 			<mx:SetProperty target="{labelInfo}" name="text" value="Waiting for build" />			
 		</mx:State>
-		<mx:State name="Failure"/>
+		<mx:State name="Failure">
+			<mx:SetProperty target="{forceBuildButton}" name="visible" value="true"/>
+			<mx:SetProperty target="{moreInfoButton}" name="visible" value="true"/>
+		</mx:State>
 		<mx:State name="Inactive"/>
 		<mx:State name="ShowAllDisabled">
 			<mx:SetProperty target="{favoriteButton}" name="visible" value="true"/>
