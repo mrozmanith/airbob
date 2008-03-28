@@ -38,7 +38,7 @@
 			[Bindable]
 			private var model:AppModelLocator = AppModelLocator.getInstance();	
 			
-			private var background:AircampBackground;
+			private var background:AirbobBackground;
 			private var maximized:Boolean = false;
 			
 			/**
@@ -47,7 +47,7 @@
 			private function init():void 
 			{	
 				// Init background
-				background = new AircampBackground();			
+				background = new AirbobBackground();			
 				bgContainer.addChild(background);
 				resizeBackground();
 				

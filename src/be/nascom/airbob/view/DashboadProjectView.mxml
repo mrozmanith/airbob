@@ -129,14 +129,14 @@
 	</mx:states>
 	
 	<mx:UIComponent id="backgroundContainer" width="100%" height="100%"/>
-	<mx:UIComponent id="statusContainer" height="100%" x="2" y="2.5"/>
+	<mx:UIComponent id="statusContainer" height="100%" x="2" y="2.0"/>
 	
 	<vo:DashboardProject id="project" />
 	
 	<mx:Label id="labelProjectName" x="20" y="4" text="{project.name}" color="#333333" styleName="smallText" />
 	<mx:Label id="labelInfo" x="20" y="25" text="Last successfull build: {project.lastBuildTime.replace('T', ' ')}"  styleName="smallText" color="#333333"/>
 	
-	<mx:UIComponent id="forceBuildButton" y="10.5" right="55.5" buttonMode="true" mouseChildren="false" click="forceBuild()" toolTip="Force build"/>
-	<mx:UIComponent id="moreInfoButton" y="10.5" right="30.5" buttonMode="true" mouseChildren="false" click="openSite()" toolTip="More info"/>
-	<mx:UIComponent id="favoriteButton" y="10.5" right="30.5" buttonMode="true" mouseChildren="false" visible="false" toolTip="Add/remove favorite"/>
+	<mx:UIComponent id="forceBuildButton" y="11.5" right="48.5" buttonMode="true" mouseChildren="false" click="forceBuild()" toolTip="Force build"/>
+	<mx:UIComponent id="moreInfoButton" y="11.5" right="26.5" buttonMode="true" mouseChildren="false" click="openSite()" toolTip="More info"/>
+	<mx:UIComponent id="favoriteButton" y="11.5" right="70.5" buttonMode="true" mouseChildren="false" visible="false" toolTip="Add/remove favorite"/>
 </mx:Canvas>
