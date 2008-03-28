@@ -222,7 +222,7 @@
 		<mx:HBox id="fakeTitleBar" height="25" width="100%" horizontalAlign="right" horizontalGap="1">			
 			<mx:Canvas mouseDown="nativeWindow.startMove()" doubleClick="doMaxRestore()" width="100%" height="25" />
 			<chrome:WindowControlMinimize click="minimize()"/>
-			<chrome:WindowControlMaximize click="doMaxRestore() "/>
+			<!--<chrome:WindowControlMaximize click="doMaxRestore() "/>-->
 			<chrome:WindowControlExit click="close()"/>
 			<mx:Spacer width="2.5"/>
 		</mx:HBox> 
