@@ -42,7 +42,7 @@ THE SOFTWARE.
 			private var block:ProjectBlock;
 			private var status:ProjectStatus;
 			
-			private static var logger:ILogger = Log.getLogger("DashboardProjectView");
+			private static var logger:ILogger = Log.getLogger("DashboardProjectView");					
 			
 			private function openSite():void
 			{

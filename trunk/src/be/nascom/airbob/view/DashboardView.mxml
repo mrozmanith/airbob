@@ -51,6 +51,19 @@ THE SOFTWARE.
 		  	
 		  	private static var logger:ILogger = Log.getLogger("Dashboard");	
 		  	
+			private var _showAll:Boolean;
+			
+			[Bindable]
+			public function set showAll(value:Boolean):void
+			{
+				_showAll = value;
+			}
+			
+			public function get showAll():Boolean
+			{
+				return _showAll;
+			}
+		  	
 		  	private function init():void 
 		  	{
 		  		if (model.emptyConfig) 

@@ -41,6 +41,7 @@ package be.nascom.airbob.commands
 			logger.debug("load config");						
 			try 
 			{		
+				// TODO: Support for multiple cctray url's
 				model.config = entityManager.findAll(ServerConfig).getItemAt(0) as ServerConfig;		
 			} 
 			catch (error:Error) 

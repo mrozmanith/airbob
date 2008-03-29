@@ -43,7 +43,7 @@ package be.nascom.airbob.vo
 		public static const STATUS_SUCCESS:String = "Success";
 		public static const STATUS_BUILDING:String = "Building";
 		public static const STATUS_FAILURE:String = "Failure";		
-		public static const STATUS_INACTIVE:String = "Inactive";
+		public static const STATUS_INACTIVE:String = "Offline";
 		
 		public var name:String; 		 
 		 

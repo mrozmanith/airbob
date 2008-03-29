@@ -40,7 +40,10 @@ THE SOFTWARE.
 	doubleClickEnabled="true"
 	creationComplete="init()">
 	
+	<!--Initialize the Cairngorm Application Controller-->
 	<control:AppController id="controller" />
+	
+	<!--Initialize the Cairngorm Service Locator-->
 	<business:Services id="services"/>
 	
 	<mx:Script>
@@ -68,12 +71,12 @@ THE SOFTWARE.
 			 */
 			private function init():void 
 			{	
-				// Init background
+				// Init background asset from the 'airbob_assets.swc' file
 				background = new AirbobBackground();			
 				bgContainer.addChild(background);
 				resizeBackground();
 				
-				// Init buttons
+				// Init buttons assets from the 'airbob_assets.swc' file
 				urlButton.addChild(new UrlIcon());	  		
 		  		favButton.addChild(new FavIcon());
 				
@@ -83,6 +86,9 @@ THE SOFTWARE.
 		    			    		    			    			    
 		  	}
 		  	
+		  	/**
+		  	 * Override to resize the external assets
+		  	 * */
 		  	override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void 
 		  	{
 				super.updateDisplayList(unscaledWidth, unscaledHeight);
@@ -103,21 +109,24 @@ THE SOFTWARE.
 			}
 		  	
 		  	public function prepareForSystray(event:Event):void 
-		  	{	
-		  											
+		  	{			  										
 				if (NativeApplication.supportsSystemTrayIcon)
 				{
+					// Specific code for Microsoft Windows 
 					setSystemTrayProperties();
 					SystemTrayIcon(NativeApplication.nativeApplication.icon).menu = createSystrayRootMenu();	
 					NativeApplication.nativeApplication.icon.bitmaps = [model.trayIcon];				
 				} 
 				else if (NativeApplication.supportsDockIcon) 
 				{
-				    // For mac systems we can set the Dock menu
+				    // Specific code for Apple OSX
 				    DockIcon(NativeApplication.nativeApplication.icon).menu = createSystrayRootMenu();				
 				}														
 			}	
 			
+			/**
+			 * Create the systemtray / dock menu
+			 **/
 			private function createSystrayRootMenu():NativeMenu 
 			{
 				var menu:NativeMenu = new NativeMenu();
@@ -131,6 +140,7 @@ THE SOFTWARE.
 				
 				if (NativeApplication.supportsSystemTrayIcon)
 				{
+					// For mac don't add the exit to the dock menu
 					var exitNativeMenuItem:NativeMenuItem = new NativeMenuItem("Exit");
 					exitNativeMenuItem.addEventListener(Event.SELECT, closeApp);
 					menu.addItem(new NativeMenuItem("",true));
@@ -139,7 +149,7 @@ THE SOFTWARE.
 				
 				return menu;
 			}
-			
+						
 			private function setSystemTrayProperties():void 
 			{
 				SystemTrayIcon(NativeApplication.nativeApplication.icon).tooltip = "Airbob says: " + model.state;
@@ -172,11 +182,12 @@ THE SOFTWARE.
 			public function undock(event:Event):void 
 			{
 				stage.nativeWindow.visible = true;	
-				stage.nativeWindow.orderToFront();
-				
-				model.selectedView = AppModelLocator.VIEW_DASHBOARD;
+				stage.nativeWindow.orderToFront();			
 			}
 			
+			/**
+			 * Minimize to systray if the OS is Windows / close of the OS is OSX
+			 * */
 			private function closingApplication(event:Event):void 
 			{	
 				logger.debug("Closing application");			
@@ -191,6 +202,9 @@ THE SOFTWARE.
 				}
 			}				
 			
+			/**
+			 * Close the application
+			 * */
 			private function closeApp(event:Event):void 
 			{
 				stage.nativeWindow.close();
@@ -223,23 +237,37 @@ THE SOFTWARE.
 		
 	</mx:Style>	
 	
+	<!--Airbob background container-->
 	<mx:UIComponent id="bgContainer" width="100%" height="100%"/>
-	<mx:UIComponent id="urlButton" alpha="{dashboardView.urlBox.visible?0.5:1}" right="65" top="35" buttonMode="true" mouseChildren="false" toolTip="Add cruise control url" click="dashboardView.handleUrlButtonClick(event)"/>
-	<mx:UIComponent id="favButton" right="30" top="35" buttonMode="true" mouseChildren="false" toolTip="Show/Hide projects"/>	
+	
+	<!--Url Button-->
+	<mx:UIComponent id="urlButton" right="65" top="35" buttonMode="true" mouseChildren="false"
+		alpha="{dashboardView.urlBox.visible?0.5:1}"  
+		toolTip="{dashboardView.urlBox.visible?'Hide cruise control url':'Show cruise control url'}" 
+		click="dashboardView.handleUrlButtonClick(event)"/>
+	
+	<!--Favorite Button-->
+	<mx:UIComponent id="favButton" right="30" top="35" buttonMode="true" mouseChildren="false"
+		alpha="{dashboardView.showAll?0.5:1}"
+		toolTip="{dashboardView.showAll?'Show favorite projects':'Show all projects'}" 
+		click="dashboardView.showAll=!dashboardView.showAll"/>	
 	
 	<mx:VBox width="100%" height="100%" >
 		
 		<mx:Spacer height="0.5" width="100%"/>
 		
-		<mx:HBox id="fakeTitleBar" height="25" width="100%" horizontalAlign="right" horizontalGap="1">			
+		<!--Custom Chrome Titlebar-->
+		<mx:HBox id="customChrome" height="25" width="100%" horizontalAlign="right" horizontalGap="1">			
 			<mx:Canvas mouseDown="nativeWindow.startMove()" width="100%" height="25" />
 			<chrome:WindowControlMinimize click="minimize()"/>
 			<chrome:WindowControlExit click="close()"/>
 			<mx:Spacer width="2.5"/>
 		</mx:HBox> 
 		
-		<view:DashboardView id="dashboardView" width="100%" height="100%"/>			
+		<!--The view with the project info-->
+		<view:DashboardView id="dashboardView" width="100%" height="100%"/>
 		
+		<!--Footer-->
 		<mx:Canvas width="100%">
 			<mx:Canvas right="20" width="70" height="20" click="navigateToURL(new URLRequest('http://www.nascom.be'))" buttonMode="true" mouseChildren="false"/>	
 		</mx:Canvas>

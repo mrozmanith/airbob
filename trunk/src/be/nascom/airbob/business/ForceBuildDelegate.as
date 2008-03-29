@@ -28,12 +28,16 @@ package be.nascom.airbob.business
 	
 	import com.adobe.cairngorm.business.ServiceLocator;
 	
+	import mx.logging.ILogger;
+	import mx.logging.Log;
 	import mx.rpc.AsyncToken;
 	import mx.rpc.IResponder;
 	import mx.rpc.http.HTTPService;
 	
 	public class ForceBuildDelegate 
 	{
+		private var logger:ILogger = Log.getLogger("ForceBuildDelegate");
+		
 		private var command:IResponder;
 		private var service:HTTPService;
 		
@@ -48,7 +52,9 @@ package be.nascom.airbob.business
 
 		public function send():void 
 		{		
+			// Create the force build request
 			this.service.url = project.config.forceBuildUrl + "?operation=build&objectname=CruiseControl+Project%3Aname%3D" + project.name;
+			logger.debug("calling " + this.service.url);
 			var token:AsyncToken = service.send();
 			token.addResponder(command);
 		}

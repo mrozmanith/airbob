@@ -59,10 +59,12 @@ package be.nascom.airbob.commands
 			{
 				if (rpcEvent.result.Projects.Project is ArrayCollection) 
 				{
+					// If the service returns mutiple projects
 		 			model.update(rpcEvent.result.Projects.Project, config);
 	 			} 
 	 			else 
 	 			{
+	 				// If the service returns only one project
 	 				var projects:ArrayCollection = new ArrayCollection();
 	 				projects.addItem(rpcEvent.result.Projects.Project);
 	 				model.update(projects, config);		 				

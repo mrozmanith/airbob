@@ -41,6 +41,7 @@ package be.nascom.airbob.model
 	public class AppModelLocator extends EventDispatcher implements IModelLocator 
 	{
 		private static var logger:ILogger = Log.getLogger("AppModelLocator");		
+		
 		private static var model:AppModelLocator;						
         
         [Embed(source="../../../../../assets/icons/systray_success.png")]
@@ -60,16 +61,11 @@ package be.nascom.airbob.model
         private var iconDisconnected:BitmapData;
         
         public var projects:ArrayCollection = new ArrayCollection();		
-        public var config:ServerConfig;
-        
+        public var config:ServerConfig;        
 		public var settings:ApplicationConfig;	
         
         public var connectedState:String = STATE_DISCONNECTED;
-        public var state:String = "Connecting...";        
-        public var selectedView:int = VIEW_DASHBOARD;
-        
-        public static const VIEW_DASHBOARD:int = 0;
-        public static const VIEW_PREFERENCES:int = 1;
+        public var state:String = "Offline";        
         
         public static const STATE_CONNECTED:String = "connected";
         public static const STATE_DISCONNECTED:String = "disconnected";
@@ -85,11 +81,14 @@ package be.nascom.airbob.model
 			{
 				throw new Error( "Only one ModelLocator instance should be instantiated" );
 			}
+			
+			// Initialze icons for the system tray icon
 			iconSuccess = new IconSuccess().bitmapData;
         	iconBuilding = new IconBuilding().bitmapData;
         	iconFailure = new IconFailure().bitmapData;
         	iconDisconnected = new IconDisconnected().bitmapData;
         	
+        	// Init 
         	settings = new ApplicationConfig();      
         	config = new ServerConfig();  	   	
 		}
@@ -107,11 +106,17 @@ package be.nascom.airbob.model
 			return model;
 		}
 		
+		/**
+		 * Returns true if there is no url configured for the app
+		 * */
 		public function get emptyConfig():Boolean
 		{
 			return (model.config==null || model.config.url==null || model.config.url=="");
 		}
 		
+		/**
+		 * Returns the current tray icon
+		 * */
 		public function get trayIcon():BitmapData
 		{			
 			switch(state) 
@@ -125,13 +130,18 @@ package be.nascom.airbob.model
 	  		}
 	  		return iconDisconnected;		
 		}
-		
+		/**
+		 * Clears the current model
+		 * */
 		public function clear():void
 		{
 			projects.removeAll();
 			changeState();
 		}
 		
+		/**
+		 * Updates the model
+		 * */
 		public function update(data:Object, config:ServerConfig):void 
 		{			
 			if (projects.length!=data.length)
@@ -145,6 +155,9 @@ package be.nascom.airbob.model
 		   	model.connectedState = STATE_CONNECTED;		   		
 		}
 		
+		/**
+		 * Initializes the model
+		 * */
 		private function initModel(data:Object, config:ServerConfig):void 
 		{	
 			for(var i:uint=0; i < data.length; i++) 
@@ -156,6 +169,9 @@ package be.nascom.airbob.model
 	   		changeState();	
 		}
 		
+		/**
+		 * Upate only the changed projects
+		 * */
 		private function updateModel(data:Object, config:ServerConfig):void 
 		{
 			for(var i:uint=0; i < data.length; i++) 
@@ -179,6 +195,9 @@ package be.nascom.airbob.model
 	   		}
 		}	
 		
+		/**
+		 * Changes the current model state
+		 * */
 		private function changeState():void 
 		{
 			var stateSuccess:int = 0;
