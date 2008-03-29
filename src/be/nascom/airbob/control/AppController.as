@@ -56,17 +56,24 @@ package be.nascom.airbob.control
 		
 		public function AppController() 
 		{			
+			// Initialize the Cairngorm Events/Commands
 			addCommand(FORCE_BUILD_EVENT, ForceBuildCommand);
 			addCommand(LOAD_PROJECTS_EVENT, LoadProjectsCommand);
 			addCommand(LOAD_CONFIG_EVENT, LoadConfigCommand);
 			addCommand(SAVE_CONFIG_EVENT, SaveConfigCommand);
 			
+			// Load the configuration
 			new LoadConfigEvent().dispatch();
+			
+			// Initialze
 			initLogging();
 			initPolling();			
 			
 		}
 		
+		/**
+		 * Initialize the Flex logging framework
+		 * */
 		private function initLogging():void 
 		{
 			// Add file logger
@@ -75,13 +82,16 @@ package be.nascom.airbob.control
 			fileTarget.includeTime = true;
 			fileTarget.includeLevel = true;
 			fileTarget.includeCategory = true;
-			fileTarget.level = LogEventLevel.ALL;
+			fileTarget.level = LogEventLevel.INFO;
 			
 			// Add the target
 			Log.addTarget(fileTarget);
 			logger.info("File Logging Active:" + new File(fileTarget.logURI).nativePath);	
 		}
 		
+		/**
+		 * Init the command that will poll the cruise control service
+		 * */
 		private function initPolling():void 
 		{
 			var timer:Timer = new Timer(model.settings.interval);
@@ -89,6 +99,9 @@ package be.nascom.airbob.control
 			timer.start();
 		}
 		
+		/**
+		 * Retrieve the project info from the cruise control server
+		 * */
 		private function onTimer(event:TimerEvent=null):void 
 		{
 			if (!model.emptyConfig)

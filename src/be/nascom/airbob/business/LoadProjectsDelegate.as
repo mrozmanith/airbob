@@ -47,9 +47,10 @@ package be.nascom.airbob.business
 		}
 
 		public function send(config:ServerConfig):void 
-		{		
-			logger.debug("calling " + config.ccTrayUrl);
+		{	
+			// Create the cctray.xml request				
 			this.service.url = config.ccTrayUrl;
+			logger.debug("calling " + this.service.url);
 			var token:AsyncToken = service.send();
 			token.addResponder(command);
 		}

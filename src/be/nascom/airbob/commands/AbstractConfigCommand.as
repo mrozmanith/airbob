@@ -43,7 +43,8 @@ package be.nascom.airbob.commands
 		
 		protected var model:AppModelLocator = AppModelLocator.getInstance();			
 		
-		protected var entityManager:EntityManager;		
+		protected static var entityManager:EntityManager;
+				
 		protected var connection:SQLConnection;
 		
 		public function prepare():void 
@@ -54,10 +55,14 @@ package be.nascom.airbob.commands
 			{
 				logger.warn("create new config database")
 			}
-			connection = new SQLConnection();
-			connection.open(dbFile);	
-			entityManager = new EntityManager();
-			entityManager.sqlConnection = connection;
+			
+			if (entityManager==null)
+			{
+				connection = new SQLConnection();
+				connection.open(dbFile);	
+				entityManager = new EntityManager();
+				entityManager.sqlConnection = connection;
+			}			
 		}
 
 	}
