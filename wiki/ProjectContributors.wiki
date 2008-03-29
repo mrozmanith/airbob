@@ -3,4 +3,4 @@
 == Project Owners ==
 
   * [http://www.linkedin.com/in/alainhufkens Alain Hufkens] (Developer)
-  * [http://www.linkedin.com/in/kristofsaelen Kristof Saelen] (Designer)
+  * [http://kristofsaelen.com/ Kristof Saelen] (Designer)
