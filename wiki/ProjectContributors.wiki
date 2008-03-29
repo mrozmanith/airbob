@@ -1,0 +1,10 @@
+#summary The people who build Airbob.
+
+= Contributors =
+
+The people who build Airbob.
+
+== Project Owners ==
+
+* Alain Hufkens (Developer)
+* Krisof Saelen (Designer)
