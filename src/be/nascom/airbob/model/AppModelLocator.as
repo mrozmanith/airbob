@@ -64,11 +64,12 @@ package be.nascom.airbob.model
         public var config:ServerConfig;        
 		public var settings:ApplicationConfig;	
         
-        public var connectedState:String = STATE_DISCONNECTED;
-        public var state:String = "Offline";        
+        public var connectedState:String = STATE_CONNECTING;
+        public var state:String = "Disconnected";        
         
         public static const STATE_CONNECTED:String = "connected";
         public static const STATE_DISCONNECTED:String = "disconnected";
+        public static const STATE_CONNECTING:String = "connecting";
         
         public static const EVENT_MODEL_UPDATED:String = "EVENT_MODEL_UPDATED";
 		
@@ -160,6 +161,7 @@ package be.nascom.airbob.model
 		 * */
 		private function initModel(data:Object, config:ServerConfig):void 
 		{	
+			projects.removeAll();
 			for(var i:uint=0; i < data.length; i++) 
 			{
 				var project:DashboardProject = new DashboardProject(data[i]);

@@ -39,15 +39,12 @@ THE SOFTWARE.
 			import caurina.transitions.Tweener;
 			import mx.core.Window;
 			
+			private var _showAll:Boolean;
+			
 			private var block:ProjectBlock;
 			private var status:ProjectStatus;
 			
-			private static var logger:ILogger = Log.getLogger("DashboardProjectView");					
-			
-			private function openSite():void
-			{
-				navigateToURL(new URLRequest(project.webUrl));
-			}
+			private static var logger:ILogger = Log.getLogger("DashboardProjectView");	
 			
 			private function init() :void 
 			{				
@@ -69,6 +66,28 @@ THE SOFTWARE.
 				
 				resize();
 			}
+						
+			[Bindable]
+			public function set showAll(value:Boolean):void
+			{
+				_showAll = value;
+				updateViewState();
+			}
+			
+			public function get showAll():Boolean
+			{
+				return _showAll;
+			}
+			
+			private function updateViewState():void
+			{
+				if (_showAll&&project.isFavorite) currentState = "ShowAllEnabled";
+				else if (_showAll&&!project.isFavorite) currentState = "ShowAllDisabled";
+				else currentState = project.state;
+				
+				if (_showAll) visible = includeInLayout = true;
+				else visible = includeInLayout = project.isFavorite;								
+			}									
 			
 			private function handleActivityChange(event:Event) :void 
 			{
@@ -106,11 +125,22 @@ THE SOFTWARE.
 				resize();
 			}											
 			
-			private function forceBuild():void 
+			private function handleForceBuildClick():void 
 			{
 				currentState = "WaitingForBuild";
 				new ForceBuildEvent(project).dispatch();	
-			}				
+			}	
+			
+			private function handleMoreInfoClick():void
+			{
+				navigateToURL(new URLRequest(project.webUrl));
+			}	
+			
+			private function handleFavoriteClick():void
+			{
+				project.isFavorite = !project.isFavorite;
+				updateViewState();
+			}			
 
 		]]>
 	</mx:Script>
@@ -158,7 +188,15 @@ THE SOFTWARE.
 	<mx:Label id="labelProjectName" x="20" y="4" text="{project.name}" color="#333333" styleName="smallText" />
 	<mx:Label id="labelInfo" x="20" y="25" text="Last successfull build: {project.lastBuildTime.replace('T', ' ')}"  styleName="smallText" color="#333333"/>
 	
-	<mx:UIComponent id="forceBuildButton" y="11.5" right="48.5" buttonMode="true" mouseChildren="false" click="forceBuild()" toolTip="Force build"/>
-	<mx:UIComponent id="moreInfoButton" y="11.5" right="26.5" buttonMode="true" mouseChildren="false" click="openSite()" toolTip="More info"/>
-	<mx:UIComponent id="favoriteButton" y="11.5" right="70.5" buttonMode="true" mouseChildren="false" visible="false" toolTip="Add/remove favorite"/>
+	<mx:UIComponent id="forceBuildButton" 
+		y="11.5" right="48.5" buttonMode="true" mouseChildren="false" 
+		click="handleForceBuildClick()" 
+		toolTip="Force build"/>
+		
+	<mx:UIComponent id="moreInfoButton" y="11.5" right="26.5" buttonMode="true" mouseChildren="false" 
+		click="handleMoreInfoClick()" toolTip="More info"/>
+		
+	<mx:UIComponent id="favoriteButton" y="11.5" right="26.5" buttonMode="true" mouseChildren="false" 
+		click="handleFavoriteClick()" visible="false"		
+		toolTip="{project.isFavorite?'Remove favorite':'Add favorite'}"/>
 </mx:Canvas>

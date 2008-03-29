@@ -27,7 +27,9 @@ THE SOFTWARE.
 	creationComplete="init()"
 	currentState="{model.connectedState}"
 	currentStateChange="handleCurrentStateChange(event)"
-	horizontalScrollPolicy="off" xmlns:components="be.nascom.airbob.view.components.*">		
+	horizontalScrollPolicy="off" 
+	verticalScrollPolicy="off"
+	xmlns:components="be.nascom.airbob.view.components.*">		
 	
 	<mx:Script>
 		<![CDATA[
@@ -45,9 +47,7 @@ THE SOFTWARE.
 		  	public var model:AppModelLocator = AppModelLocator.getInstance();
 		  	
 		  	[Bindable]
-		  	private var connectedText:String;
-		  	
-		  	private var blockHeight:int = 50;
+		  	private var connectedText:String;		  			  	
 		  	
 		  	private static var logger:ILogger = Log.getLogger("Dashboard");	
 		  	
@@ -57,6 +57,7 @@ THE SOFTWARE.
 			public function set showAll(value:Boolean):void
 			{
 				_showAll = value;
+				calculateHeight(currentState);
 			}
 			
 			public function get showAll():Boolean
@@ -75,7 +76,7 @@ THE SOFTWARE.
 		  	
 		  	private function handleModelUpdated(event:Event):void 
 		  	{
-		  		calculateHeight("connected");
+		  		calculateHeight(currentState);
 		  	}		  
 		  	
 		  	private function handleCurrentStateChange(event:StateChangeEvent):void 
@@ -84,8 +85,7 @@ THE SOFTWARE.
 		  	}
 		  	
 		  	public function handleUrlButtonClick(event:Event=null):void 
-		  	{
-		  				  	
+		  	{		  				  	
 		  		if (urlBox.visible)
 		  		{		  	
 		  			if (model.config.url!=urlInput.text) 
@@ -95,20 +95,24 @@ THE SOFTWARE.
 		  			}		  			 
 		  		}
 		  		urlBox.visible = !urlBox.visible;
-		  		urlBox.includeInLayout = !urlBox.includeInLayout;		  		
+		  		urlBox.includeInLayout = !urlBox.includeInLayout;			  		
+		  		calculateHeight(currentState);	  		
 		  	}		  			  	
 		  	
 		  	private function calculateHeight(state:String):void
 		  	{
-		  		var appHeight:int = blockHeight;
+		  		var appHeight:int = 75;
+		  		var blockHeight:int = 45;
 	  			if (state=="disconnected") 
 		  		{
 		  			this.parentApplication.height=appHeight;
 		  		} 
 		  		else 
 		  		{
-		  			appHeight+=((blockHeight)*(model.projects.length+1));
+		  			appHeight+=((blockHeight)*(model.projects.length+1));		  			
+		  			if (urlBox.visible) appHeight+=28;
 		  			this.parentApplication.height=appHeight;
+		  			
 		  		}	
 		  		logger.debug("Calculate height: " + appHeight);
 		  	}	
@@ -118,20 +122,47 @@ THE SOFTWARE.
 	
 	<mx:states>
 		<mx:State name="connected">		
+			<mx:RemoveChild target="{progressbarConnecting}"/>
+			<mx:RemoveChild target="{labelConnecting}"/>
+			<mx:RemoveChild target="{labelDisconnected}"/>		
 		</mx:State>
 		<mx:State name="disconnected">		
+			<mx:RemoveChild target="{progressbarConnecting}"/>
+			<mx:RemoveChild target="{labelConnecting}"/>
+		</mx:State>
+		<mx:State name="connecting">
+			<mx:RemoveChild target="{labelDisconnected}"/>
+			<mx:RemoveChild target="{projectRepeater}"/>
+			<mx:RemoveChild target="{urlBox}"/>
 		</mx:State>
 	</mx:states>
 	
-	<mx:VBox width="100%" left="10" right="10" top="25" verticalGap="4">	
+	<mx:VBox width="100%" left="10" right="10" top="25" verticalGap="4" id="vbox1" >
+		
+		<!--Components visible in 'connected' state-->
 		<mx:HBox id="urlBox" width="100%" visible="false" includeInLayout="false">
 			<components:AirbobTextInput id="urlInput" text="{model.config.url}" color="White" width="100%" paddingLeft="2" paddingTop="2" paddingBottom="2" paddingRight="2"/>
 		</mx:HBox>	 	
 		
-		<mx:Repeater id="projectRepeater" dataProvider="{model.projects}">
-			<view:DashboadProjectView project="{projectRepeater.currentItem}" currentState="{projectRepeater.currentItem.state}" />										
-		</mx:Repeater>			
-						
+		<!--Components visible in 'connecting' state-->
+		<mx:Label text="Connecting..." toolTip="Connecting to {model.config.url}..." color="#FFFFFF" id="labelConnecting" paddingTop="10" paddingLeft="10"/>
+		<mx:ProgressBar indeterminate="true" id="progressbarConnecting" width="{labelConnecting.width}" label="" paddingLeft="10"/>			
+		
+		<!--Components visible in 'disconnected' state-->		
+		<mx:Label text="Airbob can't connect to the cruise control server." color="#FFFFFF" id="labelDisconnected" paddingLeft="10" paddingTop="20"/>
+		
+		<mx:Canvas id="scrollbarCanvas" width="100%" horizontalScrollPolicy="off" >
+			<mx:VBox width="100%" left="0" right="0" top="0" verticalGap="4" id="vbox2">
+				<mx:Repeater id="projectRepeater" dataProvider="{model.projects}">
+					<view:DashboadProjectView 
+						id="dashboadprojectview"
+						project="{projectRepeater.currentItem}" 
+						currentState="{projectRepeater.currentItem.state}" 
+						showAll="{showAll}"/>										
+				</mx:Repeater>			
+			</mx:VBox>	
+		</mx:Canvas>
+		
 	</mx:VBox>
 	
 </mx:Canvas>
