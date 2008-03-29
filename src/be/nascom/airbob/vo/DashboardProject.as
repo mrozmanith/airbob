@@ -1,3 +1,26 @@
+/*
+Copyright (c) 2008 Airbob Contributors.  See:
+    http://code.google.com/p/airbob/wiki/ProjectContributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+
 package be.nascom.airbob.vo
 {
 	import com.adobe.cairngorm.vo.ValueObject;
@@ -32,8 +55,7 @@ package be.nascom.airbob.vo
 		
 		private var _state:String;
 		private var _activity:String;
-		private var _lastBuildStatus:String;
-		
+		private var _lastBuildStatus:String;		
 		
 		private static var logger:ILogger = Log.getLogger("DashboardProject");
 		
@@ -44,12 +66,13 @@ package be.nascom.airbob.vo
 		{ 
 			if (data==null) return;
 			
-			this.name = data.name;			
-			this.lastBuildStatus = data.lastBuildStatus;
+			this.name = data.name;						
 			this.lastBuildLabel = data.lastBuildLabel;
 			this.lastBuildTime = data.lastBuildTime;
 			this.webUrl = data.webUrl;
-			this.activity = data.activity;
+			
+			this._lastBuildStatus = data.lastBuildStatus;
+			this._activity = data.activity;
 		}
 		
 		public function hasChanged(project:DashboardProject):Boolean 
@@ -65,8 +88,9 @@ package be.nascom.airbob.vo
 		public function set activity(value : String) : void 
 		{
 			if (_activity!=value) 
-			{				
-				_activity = value;
+			{	
+				logger.debug("dispatch event:" + EVENT_ACTIVITY_CHANGE + " old:" + _activity + " new:" + value);			
+				_activity = value;				
 				dispatchEvent(new Event(EVENT_ACTIVITY_CHANGE));
 			}
 		}
@@ -80,6 +104,7 @@ package be.nascom.airbob.vo
 		{
 			if (_lastBuildStatus!=value) 
 			{				
+				logger.debug("dispatch event:" + EVENT_STATUS_CHANGE + " old:" + _activity + " new:" + value);
 				_lastBuildStatus = value;
 				dispatchEvent(new Event(EVENT_STATUS_CHANGE));
 			}
