@@ -2,5 +2,5 @@
 
 == Project Owners ==
 
-  * Alain Hufkens (Developer)
-  * Kristof Saelen (Designer)
+  * [http://www.linkedin.com/in/alainhufkens Alain Hufkens] (Developer)
+  * [http://www.linkedin.com/in/kristofsaelen Kristof Saelen] (Designer)
