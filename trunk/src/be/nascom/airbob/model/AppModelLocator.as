@@ -1,3 +1,26 @@
+/*
+Copyright (c) 2008 Airbob Contributors.  See:
+    http://code.google.com/p/airbob/wiki/ProjectContributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+
 package be.nascom.airbob.model
 {
 	import be.nascom.airbob.vo.ApplicationConfig;
@@ -37,7 +60,6 @@ package be.nascom.airbob.model
         private var iconDisconnected:BitmapData;
         
         public var projects:ArrayCollection = new ArrayCollection();		
-        //public var configs:ArrayCollection = new ArrayCollection();
         public var config:ServerConfig;
         
 		public var settings:ApplicationConfig;	
@@ -68,7 +90,8 @@ package be.nascom.airbob.model
         	iconFailure = new IconFailure().bitmapData;
         	iconDisconnected = new IconDisconnected().bitmapData;
         	
-        	settings = new ApplicationConfig();        	   	
+        	settings = new ApplicationConfig();      
+        	config = new ServerConfig();  	   	
 		}
 
 		/**
@@ -82,6 +105,11 @@ package be.nascom.airbob.model
 				model = new AppModelLocator();								
 			}
 			return model;
+		}
+		
+		public function get emptyConfig():Boolean
+		{
+			return (model.config==null || model.config.url==null || model.config.url=="");
 		}
 		
 		public function get trayIcon():BitmapData
@@ -98,6 +126,11 @@ package be.nascom.airbob.model
 	  		return iconDisconnected;		
 		}
 		
+		public function clear():void
+		{
+			projects.removeAll();
+			changeState();
+		}
 		
 		public function update(data:Object, config:ServerConfig):void 
 		{			
@@ -151,7 +184,7 @@ package be.nascom.airbob.model
 			var stateSuccess:int = 0;
 			var stateFailure:int = 0;
 			var stateBuilding:int = 0;
-			var stateOther:int = 0;
+			var stateOther:int = 1;
 			
 			for(var i:uint=0; i < projects.length; i++) 
 			{
@@ -166,11 +199,7 @@ package be.nascom.airbob.model
 				else if (DashboardProject(projects[i]).state == DashboardProject.STATUS_SUCCESS) 
 				{
 					stateSuccess++;
-				} 
-				else 
-				{
-					stateOther++;
-				}
+				} 				
 			}	
 			
 			if (stateOther>0) state = DashboardProject.STATUS_INACTIVE;
