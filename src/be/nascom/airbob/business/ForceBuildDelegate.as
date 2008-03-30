@@ -24,7 +24,7 @@ THE SOFTWARE.
 package be.nascom.airbob.business
 {
 	import be.nascom.airbob.commands.ForceBuildCommand;
-	import be.nascom.airbob.vo.DashboardProject;
+	import be.nascom.airbob.vo.Project;
 	
 	import com.adobe.cairngorm.business.ServiceLocator;
 	
@@ -41,7 +41,7 @@ package be.nascom.airbob.business
 		private var command:IResponder;
 		private var service:HTTPService;
 		
-		private var project:DashboardProject;
+		private var project:Project;
 
 		public function ForceBuildDelegate( command:IResponder ) 
 		{

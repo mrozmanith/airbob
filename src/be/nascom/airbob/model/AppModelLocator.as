@@ -24,7 +24,7 @@ THE SOFTWARE.
 package be.nascom.airbob.model
 {
 	import be.nascom.airbob.vo.ApplicationConfig;
-	import be.nascom.airbob.vo.DashboardProject;
+	import be.nascom.airbob.vo.Project;
 	import be.nascom.airbob.vo.ServerConfig;
 	
 	import com.adobe.cairngorm.model.IModelLocator;
@@ -59,8 +59,9 @@ package be.nascom.airbob.model
         [Embed(source="../../../../../assets/icons/systray_disconnected.png")]
         private var IconDisconnected:Class;
         private var iconDisconnected:BitmapData;
-        
-        public var projects:ArrayCollection = new ArrayCollection();		
+                
+        public var projects:ArrayCollection = new ArrayCollection();
+        public var favoriteProjectLength:int = 0;                		
         public var config:ServerConfig;        
 		public var settings:ApplicationConfig;	
         
@@ -122,11 +123,11 @@ package be.nascom.airbob.model
 		{			
 			switch(state) 
 			{
-	  			case DashboardProject.STATUS_SUCCESS:
+	  			case Project.STATUS_SUCCESS:
 	  				return iconSuccess;
-	  			case DashboardProject.STATUS_BUILDING:
+	  			case Project.STATUS_BUILDING:
 	  				return iconBuilding;
-	  			case DashboardProject.STATUS_FAILURE:
+	  			case Project.STATUS_FAILURE:
 	  				return iconFailure;	  					  	
 	  		}
 	  		return iconDisconnected;		
@@ -137,7 +138,7 @@ package be.nascom.airbob.model
 		public function clear():void
 		{
 			projects.removeAll();
-			changeState();
+			refreshState();
 		}
 		
 		/**
@@ -164,11 +165,11 @@ package be.nascom.airbob.model
 			projects.removeAll();
 			for(var i:uint=0; i < data.length; i++) 
 			{
-				var project:DashboardProject = new DashboardProject(data[i]);
+				var project:Project = new Project(data[i]);
 				project.config = config;
 	   			projects.addItem(project);
 	   		}
-	   		changeState();	
+	   		refreshState();	
 		}
 		
 		/**
@@ -178,7 +179,7 @@ package be.nascom.airbob.model
 		{
 			for(var i:uint=0; i < data.length; i++) 
 			{
-	   			var project:DashboardProject = new DashboardProject(data[i]);
+	   			var project:Project = new Project(data[i]);
 	   			for(var j:uint=0; j < projects.length; j++) 
 	   			{
 	   				if (projects[j].name==project.name) 
@@ -189,45 +190,52 @@ package be.nascom.airbob.model
 		   					projects[j].activity = project.activity;		   		
 		   					projects[j].lastBuildLabel = project.lastBuildLabel;
 		   					projects[j].lastBuildStatus = project.lastBuildStatus;
-		   					projects[j].lastBuildTime = project.lastBuildTime;
-		   					changeState();					   					
+		   					projects[j].lastBuildTime = project.lastBuildTime;		   									   				
 		   				}
 	   				}
 	   			}
 	   		}
+	   		refreshState();	
 		}	
 		
 		/**
 		 * Changes the current model state
 		 * */
-		private function changeState():void 
+		public function refreshState():void 
 		{
 			var stateSuccess:int = 0;
 			var stateFailure:int = 0;
 			var stateBuilding:int = 0;
 			var stateOther:int = 1;
+			favoriteProjectLength = 0;
 			
 			for(var i:uint=0; i < projects.length; i++) 
 			{
-				if (DashboardProject(projects[i]).state == DashboardProject.STATUS_FAILURE) 
+				var project:Project = Project(projects[i]);
+				if (project.isFavorite)
 				{
-					stateFailure++;	
-				} 
-				else if (DashboardProject(projects[i]).state == DashboardProject.STATUS_BUILDING) 
-				{
-					stateBuilding++;	
-				} 
-				else if (DashboardProject(projects[i]).state == DashboardProject.STATUS_SUCCESS) 
-				{
-					stateSuccess++;
+					favoriteProjectLength++;
+					if (project.state == Project.STATUS_FAILURE) 
+					{
+						stateFailure++;	
+					} 
+					else if (project.state == Project.STATUS_BUILDING) 
+					{
+						stateBuilding++;	
+					} 
+					else if (project.state == Project.STATUS_SUCCESS) 
+					{
+						stateSuccess++;
+					}
 				} 				
 			}	
 			
-			if (stateOther>0) state = DashboardProject.STATUS_INACTIVE;
-			if (stateSuccess>0) state = DashboardProject.STATUS_SUCCESS;
-			if (stateFailure>0) state = DashboardProject.STATUS_FAILURE;
-			if (stateBuilding>0) state = DashboardProject.STATUS_BUILDING;
+			if (stateOther>0) state = Project.STATUS_INACTIVE;
+			if (stateSuccess>0) state = Project.STATUS_SUCCESS;
+			if (stateFailure>0) state = Project.STATUS_FAILURE;
+			if (stateBuilding>0) state = Project.STATUS_BUILDING;
 			
+			logger.debug("model stated: " + state);
 			dispatchEvent(new Event(EVENT_MODEL_UPDATED));
 		}				
 

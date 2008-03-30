@@ -82,7 +82,7 @@ package be.nascom.airbob.control
 			fileTarget.includeTime = true;
 			fileTarget.includeLevel = true;
 			fileTarget.includeCategory = true;
-			fileTarget.level = LogEventLevel.INFO;
+			fileTarget.level = LogEventLevel.ALL;
 			
 			// Add the target
 			Log.addTarget(fileTarget);

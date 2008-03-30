@@ -24,21 +24,21 @@ THE SOFTWARE.
 package be.nascom.airbob.events
 {
 	import be.nascom.airbob.control.AppController;
-	import be.nascom.airbob.vo.DashboardProject;
+	import be.nascom.airbob.vo.Project;
 	
 	import com.adobe.cairngorm.control.CairngormEvent;
 
 	public class ForceBuildEvent extends CairngormEvent 
 	{
-		private var _project:DashboardProject;
+		private var _project:Project;
 		
-		public function ForceBuildEvent(project:DashboardProject) 
+		public function ForceBuildEvent(project:Project) 
 		{
 			super(AppController.FORCE_BUILD_EVENT);
 			_project = project;
 		}
 		
-		public function get project():DashboardProject 
+		public function get project():Project 
 		{
 			return _project;
 		}

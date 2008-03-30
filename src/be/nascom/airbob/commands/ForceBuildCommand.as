@@ -25,7 +25,7 @@ package be.nascom.airbob.commands
 {
 	import be.nascom.airbob.business.ForceBuildDelegate;
 	import be.nascom.airbob.events.ForceBuildEvent;
-	import be.nascom.airbob.vo.DashboardProject;
+	import be.nascom.airbob.vo.Project;
 	
 	import com.adobe.cairngorm.commands.ICommand;
 	import com.adobe.cairngorm.control.CairngormEvent;
@@ -38,7 +38,7 @@ package be.nascom.airbob.commands
 	public class ForceBuildCommand implements ICommand, IResponder 
 	{
 		private var logger:ILogger = Log.getLogger("ForceBuildCommand");
-		public var project:DashboardProject;
+		public var project:Project;
 		
 		public function execute(event:CairngormEvent):void 
 		{

@@ -33,8 +33,7 @@ package be.nascom.airbob.vo
 	import mx.logging.Log;
 	
 	[Bindable]
-	[Table(name="projects")]
-	public class DashboardProject extends EventDispatcher implements ValueObject 
+	public class Project extends EventDispatcher implements ValueObject 
 	{
 		
 		public static const ACTIVITY_SLEEPING:String = "Sleeping";
@@ -62,7 +61,7 @@ package be.nascom.airbob.vo
 		public static const EVENT_ACTIVITY_CHANGE:String = "EVENT_ACTIVITY_CHANGE";		
 		public static const EVENT_STATUS_CHANGE:String = "EVENT_STATUS_CHANGE";
 		
-		public function DashboardProject(data:Object=null):void 
+		public function Project(data:Object=null):void 
 		{ 
 			if (data==null) return;
 			
@@ -75,7 +74,7 @@ package be.nascom.airbob.vo
 			this._activity = data.activity;
 		}
 		
-		public function hasChanged(project:DashboardProject):Boolean 
+		public function hasChanged(project:Project):Boolean 
 		{
 			return (activity!=project.activity) || (lastBuildTime!=project.lastBuildTime);
 		}

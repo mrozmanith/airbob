@@ -48,8 +48,8 @@ THE SOFTWARE.
 			
 			private function init() :void 
 			{				
-				project.addEventListener(DashboardProject.EVENT_ACTIVITY_CHANGE, handleActivityChange);
-				project.addEventListener(DashboardProject.EVENT_STATUS_CHANGE, handleStatusChange);
+				project.addEventListener(Project.EVENT_ACTIVITY_CHANGE, handleActivityChange);
+				project.addEventListener(Project.EVENT_STATUS_CHANGE, handleStatusChange);
 				
 				block = new ProjectBlock();	
 				block.gotoAndStop(project.state.toLowerCase());
@@ -183,7 +183,7 @@ THE SOFTWARE.
 	<mx:UIComponent id="backgroundContainer" width="100%" height="100%"/>
 	<mx:UIComponent id="statusContainer" height="100%" x="2" y="2.0"/>
 	
-	<vo:DashboardProject id="project" />
+	<vo:Project id="project" />
 	
 	<mx:Label id="labelProjectName" x="20" y="4" text="{project.name}" color="#333333" styleName="smallText" />
 	<mx:Label id="labelInfo" x="20" y="25" text="Last successfull build: {project.lastBuildTime.replace('T', ' ')}"  styleName="smallText" color="#333333"/>
