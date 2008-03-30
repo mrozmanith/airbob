@@ -33,6 +33,7 @@ THE SOFTWARE.
 	
 	<mx:Script>
 		<![CDATA[
+			import mx.effects.Resize;
 			import be.nascom.airbob.events.SaveConfigEvent;
 			import mx.events.StateChangeEvent;
 			import be.nascom.airbob.model.AppModelLocator;
@@ -42,6 +43,9 @@ THE SOFTWARE.
 			import mx.collections.ArrayCollection;
 		  	import mx.collections.XMLListCollection;
 		  	import mx.rpc.events.ResultEvent;
+		  	
+		  	[Bindable]
+		  	public var urlVisible:Boolean = false;		  	
 		  	
 		  	[Bindable]
 		  	public var model:AppModelLocator = AppModelLocator.getInstance();
@@ -57,6 +61,7 @@ THE SOFTWARE.
 			public function set showAll(value:Boolean):void
 			{
 				_showAll = value;
+				model.refreshState();				
 				calculateHeight(currentState);
 			}
 			
@@ -84,37 +89,41 @@ THE SOFTWARE.
 		  		calculateHeight(event.newState);
 		  	}
 		  	
+		  	
 		  	public function handleUrlButtonClick(event:Event=null):void 
-		  	{		  				  	
-		  		if (urlBox.visible)
+		  	{		
+		  		urlVisible = !urlVisible;  				  	
+		  		if (urlVisible)
 		  		{		  	
 		  			if (model.config.url!=urlInput.text) 
 		  			{	
 			  			model.config.url = urlInput.text;
 			  			new SaveConfigEvent().dispatch();
-		  			}		  			 
+		  			}
+		  			showEffect.play();		  			 
 		  		}
-		  		urlBox.visible = !urlBox.visible;
-		  		urlBox.includeInLayout = !urlBox.includeInLayout;			  		
+		  		else
+		  		{
+		  			hideEffect.play();
+		  		}		  					  	
 		  		calculateHeight(currentState);	  		
-		  	}		  			  	
+		  	}
 		  	
 		  	private function calculateHeight(state:String):void
 		  	{
-		  		var appHeight:int = 75;
-		  		var blockHeight:int = 45;
-	  			if (state=="disconnected") 
-		  		{
-		  			this.parentApplication.height=appHeight;
-		  		} 
-		  		else 
-		  		{
-		  			appHeight+=((blockHeight)*(model.projects.length+1));		  			
-		  			if (urlBox.visible) appHeight+=28;
-		  			this.parentApplication.height=appHeight;
-		  			
-		  		}	
-		  		logger.debug("Calculate height: " + appHeight);
+		  		var appHeight:int = 1+25+25+20;
+		  		var blockHeight:int = 45+2;
+		  		if (showAll) appHeight+=((blockHeight)*(model.projects.length+1));
+	  			else appHeight+=((blockHeight)*(model.favoriteProjectLength+1));		  			
+	  			if (urlVisible) appHeight+=25;
+	  			
+	  			if (this.parentApplication.height!=appHeight) 
+	  			{
+			  		var effect:Resize = new Resize(this.parentApplication);
+			  		effect.heightTo = appHeight; 
+			  		effect.play();
+			  		logger.debug("Resize from: " + this.parentApplication.height + " to: " + appHeight);
+		  		}		  		
 		  	}	
 		  			  			 	
 		]]>
@@ -137,10 +146,13 @@ THE SOFTWARE.
 		</mx:State>
 	</mx:states>
 	
+	<mx:Resize id="showEffect" target="{urlBox}" heightTo="25"/>
+    <mx:Resize id="hideEffect" target="{urlBox}" heightTo="0"/>
+	
 	<mx:VBox width="100%" left="10" right="10" top="25" verticalGap="4" id="vbox1" >
 		
 		<!--Components visible in 'connected' state-->
-		<mx:HBox id="urlBox" width="100%" visible="false" includeInLayout="false">
+		<mx:HBox id="urlBox" width="100%" height="0" hideEffect="{hideEffect}" showEffect="{showEffect}">
 			<components:AirbobTextInput id="urlInput" text="{model.config.url}" color="White" width="100%" paddingLeft="2" paddingTop="2" paddingBottom="2" paddingRight="2"/>
 		</mx:HBox>	 	
 		
@@ -154,7 +166,7 @@ THE SOFTWARE.
 		<mx:Canvas id="scrollbarCanvas" width="100%" horizontalScrollPolicy="off" >
 			<mx:VBox width="100%" left="0" right="0" top="0" verticalGap="4" id="vbox2">
 				<mx:Repeater id="projectRepeater" dataProvider="{model.projects}">
-					<view:DashboadProjectView 
+					<view:ProjectView 
 						id="dashboadprojectview"
 						project="{projectRepeater.currentItem}" 
 						currentState="{projectRepeater.currentItem.state}" 

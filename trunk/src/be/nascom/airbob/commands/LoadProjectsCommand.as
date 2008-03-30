@@ -37,11 +37,10 @@ package be.nascom.airbob.commands
 	import mx.rpc.IResponder;
 	import mx.utils.ObjectUtil;
 
-	public class LoadProjectsCommand implements ICommand, IResponder 
+	public class LoadProjectsCommand extends AbstractConfigCommand implements ICommand, IResponder 
 	{
 		private var logger:ILogger = Log.getLogger("LoadProjectsCommand");
 		
-		private var model:AppModelLocator = AppModelLocator.getInstance();
 		private var config:ServerConfig;
 		
 		public function execute(event:CairngormEvent):void 
