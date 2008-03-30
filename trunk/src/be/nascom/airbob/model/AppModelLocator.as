@@ -71,6 +71,7 @@ package be.nascom.airbob.model
         public static const STATE_CONNECTED:String = "connected";
         public static const STATE_DISCONNECTED:String = "disconnected";
         public static const STATE_CONNECTING:String = "connecting";
+        public static const STATE_INITIALIZING:String = "initializing";
         
         public static const EVENT_MODEL_UPDATED:String = "EVENT_MODEL_UPDATED";
 		

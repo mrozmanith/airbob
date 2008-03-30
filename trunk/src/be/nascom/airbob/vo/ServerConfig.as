@@ -24,37 +24,48 @@ THE SOFTWARE.
 package be.nascom.airbob.vo
 {
 	import com.adobe.cairngorm.vo.ValueObject;
+	import com.adobe.utils.StringUtil;
 	
 	import flash.events.EventDispatcher;
 		
 	[Bindable]
 	[Table(name="serverconfig")]
-	public class ServerConfig extends EventDispatcher implements ValueObject {
-		
+	public class ServerConfig extends EventDispatcher implements ValueObject 
+	{	
+		private static const CCTRAY_URL:String = "dashboard/cctray.xml";
 		[Id]
 		public var id:int = 0;
 		public var url:String;	
 		public var enabled:Boolean = true;
 		
 		[Ignore]
-		public function get ccTrayUrl():String {
-			return url + "/dashboard/cctray.xml";
+		public function get ccTrayUrl():String 
+		{	
+			return cleanUrl + CCTRAY_URL;
 		}
 		
 		[Ignore]
-		public function get forceBuildUrl():String {
-			if (url.indexOf("8080") > 0)
+		public function get forceBuildUrl():String 
+		{
+			if (cleanUrl.indexOf("8080") > 0)
 			{
-				return url.replace("8080", "8000") + "/invoke";
+				return cleanUrl.replace("8080", "8000") + "invoke";
 			} 
 			else
 			{
-				return url + ":8000";
+				return cleanUrl + ":8000";
 			}
 		}
 		
-		public function ServerConfig(url:String=null) {						
+		public function ServerConfig(url:String=null) 
+		{						
 			this.url = url;			
+		}
+		
+		private function get cleanUrl():String
+		{
+			if (StringUtil.endsWith(url, "/")) return url;	
+			else return url + "/";
 		}
 	}
 }
