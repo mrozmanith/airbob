@@ -74,6 +74,8 @@ THE SOFTWARE.
 		  	{
 		  		if (model.emptyConfig) 
 		  		{
+		  			// Initialize screen
+		  			currentState = AppModelLocator.STATE_INITIALIZING;		  			
 		  			handleUrlButtonClick();
 		  		}
 		  		model.addEventListener(AppModelLocator.EVENT_MODEL_UPDATED, handleModelUpdated);		  				  				  	
@@ -94,25 +96,25 @@ THE SOFTWARE.
 		  	{		
 		  		urlVisible = !urlVisible;  				  	
 		  		if (urlVisible)
-		  		{		  	
-		  			if (model.config.url!=urlInput.text) 
-		  			{	
-			  			model.config.url = urlInput.text;
-			  			new SaveConfigEvent().dispatch();
-		  			}
+		  		{		  			  			
 		  			showEffect.play();		  			 
 		  		}
 		  		else
 		  		{
 		  			hideEffect.play();
+		  			if (model.config.url!=urlInput.text) 
+		  			{	
+			  			model.config.url = urlInput.text;
+			  			new SaveConfigEvent().dispatch();
+		  			}
 		  		}		  					  	
 		  		calculateHeight(currentState);	  		
 		  	}
 		  	
 		  	private function calculateHeight(state:String):void
 		  	{
-		  		var appHeight:int = 1+25+25+20;
-		  		var blockHeight:int = 45+2;
+		  		var appHeight:int = 1+25+25+20+4;
+		  		var blockHeight:int = 45+1;
 		  		if (showAll) appHeight+=((blockHeight)*(model.projects.length+1));
 	  			else appHeight+=((blockHeight)*(model.favoriteProjectLength+1));		  			
 	  			if (urlVisible) appHeight+=25;
@@ -130,17 +132,26 @@ THE SOFTWARE.
 	</mx:Script>
 	
 	<mx:states>
+		<mx:State name="initializing">		
+			<mx:RemoveChild target="{progressbarConnecting}"/>
+			<mx:RemoveChild target="{labelDisconnected}"/>
+			<mx:RemoveChild target="{labelConnecting}"/>
+			<mx:RemoveChild target="{labelDisconnected}"/>		
+		</mx:State>
 		<mx:State name="connected">		
+			<mx:RemoveChild target="{labelInitializing}"/>
 			<mx:RemoveChild target="{progressbarConnecting}"/>
 			<mx:RemoveChild target="{labelConnecting}"/>
 			<mx:RemoveChild target="{labelDisconnected}"/>		
 		</mx:State>
 		<mx:State name="disconnected">		
 			<mx:RemoveChild target="{progressbarConnecting}"/>
+			<mx:RemoveChild target="{labelInitializing}"/>
 			<mx:RemoveChild target="{labelConnecting}"/>
 		</mx:State>
 		<mx:State name="connecting">
 			<mx:RemoveChild target="{labelDisconnected}"/>
+			<mx:RemoveChild target="{labelInitializing}"/>
 			<mx:RemoveChild target="{projectRepeater}"/>
 			<mx:RemoveChild target="{urlBox}"/>
 		</mx:State>
@@ -150,6 +161,8 @@ THE SOFTWARE.
     <mx:Resize id="hideEffect" target="{urlBox}" heightTo="0"/>
 	
 	<mx:VBox width="100%" left="10" right="10" top="25" verticalGap="4" id="vbox1" >
+		<!--Components visible in 'initializing' state-->		
+		<mx:Label text="Enter the cruise control url and click the url button." color="#FFFFFF" id="labelInitializing" paddingLeft="10" visible="{model.config.url!=''}"/>
 		
 		<!--Components visible in 'connected' state-->
 		<mx:HBox id="urlBox" width="100%" height="0" hideEffect="{hideEffect}" showEffect="{showEffect}">
@@ -161,7 +174,7 @@ THE SOFTWARE.
 		<mx:ProgressBar indeterminate="true" id="progressbarConnecting" width="{labelConnecting.width}" label="" paddingLeft="10"/>			
 		
 		<!--Components visible in 'disconnected' state-->		
-		<mx:Label text="Airbob can't connect to the cruise control server." color="#FFFFFF" id="labelDisconnected" paddingLeft="10" paddingTop="20"/>
+		<mx:Label text="Airbob can't connect to the cruise control server." color="#FFFFFF" id="labelDisconnected" paddingLeft="10" paddingTop="10"/>
 		
 		<mx:Canvas id="scrollbarCanvas" width="100%" horizontalScrollPolicy="off" >
 			<mx:VBox width="100%" left="0" right="0" top="0" verticalGap="4" id="vbox2">
