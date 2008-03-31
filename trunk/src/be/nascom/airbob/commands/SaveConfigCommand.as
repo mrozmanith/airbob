@@ -31,7 +31,7 @@ package be.nascom.airbob.commands
 	import mx.logging.ILogger;
 	import mx.logging.Log;
 	
-	public class SaveConfigCommand extends AbstractConfigCommand implements ICommand 
+	public class SaveConfigCommand extends AbstractDBCommand implements ICommand 
 	{
 		private var logger:ILogger = Log.getLogger("SaveConfigCommand");
 		

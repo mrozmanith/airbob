@@ -33,6 +33,8 @@ THE SOFTWARE.
 	
 	<mx:Script>
 		<![CDATA[
+			import be.nascom.airbob.events.SaveProjectSettingsEvent;
+			import be.nascom.airbob.commands.SaveProjectSettingsCommand;
 			import mx.effects.Resize;
 			import be.nascom.airbob.events.SaveConfigEvent;
 			import mx.events.StateChangeEvent;
@@ -61,6 +63,7 @@ THE SOFTWARE.
 			public function set showAll(value:Boolean):void
 			{
 				_showAll = value;
+				if (!_showAll) new SaveProjectSettingsEvent().dispatch();
 				model.refreshState();				
 				calculateHeight(currentState);
 			}

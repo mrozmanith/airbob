@@ -35,7 +35,7 @@ package be.nascom.airbob.commands
 	import mx.logging.ILogger;
 	import mx.logging.Log;
 	
-	internal class AbstractConfigCommand 
+	internal class AbstractDBCommand 
 	{
 		private static var logger:ILogger = Log.getLogger("AbstractConfigDelegate");
 		

@@ -26,6 +26,8 @@ package be.nascom.airbob.commands
 	import be.nascom.airbob.business.LoadProjectsDelegate;
 	import be.nascom.airbob.events.LoadProjectsEvent;
 	import be.nascom.airbob.model.AppModelLocator;
+	import be.nascom.airbob.vo.Project;
+	import be.nascom.airbob.vo.ProjectSetting;
 	import be.nascom.airbob.vo.ServerConfig;
 	
 	import com.adobe.cairngorm.commands.ICommand;
@@ -37,14 +39,17 @@ package be.nascom.airbob.commands
 	import mx.rpc.IResponder;
 	import mx.utils.ObjectUtil;
 
-	public class LoadProjectsCommand extends AbstractConfigCommand implements ICommand, IResponder 
+	public class LoadProjectsCommand extends AbstractDBCommand implements ICommand, IResponder 
 	{
 		private var logger:ILogger = Log.getLogger("LoadProjectsCommand");
 		
 		private var config:ServerConfig;
+		private var settings:ArrayCollection;
 		
 		public function execute(event:CairngormEvent):void 
 		{
+			logger.info("Loading project settings");
+			settings = entityManager.findAll(ProjectSetting);			
 			logger.info("Loading projects");
 			var delegate : LoadProjectsDelegate = new LoadProjectsDelegate(this);
 			config = LoadProjectsEvent(event).config;
@@ -59,23 +64,25 @@ package be.nascom.airbob.commands
 				if (rpcEvent.result.Projects.Project is ArrayCollection) 
 				{
 					// If the service returns mutiple projects
-		 			model.update(rpcEvent.result.Projects.Project, config);
+					model.update(rpcEvent.result.Projects.Project as ArrayCollection, settings);
 	 			} 
 	 			else 
 	 			{
 	 				// If the service returns only one project
 	 				var projects:ArrayCollection = new ArrayCollection();
 	 				projects.addItem(rpcEvent.result.Projects.Project);
-	 				model.update(projects, config);		 				
+	 				model.update(projects as ArrayCollection, settings);		 				
 	 			}		 
 			}										
 		}
 		
 		public function fault( rpcEvent : Object ) : void 
 		{
+			model.connectedState = AppModelLocator.STATE_DISCONNECTED;
 			model.clear();
 			logger.error(rpcEvent.fault.faultDetail);				
 		}
+				
 		
 	}
 }

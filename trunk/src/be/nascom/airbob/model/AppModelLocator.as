@@ -25,6 +25,7 @@ package be.nascom.airbob.model
 {
 	import be.nascom.airbob.vo.ApplicationConfig;
 	import be.nascom.airbob.vo.Project;
+	import be.nascom.airbob.vo.ProjectSetting;
 	import be.nascom.airbob.vo.ServerConfig;
 	
 	import com.adobe.cairngorm.model.IModelLocator;
@@ -145,42 +146,53 @@ package be.nascom.airbob.model
 		/**
 		 * Updates the model
 		 * */
-		public function update(data:Object, config:ServerConfig):void 
+		public function update(projectData:ArrayCollection, projectSettings:ArrayCollection):void 
 		{			
-			if (projects.length!=data.length)
+			if (projects.length!=projectData.length)
 			{	 
-	 			initModel(data, config);
+	 			initModel(projectData, projectSettings);
 		   	} 
 		   	else 
 		   	{
-		   		updateModel(data, config);
+		   		updateModel(projectData, projectSettings);
 		   	}	
 		   	model.connectedState = STATE_CONNECTED;		   		
-		}
+		}				
+		
+		private function getProjectSetting(project:Project, projectSettings:ArrayCollection) : ProjectSetting
+		{
+			for each(var setting:ProjectSetting in projectSettings) 
+			{
+				if (setting.projectName==project.name) return setting;				
+			}
+			return new ProjectSetting(project);
+		} 
 		
 		/**
 		 * Initializes the model
 		 * */
-		private function initModel(data:Object, config:ServerConfig):void 
-		{	
-			projects.removeAll();
-			for(var i:uint=0; i < data.length; i++) 
+		private function initModel(projectData:ArrayCollection, projectSettings:ArrayCollection):void 
+		{				
+			var projectsTemp:ArrayCollection = new ArrayCollection();
+			for(var i:uint=0; i < projectData.length; i++) 
 			{
-				var project:Project = new Project(data[i]);
+				var project:Project = new Project(projectData[i]);
 				project.config = config;
-	   			projects.addItem(project);
+				project.setting = getProjectSetting(project, projectSettings);
+	   			projectsTemp.addItem(project);
 	   		}
+	   		projects = projectsTemp;
 	   		refreshState();	
 		}
 		
 		/**
 		 * Upate only the changed projects
 		 * */
-		private function updateModel(data:Object, config:ServerConfig):void 
+		private function updateModel(projectData:ArrayCollection, projectSettings:ArrayCollection):void 
 		{
-			for(var i:uint=0; i < data.length; i++) 
+			for(var i:uint=0; i < projectData.length; i++) 
 			{
-	   			var project:Project = new Project(data[i]);
+	   			var project:Project = new Project(projectData[i]);
 	   			for(var j:uint=0; j < projects.length; j++) 
 	   			{
 	   				if (projects[j].name==project.name) 
@@ -188,6 +200,7 @@ package be.nascom.airbob.model
 		   				if (projects[j].hasChanged(project)) 
 		   				{
 		   					project.config = config;
+		   					project.setting = getProjectSetting(project, projectSettings);
 		   					projects[j].activity = project.activity;		   		
 		   					projects[j].lastBuildLabel = project.lastBuildLabel;
 		   					projects[j].lastBuildStatus = project.lastBuildStatus;
@@ -213,7 +226,7 @@ package be.nascom.airbob.model
 			for(var i:uint=0; i < projects.length; i++) 
 			{
 				var project:Project = Project(projects[i]);
-				if (project.isFavorite)
+				if (project.setting.isFavorite)
 				{
 					favoriteProjectLength++;
 					if (project.state == Project.STATUS_FAILURE) 
