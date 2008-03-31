@@ -64,7 +64,8 @@ THE SOFTWARE.
 				moreInfoButton.addChild(new InfoIcon());				
 				favoriteButton.addChild(new FavIcon());
 				
-				resize();
+				updateViewState();
+				resize();				
 			}
 						
 			[Bindable]
@@ -81,12 +82,12 @@ THE SOFTWARE.
 			
 			private function updateViewState():void
 			{
-				if (_showAll&&project.isFavorite) currentState = "ShowAllEnabled";
-				else if (_showAll&&!project.isFavorite) currentState = "ShowAllDisabled";
+				if (_showAll&&project.setting.isFavorite) currentState = "ShowAllEnabled";
+				else if (_showAll&&!project.setting.isFavorite) currentState = "ShowAllDisabled";
 				else currentState = project.state;
 				
 				if (_showAll) visible = includeInLayout = true;
-				else visible = includeInLayout = project.isFavorite;								
+				else visible = includeInLayout = project.setting.isFavorite;								
 			}									
 			
 			private function handleActivityChange(event:Event) :void 
@@ -138,7 +139,7 @@ THE SOFTWARE.
 			
 			private function handleFavoriteClick():void
 			{
-				project.isFavorite = !project.isFavorite;
+				project.setting.isFavorite = !project.setting.isFavorite;
 				updateViewState();
 			}			
 
@@ -198,5 +199,5 @@ THE SOFTWARE.
 		
 	<mx:UIComponent id="favoriteButton" y="11.5" right="26.5" buttonMode="true" mouseChildren="false" 
 		click="handleFavoriteClick()" visible="false"		
-		toolTip="{project.isFavorite?'Remove favorite':'Add favorite'}"/>
+		toolTip="{project.setting.isFavorite?'Remove favorite':'Add favorite'}"/>
 </mx:Canvas>

@@ -24,7 +24,6 @@ THE SOFTWARE.
 package be.nascom.airbob.vo
 {
 	import com.adobe.cairngorm.vo.ValueObject;
-	import com.adobe.utils.DateUtil;
 	
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
@@ -48,13 +47,14 @@ package be.nascom.airbob.vo
 		 
 		public var lastBuildLabel:String; 		 
 		public var webUrl:String;
-		public var isFavorite:Boolean = true;
 		public var lastBuildTime:String;		
 		public var config:ServerConfig;
 		
 		private var _state:String;
 		private var _activity:String;
-		private var _lastBuildStatus:String;		
+		private var _lastBuildStatus:String;	
+		
+		public var setting:ProjectSetting;	
 		
 		private static var logger:ILogger = Log.getLogger("DashboardProject");
 		
@@ -72,6 +72,8 @@ package be.nascom.airbob.vo
 			
 			this._lastBuildStatus = data.lastBuildStatus;
 			this._activity = data.activity;
+			
+			this.setting = new ProjectSetting(this);
 		}
 		
 		public function hasChanged(project:Project):Boolean 

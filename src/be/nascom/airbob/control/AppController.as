@@ -28,12 +28,12 @@ package be.nascom.airbob.control
 	import be.nascom.airbob.commands.LoadConfigCommand;
 	import be.nascom.airbob.commands.LoadProjectsCommand;
 	import be.nascom.airbob.commands.SaveConfigCommand;
+	import be.nascom.airbob.commands.SaveProjectSettingsCommand;
 	import be.nascom.airbob.events.LoadConfigEvent;
 	import be.nascom.airbob.events.LoadProjectsEvent;
 	import be.nascom.airbob.model.AppModelLocator;
 	
 	import com.adobe.cairngorm.control.FrontController;
-	import com.adobe.cairngorm.model.ModelLocator;
 	
 	import flash.events.TimerEvent;
 	import flash.filesystem.File;
@@ -51,6 +51,7 @@ package be.nascom.airbob.control
 		public static const LOAD_PROJECTS_EVENT:String = "be.nascom.airbob.events.LoadProjectsEvent";				
 		public static const LOAD_CONFIG_EVENT:String = "be.nascom.airbob.events.LoadConfigEvent";
 		public static const SAVE_CONFIG_EVENT:String = "be.nascom.airbob.events.SaveConfigEvent";
+		public static const SAVE_PROJECT_SETTINGS_EVENT:String = "be.nascom.airbob.events.SaveProjectSettingsEvent";
 		
 		private var model:AppModelLocator = AppModelLocator.getInstance();
 		
@@ -61,6 +62,7 @@ package be.nascom.airbob.control
 			addCommand(LOAD_PROJECTS_EVENT, LoadProjectsCommand);
 			addCommand(LOAD_CONFIG_EVENT, LoadConfigCommand);
 			addCommand(SAVE_CONFIG_EVENT, SaveConfigCommand);
+			addCommand(SAVE_PROJECT_SETTINGS_EVENT, SaveProjectSettingsCommand);
 			
 			// Load the configuration
 			new LoadConfigEvent().dispatch();
@@ -82,7 +84,7 @@ package be.nascom.airbob.control
 			fileTarget.includeTime = true;
 			fileTarget.includeLevel = true;
 			fileTarget.includeCategory = true;
-			fileTarget.level = LogEventLevel.ALL;
+			fileTarget.level = LogEventLevel.INFO;
 			
 			// Add the target
 			Log.addTarget(fileTarget);
