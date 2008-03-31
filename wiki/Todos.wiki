@@ -1,0 +1,9 @@
+#summary List of features still to implement
+
+= TODO'S: =
+
+  * System tray notifications for status changes.
+  * UI animations and transitions.
+  * Test Mac and Linux versions.
+  * Multiple server support.
+  * Add elapsed time when project is building.
