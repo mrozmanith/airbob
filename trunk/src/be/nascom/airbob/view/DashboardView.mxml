@@ -162,7 +162,7 @@ THE SOFTWARE.
 	
 	<mx:VBox width="100%" left="10" right="10" top="25" verticalGap="4" id="vbox1" >
 		<!--Components visible in 'initializing' state-->		
-		<mx:Label text="Enter the cruise control url and click the url button." color="#FFFFFF" id="labelInitializing" paddingLeft="10" visible="{model.config.url!=''}"/>
+		<mx:Label text="Enter the cruise control url and click the url button." color="#FFFFFF" id="labelInitializing" paddingLeft="10" visible="{urlVisible}"/>
 		
 		<!--Components visible in 'connected' state-->
 		<mx:HBox id="urlBox" width="100%" height="0" hideEffect="{hideEffect}" showEffect="{showEffect}">
