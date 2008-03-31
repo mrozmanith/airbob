@@ -7,3 +7,4 @@
   * Test Mac and Linux versions.
   * Multiple server support.
   * Add elapsed time when project is building.
+  * Cleanup the code.
