@@ -3,6 +3,8 @@
 
 = Read me =
 
+== Configuration ==
+
 You will need to install the [http://get.adobe.com/air/ Adobe AIR Runtime] before you can use Airbob. 
 
 After starting the application the first time Airbob will ask you to enter the url to your cruise control server. 
@@ -14,6 +16,10 @@ then you will need to enter this url (including "http://" without "dashboard"):
   
   * http://yourserver.org:8080
 
-If your server url is correct then the list of projects will appear in seconds.
+If the url is correct, then the list of projects will appear in seconds.
 
-The focus on the next release will be to make the application easier to use.
+== Favorites ==
+
+Clicking on the favorites star in the top right corner toggles between the full view of your projects and the favorites view. You can hide/show projects in the full view mode.
+
+New projects are by default visible in your favorites view.
