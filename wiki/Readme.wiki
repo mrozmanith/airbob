@@ -5,7 +5,8 @@
 
 You will need to install the [http://get.adobe.com/air/ Adobe AIR Runtime] before you can use Airbob. 
 
-After starting the application the first time Airbob will ask you to enter the url to your cruise control server. If the url to your cruise control dashboard is the following:
+After starting the application the first time Airbob will ask you to enter the url to your cruise control server. 
+If the url to your cruise control dashboard is the following:
 
   * http://yourserver.org:8080/dashboard 
 
