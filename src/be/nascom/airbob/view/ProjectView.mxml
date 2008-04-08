@@ -88,20 +88,24 @@ THE SOFTWARE.
 				
 				if (_showAll) visible = includeInLayout = true;
 				else visible = includeInLayout = project.setting.isFavorite;								
+			}
+			
+			public function setAssetsState(state:String):void 
+			{
+				status.gotoAndStop(state.toLowerCase());
+				block.gotoAndStop(state.toLowerCase());
 			}									
 			
 			private function handleActivityChange(event:Event) :void 
 			{
 				currentState = project.state;
-				status.gotoAndStop(project.state.toLowerCase());
-				block.gotoAndStop(project.state.toLowerCase());
+				setAssetsState(project.state);				
 			}
 			
 			private function handleStatusChange(event:Event) :void 
 			{
 				currentState = project.state;
-				status.gotoAndStop(project.state.toLowerCase());
-				block.gotoAndStop(project.state.toLowerCase());
+				setAssetsState(project.state);				
 			}
 			
 			private function resize():void 
@@ -147,6 +151,12 @@ THE SOFTWARE.
 	</mx:Script>
 		
 	<mx:states>
+		<mx:State name="Toaster">
+			<mx:SetProperty target="{forceBuildButton}" name="visible" value="false"/>
+			<mx:SetProperty target="{moreInfoButton}" name="visible" value="false"/>
+			<mx:SetProperty target="{favoriteButton}" name="visible" value="false"/>
+			<mx:SetProperty target="{labelInfo}" name="text" value="{project.state}" />
+		</mx:State>
 		<mx:State name="Success">
 			<mx:SetProperty target="{forceBuildButton}" name="visible" value="true"/>
 			<mx:SetProperty target="{moreInfoButton}" name="visible" value="true"/>

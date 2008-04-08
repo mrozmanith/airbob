@@ -47,6 +47,9 @@ THE SOFTWARE.
 	
 	<mx:Script>
 		<![CDATA[
+			import mx.core.Window;
+			import mx.controls.Label;
+			import mx.controls.Button;
 			import flash.net.navigateToURL;
 			import be.nascom.airbob.events.LoadConfigEvent;
 			import mx.logging.Log;
@@ -70,6 +73,7 @@ THE SOFTWARE.
 			 */
 			private function init():void 
 			{	
+				
 				// Init background asset from the 'airbob_assets.swc' file
 				background = new AirbobBackground();			
 				bgContainer.addChild(background);
@@ -111,8 +115,9 @@ THE SOFTWARE.
 			
 			private function handleModelUpdated(event:Event):void
 			{
-				SystemTrayIcon(NativeApplication.nativeApplication.icon).tooltip = "Airbob says: " + model.state;
-				NativeApplication.nativeApplication.icon.bitmaps = [model.trayIcon];
+				var message:String = "Airbob says: " + model.state;
+				SystemTrayIcon(NativeApplication.nativeApplication.icon).tooltip = message;
+				NativeApplication.nativeApplication.icon.bitmaps = [model.trayIcon];								
 			}
 		  	
 		  	private function prepareForSystray(event:Event):void 
