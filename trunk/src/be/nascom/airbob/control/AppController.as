@@ -27,6 +27,7 @@ package be.nascom.airbob.control
 	import be.nascom.airbob.commands.ForceBuildCommand;
 	import be.nascom.airbob.commands.LoadConfigCommand;
 	import be.nascom.airbob.commands.LoadProjectsCommand;
+	import be.nascom.airbob.commands.ProjectStateChangedCommand;
 	import be.nascom.airbob.commands.SaveConfigCommand;
 	import be.nascom.airbob.commands.SaveProjectSettingsCommand;
 	import be.nascom.airbob.events.LoadConfigEvent;
@@ -52,6 +53,7 @@ package be.nascom.airbob.control
 		public static const LOAD_CONFIG_EVENT:String = "be.nascom.airbob.events.LoadConfigEvent";
 		public static const SAVE_CONFIG_EVENT:String = "be.nascom.airbob.events.SaveConfigEvent";
 		public static const SAVE_PROJECT_SETTINGS_EVENT:String = "be.nascom.airbob.events.SaveProjectSettingsEvent";
+		public static const PROJECT_STATE_CHANGED_EVENT:String = "be.nascom.airbob.events.ProjectStateChangedEvent";
 		
 		private var model:AppModelLocator = AppModelLocator.getInstance();
 		
@@ -63,6 +65,7 @@ package be.nascom.airbob.control
 			addCommand(LOAD_CONFIG_EVENT, LoadConfigCommand);
 			addCommand(SAVE_CONFIG_EVENT, SaveConfigCommand);
 			addCommand(SAVE_PROJECT_SETTINGS_EVENT, SaveProjectSettingsCommand);
+			addCommand(PROJECT_STATE_CHANGED_EVENT, ProjectStateChangedCommand);
 			
 			// Load the configuration
 			new LoadConfigEvent().dispatch();

@@ -23,6 +23,7 @@ THE SOFTWARE.
 
 package be.nascom.airbob.model
 {
+	import be.nascom.airbob.events.ProjectStateChangedEvent;
 	import be.nascom.airbob.vo.ApplicationConfig;
 	import be.nascom.airbob.vo.Project;
 	import be.nascom.airbob.vo.ProjectSetting;
@@ -204,7 +205,8 @@ package be.nascom.airbob.model
 		   					projects[j].activity = project.activity;		   		
 		   					projects[j].lastBuildLabel = project.lastBuildLabel;
 		   					projects[j].lastBuildStatus = project.lastBuildStatus;
-		   					projects[j].lastBuildTime = project.lastBuildTime;		   									   				
+		   					projects[j].lastBuildTime = project.lastBuildTime;	
+		   					new ProjectStateChangedEvent(projects[j]).dispatch();	   									   				
 		   				}
 	   				}
 	   			}
@@ -222,6 +224,8 @@ package be.nascom.airbob.model
 			var stateBuilding:int = 0;
 			var stateOther:int = 1;
 			favoriteProjectLength = 0;
+			
+			var prevState:String = state; 
 			
 			for(var i:uint=0; i < projects.length; i++) 
 			{
@@ -249,8 +253,9 @@ package be.nascom.airbob.model
 			if (stateFailure>0) state = Project.STATUS_FAILURE;
 			if (stateBuilding>0) state = Project.STATUS_BUILDING;
 			
-			logger.debug("model stated: " + state);
-			dispatchEvent(new Event(EVENT_MODEL_UPDATED));
+			logger.debug("refresh model state: " + state);
+			if (state!=prevState)
+				dispatchEvent(new Event(EVENT_MODEL_UPDATED));
 		}				
 
 	}
