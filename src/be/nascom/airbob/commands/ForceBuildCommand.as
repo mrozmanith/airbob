@@ -23,7 +23,7 @@ THE SOFTWARE.
 
 package be.nascom.airbob.commands
 {
-	import be.nascom.airbob.business.ForceBuildDelegate;
+	import be.nascom.airbob.business.CruiseControlDelegate;
 	import be.nascom.airbob.events.ForceBuildEvent;
 	import be.nascom.airbob.vo.Project;
 	
@@ -44,8 +44,8 @@ package be.nascom.airbob.commands
 		{
 			project = ForceBuildEvent(event).project;
 			logger.info("Force build for " + project.name);
-			var delegate : ForceBuildDelegate = new ForceBuildDelegate(this);
-			delegate.send();	
+			var delegate : CruiseControlDelegate = new CruiseControlDelegate(this);
+			delegate.forceBuild(project);	
 		}
 		
 		public function result( rpcEvent : Object ) : void 

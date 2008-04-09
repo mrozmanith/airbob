@@ -25,16 +25,7 @@ THE SOFTWARE.
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:cairngorm="com.adobe.cairngorm.business.*" 
 	xmlns:net="be.nascom.net.*">
-	<mx:Script>
-		<![CDATA[
-			import be.nascom.airbob.model.AppModelLocator;
-			
-			[Bindable]
-			private var model:AppModelLocator = AppModelLocator.getInstance();
-		]]>
-	</mx:Script>
 	
-	<mx:HTTPService id="forceBuildService" method="GET" />	
-	<mx:HTTPService id="cctrayService" method="GET" />
+	<mx:HTTPService id="cruisecontrolService" method="GET" />
 
 </cairngorm:ServiceLocator>

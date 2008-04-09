@@ -23,10 +23,9 @@ THE SOFTWARE.
 
 package be.nascom.airbob.commands
 {
-	import be.nascom.airbob.business.CCTrayDelegate;
+	import be.nascom.airbob.business.CruiseControlDelegate;
 	import be.nascom.airbob.events.LoadProjectsEvent;
 	import be.nascom.airbob.model.AppModelLocator;
-	import be.nascom.airbob.vo.Project;
 	import be.nascom.airbob.vo.ProjectSetting;
 	import be.nascom.airbob.vo.ServerConfig;
 	
@@ -51,9 +50,9 @@ package be.nascom.airbob.commands
 			logger.info("Loading project settings");
 			settings = entityManager.findAll(ProjectSetting);			
 			logger.info("Loading projects");
-			var delegate : CCTrayDelegate = new CCTrayDelegate(this);
+			var delegate:CruiseControlDelegate = new CruiseControlDelegate(this);
 			config = LoadProjectsEvent(event).config;
-			delegate.load(config);	
+			delegate.loadCCTrayXml(config);	
 		}
 		
 		public function result( rpcEvent : Object ) : void  
