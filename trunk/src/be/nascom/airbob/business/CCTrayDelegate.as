@@ -33,20 +33,20 @@ package be.nascom.airbob.business
 	import mx.rpc.IResponder;
 	import mx.rpc.http.HTTPService;
 	
-	public class LoadProjectsDelegate 
+	public class CCTrayDelegate 
 	{
-		private var logger:ILogger = Log.getLogger("LoadProjectsDelegate");
+		private var logger:ILogger = Log.getLogger("CCTrayDelegate");
 		
 		private var command:IResponder;
 		private var service:HTTPService;
 
-		public function LoadProjectsDelegate( command:IResponder ) 
+		public function CCTrayDelegate( command:IResponder ) 
 		{
-			this.service = ServiceLocator.getInstance().getHTTPService("loadProjectsService");		
+			this.service = ServiceLocator.getInstance().getHTTPService("cctrayService");		
 			this.command = command;
 		}
 
-		public function send(config:ServerConfig):void 
+		public function load(config:ServerConfig):void 
 		{	
 			// Create the cctray.xml request				
 			this.service.url = config.ccTrayUrl;

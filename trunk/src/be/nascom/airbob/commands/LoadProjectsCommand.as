@@ -23,7 +23,7 @@ THE SOFTWARE.
 
 package be.nascom.airbob.commands
 {
-	import be.nascom.airbob.business.LoadProjectsDelegate;
+	import be.nascom.airbob.business.CCTrayDelegate;
 	import be.nascom.airbob.events.LoadProjectsEvent;
 	import be.nascom.airbob.model.AppModelLocator;
 	import be.nascom.airbob.vo.Project;
@@ -51,9 +51,9 @@ package be.nascom.airbob.commands
 			logger.info("Loading project settings");
 			settings = entityManager.findAll(ProjectSetting);			
 			logger.info("Loading projects");
-			var delegate : LoadProjectsDelegate = new LoadProjectsDelegate(this);
+			var delegate : CCTrayDelegate = new CCTrayDelegate(this);
 			config = LoadProjectsEvent(event).config;
-			delegate.send(config);	
+			delegate.load(config);	
 		}
 		
 		public function result( rpcEvent : Object ) : void  

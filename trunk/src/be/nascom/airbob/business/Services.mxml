@@ -35,6 +35,6 @@ THE SOFTWARE.
 	</mx:Script>
 	
 	<mx:HTTPService id="forceBuildService" method="GET" />	
-	<mx:HTTPService id="loadProjectsService" method="GET" />
+	<mx:HTTPService id="cctrayService" method="GET" />
 
 </cairngorm:ServiceLocator>
