@@ -30,7 +30,7 @@ package be.nascom.airbob.vo
 		
 	[Bindable]
 	[Table(name="serverconfig")]
-	public class ServerConfig extends EventDispatcher implements ValueObject 
+	public class CruiseControlConfig extends EventDispatcher implements ValueObject 
 	{	
 		private static const CCTRAY_URL:String = "dashboard/cctray.xml";
 		[Id]
@@ -57,7 +57,7 @@ package be.nascom.airbob.vo
 			}
 		}
 		
-		public function ServerConfig(url:String=null) 
+		public function CruiseControlConfig(url:String=null) 
 		{						
 			this.url = url;			
 		}

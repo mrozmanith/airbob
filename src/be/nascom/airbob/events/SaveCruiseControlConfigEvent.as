@@ -27,9 +27,9 @@ package be.nascom.airbob.events
 	
 	import com.adobe.cairngorm.control.CairngormEvent;
 
-	public class SaveConfigEvent extends CairngormEvent 
+	public class SaveCruiseControlConfigEvent extends CairngormEvent 
 	{
-		public function SaveConfigEvent() 
+		public function SaveCruiseControlConfigEvent() 
 		{
 			super(AppController.SAVE_CONFIG_EVENT);
 		}

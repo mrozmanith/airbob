@@ -24,20 +24,20 @@ THE SOFTWARE.
 package be.nascom.airbob.events
 {
 	import be.nascom.airbob.control.AppController;
-	import be.nascom.airbob.vo.ServerConfig;
+	import be.nascom.airbob.vo.CruiseControlConfig;
 	
 	import com.adobe.cairngorm.control.CairngormEvent;
 
 	public class LoadProjectsEvent extends CairngormEvent 
 	{
-		private var _config:ServerConfig;
+		private var _config:CruiseControlConfig;
 		
-		public function get config():ServerConfig 
+		public function get config():CruiseControlConfig 
 		{
 			return _config;
 		}
 		
-		public function LoadProjectsEvent(config:ServerConfig) 
+		public function LoadProjectsEvent(config:CruiseControlConfig) 
 		{
 			super(AppController.LOAD_PROJECTS_EVENT);
 			_config = config;

@@ -26,8 +26,8 @@ package be.nascom.airbob.commands
 	import be.nascom.airbob.business.CruiseControlDelegate;
 	import be.nascom.airbob.events.LoadProjectsEvent;
 	import be.nascom.airbob.model.AppModelLocator;
-	import be.nascom.airbob.vo.ProjectSetting;
-	import be.nascom.airbob.vo.ServerConfig;
+	import be.nascom.airbob.vo.ProjectConfig;
+	import be.nascom.airbob.vo.CruiseControlConfig;
 	
 	import com.adobe.cairngorm.commands.ICommand;
 	import com.adobe.cairngorm.control.CairngormEvent;
@@ -42,13 +42,13 @@ package be.nascom.airbob.commands
 	{
 		private var logger:ILogger = Log.getLogger("LoadProjectsCommand");
 		
-		private var config:ServerConfig;
+		private var config:CruiseControlConfig;
 		private var settings:ArrayCollection;
 		
 		public function execute(event:CairngormEvent):void 
 		{
 			logger.info("Loading project settings");
-			settings = entityManager.findAll(ProjectSetting);			
+			settings = entityManager.findAll(ProjectConfig);			
 			logger.info("Loading projects");
 			var delegate:CruiseControlDelegate = new CruiseControlDelegate(this);
 			config = LoadProjectsEvent(event).config;

@@ -25,14 +25,14 @@ package be.nascom.airbob.vo
 {
 	[Bindable]
 	[Table(name="projectsettings")]
-	public class ProjectSetting
+	public class ProjectConfig
 	{
 		[Id]
 		public var id:int = 0;
 		public var projectName:String;
 		public var isFavorite:Boolean = true;
 		
-		public function ProjectSetting(project:Project=null)
+		public function ProjectConfig(project:Project=null)
 		{
 			if (project!=null) this.projectName = project.name;	
 		}

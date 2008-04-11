@@ -34,11 +34,12 @@ package be.nascom.airbob.view
 	import mx.core.Window;
 	import mx.effects.Fade;
 	import mx.effects.Move;
+	import mx.effects.easing.Bounce;
 	import mx.events.EffectEvent;
 	import mx.logging.ILogger;
 	import mx.logging.Log;
 
-	public class ToasterWindow extends Window
+	public class NotificationWindow extends Window
 	{
 		private var logger:ILogger = Log.getLogger("ToasterWindow");
 		
@@ -48,7 +49,7 @@ package be.nascom.airbob.view
 		private var popUpEffect:Move;
 		private var fadeOutEffect:Fade;
 		
-		public function ToasterWindow(project:Project)
+		public function NotificationWindow(project:Project)
 		{
 			super();					
 			
@@ -71,7 +72,7 @@ package be.nascom.airbob.view
 			this.alwaysInFront = true;							
 			
 			// Add the content
-			var content:ToasterWindowView = new ToasterWindowView();
+			var content:NotificationWindowView = new NotificationWindowView();
 			content.project = project;
 			content.addEventListener(MouseEvent.CLICK, handleClick);			
 			addChild(content);			
@@ -91,6 +92,7 @@ package be.nascom.airbob.view
 		{
 			popUpEffect = new Move(this);
 			popUpEffect.duration = 1000;
+			popUpEffect.easingFunction = Bounce.easeOut;
 			
 			fadeOutEffect = new Fade(this);
 			fadeOutEffect.duration = 1000;

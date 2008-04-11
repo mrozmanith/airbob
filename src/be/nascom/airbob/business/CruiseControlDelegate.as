@@ -24,7 +24,7 @@ THE SOFTWARE.
 package be.nascom.airbob.business
 {
 	import be.nascom.airbob.vo.Project;
-	import be.nascom.airbob.vo.ServerConfig;
+	import be.nascom.airbob.vo.CruiseControlConfig;
 	
 	import com.adobe.cairngorm.business.ServiceLocator;
 	
@@ -58,7 +58,7 @@ package be.nascom.airbob.business
 			token.addResponder(command);
 		}
 		
-		public function loadCCTrayXml(config:ServerConfig):void 
+		public function loadCCTrayXml(config:CruiseControlConfig):void 
 		{	
 			// Create the cctray.xml request				
 			this.service.url = config.ccTrayUrl;
