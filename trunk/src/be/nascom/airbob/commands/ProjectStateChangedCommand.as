@@ -24,7 +24,7 @@ THE SOFTWARE.
 package be.nascom.airbob.commands
 {
 	import be.nascom.airbob.events.ProjectStateChangedEvent;
-	import be.nascom.airbob.view.ToasterWindow;
+	import be.nascom.airbob.view.NotificationWindow;
 	import be.nascom.airbob.vo.Project;
 	
 	import com.adobe.cairngorm.commands.ICommand;
@@ -46,7 +46,7 @@ package be.nascom.airbob.commands
 			{
 				logger.debug("project " + project.name + " changed");
 				
-				var toaster:ToasterWindow = new ToasterWindow(project);			
+				var toaster:NotificationWindow = new NotificationWindow(project);			
 				toaster.open(true);	
 				var xFrom:Number = Screen.mainScreen.bounds.width - (toaster.width+10);
 				var yFrom:Number = Screen.mainScreen.bounds.height;

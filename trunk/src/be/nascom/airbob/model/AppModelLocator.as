@@ -26,8 +26,8 @@ package be.nascom.airbob.model
 	import be.nascom.airbob.events.ProjectStateChangedEvent;
 	import be.nascom.airbob.vo.ApplicationConfig;
 	import be.nascom.airbob.vo.Project;
-	import be.nascom.airbob.vo.ProjectSetting;
-	import be.nascom.airbob.vo.ServerConfig;
+	import be.nascom.airbob.vo.ProjectConfig;
+	import be.nascom.airbob.vo.CruiseControlConfig;
 	
 	import com.adobe.cairngorm.model.IModelLocator;
 	
@@ -64,7 +64,7 @@ package be.nascom.airbob.model
                 
         public var projects:ArrayCollection = new ArrayCollection();
         public var favoriteProjectLength:int = 0;                		
-        public var config:ServerConfig;        
+        public var config:CruiseControlConfig;        
 		public var settings:ApplicationConfig;	
         
         public var connectedState:String = STATE_CONNECTING;
@@ -95,7 +95,7 @@ package be.nascom.airbob.model
         	
         	// Init 
         	settings = new ApplicationConfig();      
-        	config = new ServerConfig();  	   	
+        	config = new CruiseControlConfig();  	   	
 		}
 
 		/**
@@ -160,13 +160,13 @@ package be.nascom.airbob.model
 		   	model.connectedState = STATE_CONNECTED;		   		
 		}				
 		
-		private function getProjectSetting(project:Project, projectSettings:ArrayCollection) : ProjectSetting
+		private function getProjectSetting(project:Project, projectSettings:ArrayCollection) : ProjectConfig
 		{
-			for each(var setting:ProjectSetting in projectSettings) 
+			for each(var setting:ProjectConfig in projectSettings) 
 			{
 				if (setting.projectName==project.name) return setting;				
 			}
-			return new ProjectSetting(project);
+			return new ProjectConfig(project);
 		} 
 		
 		/**

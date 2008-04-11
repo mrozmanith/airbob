@@ -33,10 +33,11 @@ THE SOFTWARE.
 	
 	<mx:Script>
 		<![CDATA[
+			import mx.effects.easing.Elastic;
 			import be.nascom.airbob.events.SaveProjectSettingsEvent;
 			import be.nascom.airbob.commands.SaveProjectSettingsCommand;
 			import mx.effects.Resize;
-			import be.nascom.airbob.events.SaveConfigEvent;
+			import be.nascom.airbob.events.SaveCruiseControlConfigEvent;
 			import mx.events.StateChangeEvent;
 			import be.nascom.airbob.model.AppModelLocator;
 			import mx.logging.Log;
@@ -108,7 +109,7 @@ THE SOFTWARE.
 		  			if (model.config.url!=urlInput.text) 
 		  			{	
 			  			model.config.url = urlInput.text;
-			  			new SaveConfigEvent().dispatch();
+			  			new SaveCruiseControlConfigEvent().dispatch();
 		  			}
 		  		}		  					  	
 		  		calculateHeight(currentState);	  		

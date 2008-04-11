@@ -37,7 +37,7 @@ THE SOFTWARE.
 	borderStyle="none"
 	backgroundAlpha="0"
 	doubleClickEnabled="true"
-	creationComplete="init()">
+	creationComplete="init()" viewSourceURL="srcview/index.html">
 	
 	<!--Initialize the Cairngorm Application Controller-->
 	<control:AppController id="controller" />
@@ -51,10 +51,10 @@ THE SOFTWARE.
 			import mx.controls.Label;
 			import mx.controls.Button;
 			import flash.net.navigateToURL;
-			import be.nascom.airbob.events.LoadConfigEvent;
+			import be.nascom.airbob.events.LoadCruiseControlConfigEvent;
 			import mx.logging.Log;
 			import mx.logging.ILogger;
-			import be.nascom.airbob.vo.ServerConfig;
+			import be.nascom.airbob.vo.CruiseControlConfig;
 			import be.nascom.airbob.events.LoadProjectsEvent;
 			import be.nascom.airbob.commands.LoadProjectsCommand;
 			import com.adobe.cairngorm.model.ModelLocator;

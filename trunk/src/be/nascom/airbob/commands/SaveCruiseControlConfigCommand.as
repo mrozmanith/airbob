@@ -23,31 +23,34 @@ THE SOFTWARE.
 
 package be.nascom.airbob.commands
 {
-	import be.nascom.airbob.vo.ServerConfig;
+	import be.nascom.airbob.vo.CruiseControlConfig;
 	
 	import com.adobe.cairngorm.commands.ICommand;
 	import com.adobe.cairngorm.control.CairngormEvent;
 	
 	import mx.logging.ILogger;
 	import mx.logging.Log;
-
-	public class LoadConfigCommand extends AbstractDBCommand implements ICommand 
+	
+	public class SaveCruiseControlConfigCommand extends AbstractDBCommand implements ICommand 
 	{
-		private var logger:ILogger = Log.getLogger("LoadConfigCommand");
+		private var logger:ILogger = Log.getLogger("SaveConfigCommand");
 		
 		public function execute(event:CairngormEvent):void 
 		{
 			prepare();
-			logger.debug("load config");						
+			logger.debug("save config");			
 			try 
 			{		
-				// TODO: Support for multiple cctray url's
-				model.config = entityManager.findAll(ServerConfig).getItemAt(0) as ServerConfig;		
+				entityManager.beginTransaction();
+				entityManager.save(model.config);		
+				entityManager.commitTransaction();			
 			} 
 			catch (error:Error) 
 			{
-				logger.error(error.message);				
+				logger.error(error.message);
+				entityManager.rollbackTransaction();
 			}
+						
 		}
 		
 	}

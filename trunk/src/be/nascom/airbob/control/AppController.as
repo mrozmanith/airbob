@@ -25,12 +25,12 @@ package be.nascom.airbob.control
 {
 	import be.nascom.air.logging.FileTarget;
 	import be.nascom.airbob.commands.ForceBuildCommand;
-	import be.nascom.airbob.commands.LoadConfigCommand;
+	import be.nascom.airbob.commands.LoadCruiseControlConfigCommand;
 	import be.nascom.airbob.commands.LoadProjectsCommand;
 	import be.nascom.airbob.commands.ProjectStateChangedCommand;
-	import be.nascom.airbob.commands.SaveConfigCommand;
+	import be.nascom.airbob.commands.SaveCruiseControlConfigCommand;
 	import be.nascom.airbob.commands.SaveProjectSettingsCommand;
-	import be.nascom.airbob.events.LoadConfigEvent;
+	import be.nascom.airbob.events.LoadCruiseControlConfigEvent;
 	import be.nascom.airbob.events.LoadProjectsEvent;
 	import be.nascom.airbob.model.AppModelLocator;
 	
@@ -62,13 +62,13 @@ package be.nascom.airbob.control
 			// Initialize the Cairngorm Events/Commands
 			addCommand(FORCE_BUILD_EVENT, ForceBuildCommand);
 			addCommand(LOAD_PROJECTS_EVENT, LoadProjectsCommand);
-			addCommand(LOAD_CONFIG_EVENT, LoadConfigCommand);
-			addCommand(SAVE_CONFIG_EVENT, SaveConfigCommand);
+			addCommand(LOAD_CONFIG_EVENT, LoadCruiseControlConfigCommand);
+			addCommand(SAVE_CONFIG_EVENT, SaveCruiseControlConfigCommand);
 			addCommand(SAVE_PROJECT_SETTINGS_EVENT, SaveProjectSettingsCommand);
 			addCommand(PROJECT_STATE_CHANGED_EVENT, ProjectStateChangedCommand);
 			
 			// Load the configuration
-			new LoadConfigEvent().dispatch();
+			new LoadCruiseControlConfigEvent().dispatch();
 			
 			// Initialze
 			initLogging();
