@@ -2,5 +2,5 @@
 
 == Project Owners ==
 
-  * [http://alain.hufkens.net Alain Hufkens] (Development)
+  * [http://hufkens.net Alain Hufkens] (Development)
   * [http://kristofsaelen.com Kristof Saelen] (Design & Skinning)
