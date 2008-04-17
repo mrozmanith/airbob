@@ -31,6 +31,9 @@ package be.nascom.airbob.view
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
 	
+	import mx.containers.VBox;
+	import mx.controls.Label;
+	import mx.core.UIComponent;
 	import mx.core.Window;
 	import mx.effects.Fade;
 	import mx.effects.Move;
@@ -49,17 +52,17 @@ package be.nascom.airbob.view
 		private var popUpEffect:Move;
 		private var fadeOutEffect:Fade;
 		
-		public function NotificationWindow(project:Project)
+		private var content:UIComponent;
+		
+		public function NotificationWindow(project:Project=null)
 		{
 			super();					
-			
-			initEffects();
 			
 			// Set window properties
 			this.type = NativeWindowType.LIGHTWEIGHT;
 			this.showStatusBar = false;
 			this.showTitleBar = false;
-			this.showGripper = false;
+			this.showGripper = false;			
 			this.systemChrome = "none";
 			this.transparent = true;
 			this.height = windowHeight;
@@ -69,13 +72,17 @@ package be.nascom.airbob.view
 			this.minimizable = false;
 			this.horizontalScrollPolicy = "off";
 			this.verticalScrollPolicy = "off";				
-			this.alwaysInFront = true;							
+			this.alwaysInFront = true;						
 			
 			// Add the content
-			var content:NotificationWindowView = new NotificationWindowView();
-			content.project = project;
-			content.addEventListener(MouseEvent.CLICK, handleClick);			
-			addChild(content);			
+			if (project!=null) {
+				content = new NotificationWindowView();				
+				NotificationWindowView(content).project = project;
+				content.addEventListener(MouseEvent.CLICK, handleClick);			
+			} 
+			
+			addChild(content);
+			initEffects();		
 			
 		}
 		

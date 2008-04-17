@@ -37,7 +37,8 @@ THE SOFTWARE.
 	borderStyle="none"
 	backgroundAlpha="0"
 	doubleClickEnabled="true"
-	creationComplete="init()" viewSourceURL="srcview/index.html">
+	creationComplete="init()" 
+	viewSourceURL="srcview/index.html">
 	
 	<!--Initialize the Cairngorm Application Controller-->
 	<control:AppController id="controller" />
@@ -47,6 +48,9 @@ THE SOFTWARE.
 	
 	<mx:Script>
 		<![CDATA[
+			import be.nascom.airbob.view.NotificationWindow;
+			import be.nascom.airbob.vo.Project;
+			import be.nascom.airbob.events.ProjectStateChangedEvent;
 			import mx.core.Window;
 			import mx.controls.Label;
 			import mx.controls.Button;
@@ -80,7 +84,7 @@ THE SOFTWARE.
 				resizeBackground();
 				
 				// Init buttons assets from the 'airbob_assets.swc' file
-				urlButton.addChild(new UrlIcon());	  		
+				settingsButton.addChild(new SettingsIcon());	  		
 		  		favButton.addChild(new FavIcon());
 				
 				// Add the event listsners for systray
@@ -220,6 +224,23 @@ THE SOFTWARE.
 			private function closeApp(event:Event):void 
 			{
 				closeApplicationEffect.play();				
+			}
+			
+			private function testPopup():void 
+			{
+//				try
+//				{
+//					var toaster:NotificationWindow = new NotificationWindow(model.projects.getItemAt(0) as Project);			
+//					toaster.open(true);	
+//					var xFrom:Number = Screen.mainScreen.bounds.width - (toaster.width+10);
+//					var yFrom:Number = Screen.mainScreen.bounds.height;
+//					var yTo:Number = Screen.mainScreen.bounds.height - (toaster.height+40);				
+//					toaster.popup(xFrom, xFrom, yFrom, yTo);
+//				}
+//				catch(error:Error)
+//				{
+//					logger.error(error.message);
+//				}
 			}		
 						
 		]]>
@@ -254,12 +275,12 @@ THE SOFTWARE.
     <mx:Fade id="openApplicationEffect" duration="1000" alphaFrom="0.0" alphaTo="1.0" target="{this}"/>
 	
 	<!--Airbob background container-->
-	<mx:UIComponent id="bgContainer" width="100%" height="100%"/>
+	<mx:UIComponent id="bgContainer" width="100%" height="100%" />
 	
 	<!--Url Button-->
-	<mx:UIComponent id="urlButton" right="65" top="35" buttonMode="true" mouseChildren="false"
+	<mx:UIComponent id="settingsButton" right="55" top="35" buttonMode="true" mouseChildren="false"
 		alpha="{dashboardView.urlVisible?0.5:1}"  
-		toolTip="{dashboardView.urlVisible?'Hide cruise control url':'Show cruise control url'}" 
+		toolTip="{dashboardView.urlVisible?'Hide settings':'Show settings'}" 
 		click="dashboardView.handleUrlButtonClick(event)"/>
 	
 	<!--Favorite Button-->
@@ -274,7 +295,7 @@ THE SOFTWARE.
 		
 		<!--Custom Chrome Titlebar-->
 		<mx:HBox id="customChrome" height="25" width="100%" horizontalAlign="right" horizontalGap="1" paddingRight="2">			
-			<mx:Canvas mouseDown="nativeWindow.startMove()" width="100%" height="25" />
+			<mx:Canvas click="testPopup()"  mouseDown="nativeWindow.startMove()" width="100%" height="25" />
 			<chrome:WindowControlMinimize click="minimize()"/>
 			<chrome:WindowControlExit click="close()"/>
 			<mx:Spacer width="2.5"/>

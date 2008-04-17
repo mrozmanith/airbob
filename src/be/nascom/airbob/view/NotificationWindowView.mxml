@@ -26,6 +26,7 @@ THE SOFTWARE.
 	xmlns:vo="be.nascom.airbob.vo.*" 
 	width="100%"
 	height="45"
+	borderStyle="none"
 	verticalScrollPolicy="off"
 	horizontalScrollPolicy="off"
 	creationComplete="init()" >		
