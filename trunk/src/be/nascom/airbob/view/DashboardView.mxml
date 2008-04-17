@@ -33,6 +33,7 @@ THE SOFTWARE.
 	
 	<mx:Script>
 		<![CDATA[
+			import be.nascom.airbob.events.CheckVersionEvent;
 			import mx.effects.easing.Elastic;
 			import be.nascom.airbob.events.SaveProjectSettingsEvent;
 			import be.nascom.airbob.commands.SaveProjectSettingsCommand;
@@ -88,6 +89,8 @@ THE SOFTWARE.
 		  	private function handleModelUpdated(event:Event):void 
 		  	{
 		  		calculateHeight(currentState);
+		  		
+		  		new CheckVersionEvent(true).dispatch();	    
 		  	}		  
 		  	
 		  	private function handleCurrentStateChange(event:StateChangeEvent):void 

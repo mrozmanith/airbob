@@ -54,7 +54,7 @@ package be.nascom.airbob.vo
 		private var _activity:String;
 		private var _lastBuildStatus:String;	
 		
-		public var setting:ProjectConfig;	
+		public var setting:ProjectSetting;	
 		
 		private static var logger:ILogger = Log.getLogger("DashboardProject");
 		
@@ -73,7 +73,7 @@ package be.nascom.airbob.vo
 			this._lastBuildStatus = data.lastBuildStatus;
 			this._activity = data.activity;
 			
-			this.setting = new ProjectConfig(this);
+			this.setting = new ProjectSetting(this);
 		}
 		
 		public function hasChanged(project:Project):Boolean 

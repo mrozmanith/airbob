@@ -47,6 +47,7 @@ THE SOFTWARE.
 	
 	<mx:Script>
 		<![CDATA[
+			import be.nascom.airbob.events.CheckVersionEvent;
 			import be.nascom.airbob.view.NotificationWindow;
 			import be.nascom.airbob.vo.Project;
 			import be.nascom.airbob.events.ProjectStateChangedEvent;
@@ -91,7 +92,8 @@ THE SOFTWARE.
 		    	addEventListener(Event.CLOSING, closingApplication);		
 		    	model.addEventListener(AppModelLocator.EVENT_MODEL_UPDATED, handleModelUpdated);	    			    				    			    	
 		    
-		    	openApplicationEffect.play();			    		    			    			    
+		    	openApplicationEffect.play();		
+		    			    			    			    			   
 		  	}
 		  	
 		  	/**
@@ -188,7 +190,7 @@ THE SOFTWARE.
 			
 			public function openAbout(event:Event):void 
 			{
-				navigateToURL(new URLRequest('http://airbob.googlecode.com'))
+				navigateToURL(new URLRequest(model.settings.aboutUrl));
 			}
 			
 			/**
