@@ -170,12 +170,15 @@ THE SOFTWARE.
 		
 		<!--Components visible in 'connected' state-->
 		<mx:HBox id="urlBox" width="100%" height="0" hideEffect="{hideEffect}" showEffect="{showEffect}">
+			<mx:Label text="url:" color="#FFFFFF"/>
 			<components:AirbobTextInput id="urlInput" text="{model.config.url}" color="White" width="100%" paddingLeft="2" paddingTop="2" paddingBottom="2" paddingRight="2"/>
 		</mx:HBox>	 	
 		
 		<!--Components visible in 'connecting' state-->
-		<mx:Label text="Connecting..." toolTip="Connecting to {model.config.url}..." color="#FFFFFF" id="labelConnecting" paddingTop="10" paddingLeft="10"/>
-		<mx:ProgressBar indeterminate="true" id="progressbarConnecting" width="{labelConnecting.width}" label="" paddingLeft="10"/>			
+		<mx:Label text="Connecting to Cruisecontrol..." toolTip="Connecting to {model.config.url}..." 
+			color="#FFFFFF" id="labelConnecting" paddingTop="10" paddingLeft="75"/>
+			
+		<mx:ProgressBar indeterminate="true" id="progressbarConnecting" width="200" label="" paddingLeft="125" />			
 		
 		<!--Components visible in 'disconnected' state-->		
 		<mx:Label text="Airbob can't connect to the cruise control server." color="#FFFFFF" id="labelDisconnected" paddingLeft="10" paddingTop="10"/>

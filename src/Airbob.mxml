@@ -37,8 +37,7 @@ THE SOFTWARE.
 	borderStyle="none"
 	backgroundAlpha="0"
 	doubleClickEnabled="true"
-	creationComplete="init()" 
-	viewSourceURL="srcview/index.html">
+	creationComplete="init()" 	>
 	
 	<!--Initialize the Cairngorm Application Controller-->
 	<control:AppController id="controller" />
@@ -228,19 +227,19 @@ THE SOFTWARE.
 			
 			private function testPopup():void 
 			{
-//				try
-//				{
-//					var toaster:NotificationWindow = new NotificationWindow(model.projects.getItemAt(0) as Project);			
-//					toaster.open(true);	
-//					var xFrom:Number = Screen.mainScreen.bounds.width - (toaster.width+10);
-//					var yFrom:Number = Screen.mainScreen.bounds.height;
-//					var yTo:Number = Screen.mainScreen.bounds.height - (toaster.height+40);				
-//					toaster.popup(xFrom, xFrom, yFrom, yTo);
-//				}
-//				catch(error:Error)
-//				{
-//					logger.error(error.message);
-//				}
+				try
+				{
+					var toaster:NotificationWindow = new NotificationWindow(model.projects.getItemAt(0) as Project);			
+					toaster.open(true);	
+					var xFrom:Number = Screen.mainScreen.bounds.width - (toaster.width+10);
+					var yFrom:Number = Screen.mainScreen.bounds.height;
+					var yTo:Number = Screen.mainScreen.bounds.height - (toaster.height+40);				
+					toaster.popup(xFrom, xFrom, yFrom, yTo);
+				}
+				catch(error:Error)
+				{
+					logger.error(error.message);
+				}
 			}		
 						
 		]]>
@@ -281,13 +280,15 @@ THE SOFTWARE.
 	<mx:UIComponent id="settingsButton" right="55" top="35" buttonMode="true" mouseChildren="false"
 		alpha="{dashboardView.urlVisible?0.5:1}"  
 		toolTip="{dashboardView.urlVisible?'Hide settings':'Show settings'}" 
-		click="dashboardView.handleUrlButtonClick(event)"/>
+		click="dashboardView.handleUrlButtonClick(event)" 
+		visible="{model.connectedState==AppModelLocator.STATE_CONNECTED}"/>
 	
 	<!--Favorite Button-->
 	<mx:UIComponent id="favButton" right="30" top="35" buttonMode="true" mouseChildren="false"
 		alpha="{dashboardView.showAll?0.5:1}"
 		toolTip="{dashboardView.showAll?'Show favorite projects':'Show all projects'}" 
-		click="dashboardView.showAll=!dashboardView.showAll"/>	
+		click="dashboardView.showAll=!dashboardView.showAll" 
+		visible="{model.connectedState==AppModelLocator.STATE_CONNECTED}"/>	
 	
 	<mx:VBox width="100%" height="100%" >
 		

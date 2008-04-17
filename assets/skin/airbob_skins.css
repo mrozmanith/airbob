@@ -2,6 +2,10 @@ Alert {
 	buttonStyleName: "alertButton";
 }
 
+Window {
+	showFlexChrome : false;
+}
+
 .alertButton {
 
 	letterSpacing: 0;
@@ -75,7 +79,7 @@ WindowControlExit
 	overSkin: Embed(source="airbob_skins.swf", symbol="WindowControlExit_overSkin");
 	upSkin: Embed(source="airbob_skins.swf", symbol="WindowControlExit_upSkin");
 }
-
+/*
 WindowControlMaximize
 {
 	disabledSkin: Embed(source="airbob_skins.swf", symbol="WindowControlMaximize_disabledSkin");
@@ -83,7 +87,7 @@ WindowControlMaximize
 	overSkin: Embed(source="airbob_skins.swf", symbol="WindowControlMaximize_overSkin");
 	upSkin: Embed(source="airbob_skins.swf", symbol="WindowControlMaximize_upSkin");
 }
-
+*/
 WindowControlMinimize
 {
 	disabledSkin: Embed(source="airbob_skins.swf", symbol="WindowControlMinimize_disabledSkin");
