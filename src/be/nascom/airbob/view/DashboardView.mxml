@@ -49,7 +49,7 @@ THE SOFTWARE.
 		  	import mx.rpc.events.ResultEvent;
 		  	
 		  	[Bindable]
-		  	public var urlVisible:Boolean = false;		  	
+		  	public var settingsVisible:Boolean = false;		  	
 		  	
 		  	[Bindable]
 		  	public var model:AppModelLocator = AppModelLocator.getInstance();
@@ -81,16 +81,14 @@ THE SOFTWARE.
 		  		{
 		  			// Initialize screen
 		  			currentState = AppModelLocator.STATE_INITIALIZING;		  			
-		  			handleUrlButtonClick();
+		  			handleSettingsButtonClick();
 		  		}
 		  		model.addEventListener(AppModelLocator.EVENT_MODEL_UPDATED, handleModelUpdated);		  				  				  	
 		  	}  
 		  	
 		  	private function handleModelUpdated(event:Event):void 
 		  	{
-		  		calculateHeight(currentState);
-		  		
-		  		new CheckVersionEvent(true).dispatch();	    
+		  		calculateHeight(currentState);		  				  		    
 		  	}		  
 		  	
 		  	private function handleCurrentStateChange(event:StateChangeEvent):void 
@@ -99,19 +97,19 @@ THE SOFTWARE.
 		  	}
 		  	
 		  	
-		  	public function handleUrlButtonClick(event:Event=null):void 
+		  	public function handleSettingsButtonClick(event:Event=null):void 
 		  	{		
-		  		urlVisible = !urlVisible;  				  	
-		  		if (urlVisible)
+		  		settingsVisible = !settingsVisible;  				  	
+		  		if (settingsVisible)
 		  		{		  			  			
 		  			showEffect.play();		  			 
 		  		}
 		  		else
 		  		{
 		  			hideEffect.play();
-		  			if (model.config.url!=urlInput.text) 
+		  			if (model.ccConfig.url!=urlInput.text) 
 		  			{	
-			  			model.config.url = urlInput.text;
+			  			model.ccConfig.url = urlInput.text;
 			  			new SaveCruiseControlConfigEvent().dispatch();
 		  			}
 		  		}		  					  	
@@ -122,9 +120,11 @@ THE SOFTWARE.
 		  	{
 		  		var appHeight:int = 1+25+25+20+4;
 		  		var blockHeight:int = 45+1;
+		  		
 		  		if (showAll) appHeight+=((blockHeight)*(model.projects.length+1));
 	  			else appHeight+=((blockHeight)*(model.favoriteProjectLength+1));		  			
-	  			if (urlVisible) appHeight+=25;
+	  			
+	  			if (settingsVisible) appHeight+=25;
 	  			
 	  			if (this.parentApplication.height!=appHeight) 
 	  			{
@@ -164,21 +164,29 @@ THE SOFTWARE.
 		</mx:State>
 	</mx:states>
 	
-	<mx:Resize id="showEffect" target="{urlBox}" heightTo="25"/>
-    <mx:Resize id="hideEffect" target="{urlBox}" heightTo="0"/>
+	<mx:Resize id="showEffect" target="{settingsBox}" heightTo="25"/>
+    <mx:Resize id="hideEffect" target="{settingsBox}" heightTo="0"/>
 	
 	<mx:VBox width="100%" left="10" right="10" top="25" verticalGap="4" id="vbox1" >
 		<!--Components visible in 'initializing' state-->		
-		<mx:Label text="Enter the cruise control url and click the url button." color="#FFFFFF" id="labelInitializing" paddingLeft="10" visible="{urlVisible}"/>
+		<mx:Label text="Enter the cruise control url and click the url button." color="#FFFFFF" id="labelInitializing" paddingLeft="10" visible="{settingsVisible}"/>
 		
-		<!--Components visible in 'connected' state-->
-		<mx:HBox id="urlBox" width="100%" height="0" hideEffect="{hideEffect}" showEffect="{showEffect}">
-			<mx:Label text="url:" color="#FFFFFF"/>
-			<components:AirbobTextInput id="urlInput" text="{model.config.url}" color="White" width="100%" paddingLeft="2" paddingTop="2" paddingBottom="2" paddingRight="2"/>
-		</mx:HBox>	 	
+		<mx:VBox id="settingsBox" width="100%" hideEffect="{hideEffect}" showEffect="{showEffect}" height="0">
+			<mx:HBox id="urlBox" width="100%" >
+				<mx:Label text="url:" color="#FFFFFF"/>
+				<components:AirbobTextInput id="urlInput" text="{model.ccConfig.url}" color="White" width="100%" paddingLeft="2" paddingTop="2" paddingBottom="2" paddingRight="2"/>
+			</mx:HBox>
+			<!--
+			<mx:HBox id="startAtLoginBox" width="100%" height="0" >
+				<mx:CheckBox id="startAtLogin" label="Start at login" selected="{NativeApplication.nativeApplication.startAtLogin}" 
+					change="{NativeApplication.nativeApplication.startAtLogin=startAtLogin.selected}" />
+			</mx:HBox>
+			-->	
+		</mx:VBox>		
+			 	
 		
 		<!--Components visible in 'connecting' state-->
-		<mx:Label text="Connecting to Cruisecontrol..." toolTip="Connecting to {model.config.url}..." 
+		<mx:Label text="Connecting to Cruisecontrol..." toolTip="Connecting to {model.ccConfig.url}..." 
 			color="#FFFFFF" id="labelConnecting" paddingTop="10" paddingLeft="75"/>
 			
 		<mx:ProgressBar indeterminate="true" id="progressbarConnecting" width="200" label="" paddingLeft="125" />			

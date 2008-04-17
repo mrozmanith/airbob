@@ -106,7 +106,7 @@ package be.nascom.airbob.view
 			fadeOutEffect.alphaTo = 0;
 			fadeOutEffect.addEventListener(EffectEvent.EFFECT_END, closeWindow);
 			
-			var timer:Timer = new Timer(5000);			
+			var timer:Timer = new Timer(6000);			
 			timer.addEventListener(TimerEvent.TIMER, onTimer);
 			timer.start();
 		}

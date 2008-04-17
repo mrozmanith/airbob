@@ -102,7 +102,7 @@ package be.nascom.airbob.control
 		 * */
 		private function initPolling():void 
 		{
-			var timer:Timer = new Timer(model.settings.interval);
+			var timer:Timer = new Timer(model.applicationSettings.interval);
 			timer.addEventListener(TimerEvent.TIMER, onTimer);
 			timer.start();
 		}
@@ -113,7 +113,7 @@ package be.nascom.airbob.control
 		private function onTimer(event:TimerEvent=null):void 
 		{
 			if (!model.emptyConfig)
-    			new LoadProjectsEvent(model.config).dispatch();
+    			new LoadProjectsEvent(model.ccConfig).dispatch();
 	  	}
 		
 	}

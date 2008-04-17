@@ -84,15 +84,7 @@ WindowControlExit
 	overSkin: Embed(source="airbob_skins.swf", symbol="WindowControlExit_overSkin");
 	upSkin: Embed(source="airbob_skins.swf", symbol="WindowControlExit_upSkin");
 }
-/*
-WindowControlMaximize
-{
-	disabledSkin: Embed(source="airbob_skins.swf", symbol="WindowControlMaximize_disabledSkin");
-	downSkin: Embed(source="airbob_skins.swf", symbol="WindowControlMaximize_downSkin");
-	overSkin: Embed(source="airbob_skins.swf", symbol="WindowControlMaximize_overSkin");
-	upSkin: Embed(source="airbob_skins.swf", symbol="WindowControlMaximize_upSkin");
-}
-*/
+
 WindowControlMinimize
 {
 	disabledSkin: Embed(source="airbob_skins.swf", symbol="WindowControlMinimize_disabledSkin");

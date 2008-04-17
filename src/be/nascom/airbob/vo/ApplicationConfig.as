@@ -21,16 +21,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-package be.nascom.airbob.view.components
+package be.nascom.airbob.vo
 {
-	import mx.controls.Button;
-
-	public class WindowControlMaximize extends Button
-	{
-		public function WindowControlMaximize()
-		{
-			super();
-		}
+	[Bindable]
+	[Table(name="applicationconfig")]
+	public class ApplicationConfig 
+	{				
+		public var interval:Number = 10000;
+		public var updateUrl:String = "http://airbob.googlecode.com/svn/trunk/assets/version.xml";
+		public var aboutUrl:String = "http://airbob.googlecode.com";
 		
+		public function ApplicationConfig()
+		{
+			
+		}
 	}
 }

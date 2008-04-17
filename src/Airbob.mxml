@@ -92,7 +92,7 @@ THE SOFTWARE.
 		    	addEventListener(Event.CLOSING, closingApplication);		
 		    	model.addEventListener(AppModelLocator.EVENT_MODEL_UPDATED, handleModelUpdated);	    			    				    			    	
 		    
-		    	openApplicationEffect.play();		
+		    	openApplicationEffect.play();			    			    			
 		    			    			    			    			   
 		  	}
 		  	
@@ -190,7 +190,7 @@ THE SOFTWARE.
 			
 			public function openAbout(event:Event):void 
 			{
-				navigateToURL(new URLRequest(model.settings.aboutUrl));
+				navigateToURL(new URLRequest(model.applicationSettings.aboutUrl));
 			}
 			
 			/**
@@ -226,23 +226,6 @@ THE SOFTWARE.
 			{
 				closeApplicationEffect.play();				
 			}
-			
-			private function testPopup():void 
-			{
-				try
-				{
-					var toaster:NotificationWindow = new NotificationWindow(model.projects.getItemAt(0) as Project);			
-					toaster.open(true);	
-					var xFrom:Number = Screen.mainScreen.bounds.width - (toaster.width+10);
-					var yFrom:Number = Screen.mainScreen.bounds.height;
-					var yTo:Number = Screen.mainScreen.bounds.height - (toaster.height+40);				
-					toaster.popup(xFrom, xFrom, yFrom, yTo);
-				}
-				catch(error:Error)
-				{
-					logger.error(error.message);
-				}
-			}		
 						
 		]]>
 	</mx:Script>
@@ -280,9 +263,9 @@ THE SOFTWARE.
 	
 	<!--Url Button-->
 	<mx:UIComponent id="settingsButton" right="55" top="35" buttonMode="true" mouseChildren="false"
-		alpha="{dashboardView.urlVisible?0.5:1}"  
-		toolTip="{dashboardView.urlVisible?'Hide settings':'Show settings'}" 
-		click="dashboardView.handleUrlButtonClick(event)" 
+		alpha="{dashboardView.settingsVisible?0.5:1}"  
+		toolTip="{dashboardView.settingsVisible?'Hide settings':'Show settings'}" 
+		click="dashboardView.handleSettingsButtonClick(event)" 
 		visible="{model.connectedState==AppModelLocator.STATE_CONNECTED}"/>
 	
 	<!--Favorite Button-->
@@ -298,7 +281,7 @@ THE SOFTWARE.
 		
 		<!--Custom Chrome Titlebar-->
 		<mx:HBox id="customChrome" height="25" width="100%" horizontalAlign="right" horizontalGap="1" paddingRight="2">			
-			<mx:Canvas click="testPopup()"  mouseDown="nativeWindow.startMove()" width="100%" height="25" />
+			<mx:Canvas mouseDown="nativeWindow.startMove()" width="100%" height="25" />
 			<chrome:WindowControlMinimize click="minimize()"/>
 			<chrome:WindowControlExit click="close()"/>
 			<mx:Spacer width="2.5"/>
