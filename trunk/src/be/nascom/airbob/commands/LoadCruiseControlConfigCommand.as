@@ -42,7 +42,7 @@ package be.nascom.airbob.commands
 			try 
 			{		
 				// TODO: Support for multiple cctray url's
-				model.config = entityManager.findAll(CruiseControlConfig).getItemAt(0) as CruiseControlConfig;		
+				model.ccConfig = entityManager.findAll(CruiseControlConfig).getItemAt(0) as CruiseControlConfig;		
 			} 
 			catch (error:Error) 
 			{

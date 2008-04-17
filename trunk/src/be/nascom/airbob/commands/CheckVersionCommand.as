@@ -38,15 +38,20 @@ package be.nascom.airbob.commands
 		private var logger:ILogger = Log.getLogger("CheckVersionCommand");
 				
 		public function execute( event:CairngormEvent ) : void 
-		{				
+		{	
 			var model:AppModelLocator = AppModelLocator.getInstance();
-			var updateManager:UpdateManager = new UpdateManager(model.settings.updateUrl, CheckVersionEvent(event).autoCheck);
-			updateManager.alertTitle = "Airbob"
-			
-			logger.debug("check for version: " + model.settings.updateUrl);
-			if (!CheckVersionEvent(event).autoCheck) {
-				updateManager.checkForUpdate();
+			if (!model.checkForUpdateDone) {			
+				
+				var updateManager:UpdateManager = new UpdateManager(model.applicationSettings.updateUrl, CheckVersionEvent(event).autoCheck);
+				updateManager.alertTitle = "Airbob"
+				
+				logger.debug("check for version: " + model.applicationSettings.updateUrl);
+				if (!CheckVersionEvent(event).autoCheck) {
+					updateManager.checkForUpdate();				
+				}
+				model.checkForUpdateDone = true;
 			}
+			
 		}
 	}
 }

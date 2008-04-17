@@ -42,7 +42,7 @@ package be.nascom.airbob.commands
 			try 
 			{		
 				entityManager.beginTransaction();
-				entityManager.save(model.config);		
+				entityManager.save(model.ccConfig);		
 				entityManager.commitTransaction();			
 			} 
 			catch (error:Error) 

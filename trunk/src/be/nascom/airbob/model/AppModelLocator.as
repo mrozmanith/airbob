@@ -23,11 +23,12 @@ THE SOFTWARE.
 
 package be.nascom.airbob.model
 {
+	import be.nascom.airbob.events.CheckVersionEvent;
 	import be.nascom.airbob.events.ProjectStateChangedEvent;
 	import be.nascom.airbob.vo.ApplicationConfig;
-	import be.nascom.airbob.vo.Project;
-	import be.nascom.airbob.vo.ProjectConfig;
 	import be.nascom.airbob.vo.CruiseControlConfig;
+	import be.nascom.airbob.vo.Project;
+	import be.nascom.airbob.vo.ProjectSetting;
 	
 	import com.adobe.cairngorm.model.IModelLocator;
 	
@@ -64,8 +65,8 @@ package be.nascom.airbob.model
                 
         public var projects:ArrayCollection = new ArrayCollection();
         public var favoriteProjectLength:int = 0;                		
-        public var config:CruiseControlConfig;        
-		public var settings:ApplicationConfig;	
+        public var ccConfig:CruiseControlConfig;        
+		public var applicationSettings:ApplicationConfig;	
         
         public var connectedState:String = STATE_CONNECTING;
         public var state:String = "Disconnected";        
@@ -75,7 +76,9 @@ package be.nascom.airbob.model
         public static const STATE_CONNECTING:String = "connecting";
         public static const STATE_INITIALIZING:String = "initializing";
         
-        public static const EVENT_MODEL_UPDATED:String = "EVENT_MODEL_UPDATED";
+        public static const EVENT_MODEL_UPDATED:String = "EVENT_MODEL_UPDATED";    
+        
+        public var checkForUpdateDone:Boolean = false;    
 		
 		/**
 	     * singleton: constructor only allows one model locator
@@ -94,8 +97,8 @@ package be.nascom.airbob.model
         	iconDisconnected = new IconDisconnected().bitmapData;
         	
         	// Init 
-        	settings = new ApplicationConfig();      
-        	config = new CruiseControlConfig();  	   	
+        	applicationSettings = new ApplicationConfig();      
+        	ccConfig = new CruiseControlConfig();  	   	
 		}
 
 		/**
@@ -116,7 +119,7 @@ package be.nascom.airbob.model
 		 * */
 		public function get emptyConfig():Boolean
 		{
-			return (model.config==null || model.config.url==null || model.config.url=="");
+			return (model.ccConfig==null || model.ccConfig.url==null || model.ccConfig.url=="");
 		}
 		
 		/**
@@ -152,6 +155,7 @@ package be.nascom.airbob.model
 			if (projects.length!=projectData.length)
 			{	 
 	 			initModel(projectData, projectSettings);
+	 			new CheckVersionEvent(true).dispatch();
 		   	} 
 		   	else 
 		   	{
@@ -160,13 +164,13 @@ package be.nascom.airbob.model
 		   	model.connectedState = STATE_CONNECTED;		   		
 		}				
 		
-		private function getProjectSetting(project:Project, projectSettings:ArrayCollection) : ProjectConfig
+		private function getProjectSetting(project:Project, projectSettings:ArrayCollection) : ProjectSetting
 		{
-			for each(var setting:ProjectConfig in projectSettings) 
+			for each(var setting:ProjectSetting in projectSettings) 
 			{
 				if (setting.projectName==project.name) return setting;				
 			}
-			return new ProjectConfig(project);
+			return new ProjectSetting(project);
 		} 
 		
 		/**
@@ -178,7 +182,7 @@ package be.nascom.airbob.model
 			for(var i:uint=0; i < projectData.length; i++) 
 			{
 				var project:Project = new Project(projectData[i]);
-				project.config = config;
+				project.config = ccConfig;
 				project.setting = getProjectSetting(project, projectSettings);
 	   			projectsTemp.addItem(project);
 	   		}
@@ -200,7 +204,7 @@ package be.nascom.airbob.model
 	   				{
 		   				if (projects[j].hasChanged(project)) 
 		   				{
-		   					project.config = config;
+		   					project.config = ccConfig;
 		   					project.setting = getProjectSetting(project, projectSettings);
 		   					projects[j].activity = project.activity;		   		
 		   					projects[j].lastBuildLabel = project.lastBuildLabel;
