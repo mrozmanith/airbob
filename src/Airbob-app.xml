@@ -15,7 +15,7 @@
 -->
 
 	<!-- The application identifier string, unique to this application. Required. -->
-	<id>Airbob</id>
+	<id>be.nascom.Airbob</id>
 
 	<!-- Used as the filename for the application. Required. -->
 	<filename>Airbob</filename>

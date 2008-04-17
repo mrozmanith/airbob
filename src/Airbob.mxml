@@ -262,18 +262,16 @@ THE SOFTWARE.
 	<mx:UIComponent id="bgContainer" width="100%" height="100%" />
 	
 	<!--Url Button-->
-	<mx:UIComponent id="settingsButton" right="30" top="35" buttonMode="true" mouseChildren="false"
+	<mx:UIComponent id="settingsButton" right="58" top="35" buttonMode="true" mouseChildren="false"
 		alpha="{dashboardView.settingsVisible?0.5:1}"  
 		toolTip="{dashboardView.settingsVisible?'Hide settings':'Show settings'}" 
-		click="dashboardView.handleSettingsButtonClick(event)" 
-		visible="{model.connectedState!=AppModelLocator.STATE_CONNECTING}"/>
+		click="dashboardView.handleSettingsButtonClick(event)" />
 	
 	<!--Favorite Button-->
-	<mx:UIComponent id="favButton" right="55" top="35" buttonMode="true" mouseChildren="false"
+	<mx:UIComponent id="favButton" right="36" top="35" buttonMode="true" mouseChildren="false"
 		alpha="{dashboardView.showAll?0.5:1}"
 		toolTip="{dashboardView.showAll?'Show favorite projects':'Show all projects'}" 
-		click="dashboardView.showAll=!dashboardView.showAll" 
-		visible="{model.connectedState==AppModelLocator.STATE_CONNECTED}"/>	
+		click="dashboardView.showAll=!dashboardView.showAll" />	
 	
 	<mx:VBox width="100%" height="100%" >
 		
