@@ -25,14 +25,13 @@ package be.nascom.airbob.view
 {
 	import be.nascom.airbob.vo.Project;
 	
+	import flash.display.NativeWindowSystemChrome;
 	import flash.display.NativeWindowType;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
 	
-	import mx.containers.VBox;
-	import mx.controls.Label;
 	import mx.core.UIComponent;
 	import mx.core.Window;
 	import mx.effects.Fade;
@@ -63,7 +62,7 @@ package be.nascom.airbob.view
 			this.showStatusBar = false;
 			this.showTitleBar = false;
 			this.showGripper = false;			
-			this.systemChrome = "none";
+			this.systemChrome = NativeWindowSystemChrome.NONE;
 			this.transparent = true;
 			this.height = windowHeight;
 			this.width = windowWidth;
@@ -72,7 +71,7 @@ package be.nascom.airbob.view
 			this.minimizable = false;
 			this.horizontalScrollPolicy = "off";
 			this.verticalScrollPolicy = "off";				
-			this.alwaysInFront = true;						
+			this.alwaysInFront = true;	
 			
 			// Add the content
 			if (project!=null) {

@@ -24,6 +24,7 @@ THE SOFTWARE.
 package be.nascom.airbob.control
 {
 	import be.nascom.air.logging.FileTarget;
+	import be.nascom.airbob.commands.CheckVersionCommand;
 	import be.nascom.airbob.commands.ForceBuildCommand;
 	import be.nascom.airbob.commands.LoadCruiseControlConfigCommand;
 	import be.nascom.airbob.commands.LoadProjectsCommand;
@@ -54,6 +55,7 @@ package be.nascom.airbob.control
 		public static const SAVE_CONFIG_EVENT:String = "be.nascom.airbob.events.SaveConfigEvent";
 		public static const SAVE_PROJECT_SETTINGS_EVENT:String = "be.nascom.airbob.events.SaveProjectSettingsEvent";
 		public static const PROJECT_STATE_CHANGED_EVENT:String = "be.nascom.airbob.events.ProjectStateChangedEvent";
+		public static const CHECK_VERSION_EVENT:String = "be.nascom.airbob.events.CheckVersionEvent";
 		
 		private var model:AppModelLocator = AppModelLocator.getInstance();
 		
@@ -66,6 +68,7 @@ package be.nascom.airbob.control
 			addCommand(SAVE_CONFIG_EVENT, SaveCruiseControlConfigCommand);
 			addCommand(SAVE_PROJECT_SETTINGS_EVENT, SaveProjectSettingsCommand);
 			addCommand(PROJECT_STATE_CHANGED_EVENT, ProjectStateChangedCommand);
+			addCommand(CHECK_VERSION_EVENT, CheckVersionCommand);
 			
 			// Load the configuration
 			new LoadCruiseControlConfigEvent().dispatch();

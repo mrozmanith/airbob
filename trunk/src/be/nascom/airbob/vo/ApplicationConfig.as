@@ -27,6 +27,7 @@ package be.nascom.airbob.vo
 	[Table(name="applicationconfig")]
 	public class ApplicationConfig {				
 		public var interval:Number = 10000;
+		public var updateUrl:String = "http://";
 		
 		public function ApplicationConfig()
 		{
