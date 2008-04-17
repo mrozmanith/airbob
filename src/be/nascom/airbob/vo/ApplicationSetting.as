@@ -25,11 +25,13 @@ package be.nascom.airbob.vo
 {
 	[Bindable]
 	[Table(name="applicationconfig")]
-	public class ApplicationConfig {				
+	public class ApplicationSetting 
+	{				
 		public var interval:Number = 10000;
-		public var updateUrl:String = "http://";
+		public var updateUrl:String = "http://airbob.googlecode.com/svn/trunk/assets/version.xml";
+		public var aboutUrl:String = "http://airbob.googlecode.com";
 		
-		public function ApplicationConfig()
+		public function ApplicationSetting()
 		{
 			
 		}

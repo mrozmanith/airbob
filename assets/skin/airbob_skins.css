@@ -1,9 +1,8 @@
+
 Alert {
 	buttonStyleName: "alertButton";
-}
-
-Window {
-	showFlexChrome : false;
+	background-color:#F1B938;	
+	border-color:#F1B938;
 }
 
 .alertButton {
@@ -17,6 +16,12 @@ Window {
 	textRollOverColor: white;
 	color: white;	
 }
+
+Window {
+	showFlexChrome : false;
+}
+
+
 
 .smallText 
 {
@@ -94,19 +99,6 @@ WindowControlMinimize
 	downSkin: Embed(source="airbob_skins.swf", symbol="WindowControlMinimize_downSkin");
 	overSkin: Embed(source="airbob_skins.swf", symbol="WindowControlMinimize_overSkin");
 	upSkin: Embed(source="airbob_skins.swf", symbol="WindowControlMinimize_upSkin");
-}
-
-
-Panel
-{
-
-	closeButtonDisabledSkin: Embed(source="airbob_skins.swf",symbol="Panel_closeButtonDisabledSkin");
-	closeButtonDownSkin: Embed(source="airbob_skins.swf",symbol="Panel_closeButtonDownSkin");
-	closeButtonOverSkin: Embed(source="airbob_skins.swf",symbol="Panel_closeButtonOverSkin");
-	closeButtonUpSkin: Embed(source="airbob_skins.swf",symbol="Panel_closeButtonUpSkin");
-	borderSkin: Embed(source="airbob_skins.swf", symbol="Panel_borderSkin");
-	titleBackgroundSkin: Embed(source="empty.swf", symbol="Panel_titleBackgroundSkin");
-
 }
 
 ProgressBar
