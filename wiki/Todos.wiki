@@ -4,6 +4,7 @@
 = TODO'S: =
 
   * ~~System tray notifications for status changes.~~ _DONE!_
+  * ~~Auto update functionality~~ _DONE!_
   * UI animations and transitions.
   * Test Mac and Linux versions.
   * Multiple server support.
