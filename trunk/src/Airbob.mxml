@@ -121,8 +121,15 @@ THE SOFTWARE.
 			private function handleModelUpdated(event:Event):void
 			{
 				var message:String = "Airbob says: " + model.state;
-				SystemTrayIcon(NativeApplication.nativeApplication.icon).tooltip = message;
-				NativeApplication.nativeApplication.icon.bitmaps = [model.trayIcon];								
+				if (NativeApplication.supportsSystemTrayIcon)
+				{
+					SystemTrayIcon(NativeApplication.nativeApplication.icon).tooltip = message;
+					NativeApplication.nativeApplication.icon.bitmaps = [model.trayIcon];	
+				}	
+				else
+				{
+					DockIcon(NativeApplication.nativeApplication.icon).bounce();
+				}						
 			}
 		  	
 		  	private function prepareForSystray(event:Event):void 
