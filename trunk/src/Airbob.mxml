@@ -125,10 +125,6 @@ THE SOFTWARE.
 				{
 					SystemTrayIcon(NativeApplication.nativeApplication.icon).tooltip = message;
 					NativeApplication.nativeApplication.icon.bitmaps = [model.trayIcon];	
-				}	
-				else
-				{
-					DockIcon(NativeApplication.nativeApplication.icon).bounce();
 				}						
 			}
 		  	
@@ -154,9 +150,13 @@ THE SOFTWARE.
 			private function createSystrayRootMenu():NativeMenu 
 			{
 				var menu:NativeMenu = new NativeMenu();
-				var openNativeMenuItem:NativeMenuItem = new NativeMenuItem("Show");
-				openNativeMenuItem.addEventListener(Event.SELECT, undock);
-				menu.addItem(openNativeMenuItem);
+				
+				if (NativeApplication.supportsSystemTrayIcon)
+				{
+					var openNativeMenuItem:NativeMenuItem = new NativeMenuItem("Show");
+					openNativeMenuItem.addEventListener(Event.SELECT, undock);
+					menu.addItem(openNativeMenuItem);
+				}
 				
 				var aboutNativeMenuItem:NativeMenuItem = new NativeMenuItem("About");
 				aboutNativeMenuItem.addEventListener(Event.SELECT, openAbout);

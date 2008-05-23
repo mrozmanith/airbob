@@ -30,6 +30,7 @@ package be.nascom.airbob.commands
 	import com.adobe.cairngorm.commands.ICommand;
 	import com.adobe.cairngorm.control.CairngormEvent;
 	
+	import flash.desktop.NativeApplication;
 	import flash.display.Screen;
 	
 	import mx.logging.ILogger;
@@ -48,10 +49,19 @@ package be.nascom.airbob.commands
 				
 				var toaster:NotificationWindow = new NotificationWindow(project);			
 				toaster.open(true);	
-				var xFrom:Number = Screen.mainScreen.bounds.width - (toaster.width+10);
-				var yFrom:Number = Screen.mainScreen.bounds.height;
-				var yTo:Number = Screen.mainScreen.bounds.height - (toaster.height+40);
+				var xFrom:Number = Screen.mainScreen.bounds.width - (toaster.width+10);;
+				var yFrom:Number;
+				var yTo:Number;
 				
+				if (NativeApplication.supportsSystemTrayIcon)
+				{
+					yFrom = Screen.mainScreen.bounds.height;
+					yTo = Screen.mainScreen.bounds.height - (toaster.height+40);
+				} else {
+					yFrom = 0;
+					yTo = 0 + (toaster.height);
+					
+				}
 				toaster.popup(xFrom, xFrom, yFrom, yTo);
 			}
 		}	
