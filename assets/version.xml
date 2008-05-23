@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <currentVersion 
-	version="Beta 2"
-	downloadLocation="http://airbob.googlecode.com/files/Airbob-beta2.air"   
+	version="v0.9"
+	downloadLocation="http://airbob.googlecode.com/files/Airbob.air"   
 	forceUpdate="false"
-	message="This is the beta 2 release"/>
+	message="Version 0.9 has some bugfixes for mac users. Version 1.0 will be released when it has been tested fully on Linux."/>
