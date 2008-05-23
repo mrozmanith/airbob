@@ -6,7 +6,8 @@
   * ~~System tray notifications for status changes.~~ _DONE!_
   * ~~Auto update functionality~~ _DONE!_
   * UI animations and transitions.
-  * Test Mac and Linux versions.
+  * ~~Test Mac version~~
+  * Test Linux version
   * Multiple server support.
   * Add elapsed time when project is building.
   * Cleanup the code.
