@@ -1,0 +1,145 @@
+
+Alert {
+	buttonStyleName: "alertButton";
+	background-color:#F1B938;	
+	border-color:#F1B938;
+}
+
+.alertButton {
+
+	letterSpacing: 0;
+	fontFamily:"EN Moist";		
+   	fontAntiAliasType:normal;	   
+   	font-size:8;
+	cornerRadius: 10;
+	fontWeight: normal;
+	textRollOverColor: white;
+	color: white;	
+}
+
+Window {
+	showFlexChrome : false;
+}
+
+
+
+.smallText 
+{
+   	fontFamily:"EN Moist";		
+   	fontAntiAliasType:normal;	   
+   	font-size:8;
+}
+		
+.smallCombobox 
+{
+   	color:#0b333c;
+   	fontFamily:"Arial";		
+   	fontAntiAliasType:normal;
+   	font-size:9;
+   	/*dropdown-style-name:myComboBoxDropDowns;*/   	         
+}
+
+.myComboBoxDropDowns 
+{
+   	dropShadowEnabled: true;
+    shadowDistance: 3;
+    shadowDirection: "right";
+    cornerRadius: 5;	   
+}	
+
+.scrollBarPadding {
+   paddingRight: 25;
+}
+.noscrollBarPadding {
+   paddingRight: 0;
+}	
+
+Application
+{
+	backgroundImage: Embed(source="airbob_skins.swf",symbol="BackgroundImage");
+}
+
+Button
+{
+	disabledSkin: Embed(source="airbob_skins.swf", symbol="Button_disabledSkin");
+	downSkin: Embed(source="airbob_skins.swf", symbol="Button_downSkin");
+	overSkin: Embed(source="airbob_skins.swf", symbol="Button_overSkin");
+	upSkin: Embed(source="airbob_skins.swf", symbol="Button_upSkin");
+	padding-bottom: 0;
+	padding-left: 0;
+	padding-right: 0;
+	padding-top: 0;
+	button-padding: 0;
+	embedFont: true;
+	color: #FFFFFF;
+	textRollOverColor: #FFFFFF;
+	textSelectedColor: #FFCCCC;
+	disabledColor: #FF7777;
+}
+
+WindowControlExit
+{
+	disabledSkin: Embed(source="airbob_skins.swf", symbol="WindowControlExit_disabledSkin");
+	downSkin: Embed(source="airbob_skins.swf", symbol="WindowControlExit_downSkin");
+	overSkin: Embed(source="airbob_skins.swf", symbol="WindowControlExit_overSkin");
+	upSkin: Embed(source="airbob_skins.swf", symbol="WindowControlExit_upSkin");
+}
+
+WindowControlMinimize
+{
+	disabledSkin: Embed(source="airbob_skins.swf", symbol="WindowControlMinimize_disabledSkin");
+	downSkin: Embed(source="airbob_skins.swf", symbol="WindowControlMinimize_downSkin");
+	overSkin: Embed(source="airbob_skins.swf", symbol="WindowControlMinimize_overSkin");
+	upSkin: Embed(source="airbob_skins.swf", symbol="WindowControlMinimize_upSkin");
+}
+
+ProgressBar
+{
+
+	barSkin: Embed(source="airbob_skins.swf", symbol="ProgressBarSkin");
+	indeterminateSkin: Embed(source="airbob_skins.swf", symbol="ProgressIndeterminateSkin");
+	trackSkin: Embed(source="airbob_skins.swf", symbol="ProgressTrackSkin");
+
+}
+
+ScrollBar
+{
+
+	downArrowDisabledSkin: Embed(source="airbob_skins.swf", symbol="ScrollArrowDown_disabledSkin");
+	downArrowDownSkin: Embed(source="airbob_skins.swf", symbol="ScrollArrowDown_downSkin");
+	downArrowOverSkin: Embed(source="airbob_skins.swf", symbol="ScrollArrowDown_overSkin");
+	downArrowUpSkin: Embed(source="airbob_skins.swf", symbol="ScrollArrowDown_upSkin");
+	thumbDownSkin: Embed(source="airbob_skins.swf", symbol="ScrollThumb_downSkin");
+	thumbIcon: Embed(source="airbob_skins.swf", symbol="ScrollBar_thumbIcon");
+	thumbOverSkin: Embed(source="airbob_skins.swf", symbol="ScrollThumb_overSkin");
+	thumbUpSkin: Embed(source="airbob_skins.swf", symbol="ScrollThumb_upSkin");
+	trackSkin: Embed(source="airbob_skins.swf", symbol="ScrollTrack_Skin");
+	upArrowDisabledSkin: Embed(source="airbob_skins.swf", symbol="ScrollArrowUp_disabledSkin");
+	upArrowDownSkin: Embed(source="airbob_skins.swf", symbol="ScrollArrowUp_downSkin");
+	upArrowOverSkin: Embed(source="airbob_skins.swf", symbol="ScrollArrowUp_overSkin");
+	upArrowUpSkin: Embed(source="airbob_skins.swf", symbol="ScrollArrowUp_upSkin");
+
+}
+
+AirbobTextInput
+{
+	backgroundImage: Embed(source="airbob_skins.swf", symbol="InputField_backgroundImage");
+	borderSkin: Embed(source="airbob_skins.swf", symbol="InputField_borderSkin");
+	focusSkin: Embed(source="airbob_skins.swf", symbol="InputField_focusSkin");
+	error-color: #ffcc00;
+	fontFamily:"EN Moist";		
+   	fontAntiAliasType:normal;	   
+   	font-size:8;
+}
+
+
+ToolTip
+{
+
+	borderSkin: Embed(source="airbob_skins.swf", symbol="ToolTip_borderSkin");
+	fontFamily:"EN Moist";		
+   	fontAntiAliasType:normal;	   
+   	font-size:8;
+   	color: white;
+}
+

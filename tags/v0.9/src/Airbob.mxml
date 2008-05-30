@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (c) 2008 Airbob Contributors.  See:
+    http://code.google.com/p/airbob/wiki/ProjectContributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+<mx:WindowedApplication 
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:control="be.nascom.airbob.control.*" 
+	xmlns:view="be.nascom.airbob.view.*" 
+	xmlns:business="be.nascom.airbob.business.*"
+	xmlns:chrome="be.nascom.airbob.view.components.*"
+	title="Airbob"	
+	layout="absolute" 
+	alpha="0"	
+	showStatusBar="false"		
+	showGripper="true"
+	gripperPadding="7"
+	showTitleBar="false"
+	borderStyle="none"
+	backgroundAlpha="0"
+	doubleClickEnabled="true"
+	creationComplete="init()" 	>
+	
+	<!--Initialize the Cairngorm Application Controller-->
+	<control:AppController id="controller" />
+	
+	<!--Initialize the Cairngorm Service Locator-->
+	<business:Services id="services"/>
+	
+	<mx:Script>
+		<![CDATA[
+			import be.nascom.airbob.events.CheckVersionEvent;
+			import be.nascom.airbob.view.NotificationWindow;
+			import be.nascom.airbob.vo.Project;
+			import be.nascom.airbob.events.ProjectStateChangedEvent;
+			import mx.core.Window;
+			import mx.controls.Label;
+			import mx.controls.Button;
+			import flash.net.navigateToURL;
+			import be.nascom.airbob.events.LoadCruiseControlConfigEvent;
+			import mx.logging.Log;
+			import mx.logging.ILogger;
+			import be.nascom.airbob.vo.CruiseControlConfig;
+			import be.nascom.airbob.events.LoadProjectsEvent;
+			import be.nascom.airbob.commands.LoadProjectsCommand;
+			import com.adobe.cairngorm.model.ModelLocator;
+			import be.nascom.airbob.model.AppModelLocator;
+			
+			private static var logger:ILogger = Log.getLogger("Airbob");
+			
+			[Bindable]
+			private var model:AppModelLocator = AppModelLocator.getInstance();	
+			
+			private var background:AirbobBackground;
+			private var maximized:Boolean = false;
+			
+			/**
+			 * Init the app
+			 */
+			private function init():void 
+			{	
+				
+				// Init background asset from the 'airbob_assets.swc' file
+				background = new AirbobBackground();			
+				bgContainer.addChild(background);
+				resizeBackground();
+				
+				// Init buttons assets from the 'airbob_assets.swc' file
+				settingsButton.addChild(new SettingsIcon());	  		
+		  		favButton.addChild(new FavIcon());
+				
+				// Add the event listsners for systray
+		    	addEventListener(Event.ADDED, prepareForSystray);
+		    	addEventListener(Event.CLOSING, closingApplication);		
+		    	model.addEventListener(AppModelLocator.EVENT_MODEL_UPDATED, handleModelUpdated);	    			    				    			    	
+		    
+		    	openApplicationEffect.play();			    			    			
+		    			    			    			    			   
+		  	}
+		  	
+		  	/**
+		  	 * Override to resize the external assets
+		  	 * */
+		  	override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void 
+		  	{
+				super.updateDisplayList(unscaledWidth, unscaledHeight);
+				resizeBackground();
+			}
+		  	
+		  	private function resizeBackground():void 
+		  	{
+				try 
+				{					
+					background.width = bgContainer.width;
+					background.height = bgContainer.height;
+				} 
+				catch (error:Error) 
+				{
+					logger.debug(error.toString());
+				}
+			}
+			
+			private function handleModelUpdated(event:Event):void
+			{
+				var message:String = "Airbob says: " + model.state;
+				if (NativeApplication.supportsSystemTrayIcon)
+				{
+					SystemTrayIcon(NativeApplication.nativeApplication.icon).tooltip = message;
+					NativeApplication.nativeApplication.icon.bitmaps = [model.trayIcon];	
+				}						
+			}
+		  	
+		  	private function prepareForSystray(event:Event):void 
+		  	{			  										
+				if (NativeApplication.supportsSystemTrayIcon)
+				{
+					// Specific code for Microsoft Windows 
+					setSystemTrayProperties();
+					SystemTrayIcon(NativeApplication.nativeApplication.icon).menu = createSystrayRootMenu();	
+					NativeApplication.nativeApplication.icon.bitmaps = [model.trayIcon];				
+				} 
+				else if (NativeApplication.supportsDockIcon) 
+				{
+				    // Specific code for Apple OSX
+				    DockIcon(NativeApplication.nativeApplication.icon).menu = createSystrayRootMenu();				
+				}														
+			}	
+			
+			/**
+			 * Create the systemtray / dock menu
+			 **/
+			private function createSystrayRootMenu():NativeMenu 
+			{
+				var menu:NativeMenu = new NativeMenu();
+				
+				if (NativeApplication.supportsSystemTrayIcon)
+				{
+					var openNativeMenuItem:NativeMenuItem = new NativeMenuItem("Show");
+					openNativeMenuItem.addEventListener(Event.SELECT, undock);
+					menu.addItem(openNativeMenuItem);
+				}
+				
+				var aboutNativeMenuItem:NativeMenuItem = new NativeMenuItem("About");
+				aboutNativeMenuItem.addEventListener(Event.SELECT, openAbout);
+				menu.addItem(aboutNativeMenuItem);
+				
+				if (NativeApplication.supportsSystemTrayIcon)
+				{
+					// For mac don't add the exit to the dock menu
+					var exitNativeMenuItem:NativeMenuItem = new NativeMenuItem("Exit");
+					exitNativeMenuItem.addEventListener(Event.SELECT, closeApp);
+					menu.addItem(new NativeMenuItem("",true));
+					menu.addItem(exitNativeMenuItem);
+				}
+				
+				return menu;
+			}
+						
+			private function setSystemTrayProperties():void 
+			{
+				SystemTrayIcon(NativeApplication.nativeApplication.icon).tooltip = "Airbob says: " + model.state;
+				SystemTrayIcon(NativeApplication.nativeApplication.icon).addEventListener(MouseEvent.CLICK, undock);				    	     		
+			}
+			
+			private function nwMinimized(displayStateEvent:NativeWindowDisplayStateEvent):void 
+			{
+				if(displayStateEvent.afterDisplayState == NativeWindowDisplayState.MINIMIZED) 
+				{
+					displayStateEvent.preventDefault();
+					dock();
+				} 
+			}
+			
+			public function dock():void  
+			{
+				stage.nativeWindow.visible = false;
+				NativeApplication.nativeApplication.icon.bitmaps = [model.trayIcon];
+			}	
+			
+			public function openAbout(event:Event):void 
+			{
+				navigateToURL(new URLRequest(model.applicationSettings.aboutUrl));
+			}
+			
+			/**
+			 * Show the application again and remove the application icon from the systray
+			 */
+			public function undock(event:Event):void 
+			{
+				stage.nativeWindow.visible = true;	
+				stage.nativeWindow.orderToFront();			
+			}
+			
+			/**
+			 * Minimize to systray if the OS is Windows / close of the OS is OSX
+			 * */
+			private function closingApplication(event:Event):void 
+			{	
+				logger.debug("Closing application");			
+				if (NativeApplication.supportsSystemTrayIcon)
+				{
+					event.preventDefault();
+					dock();		
+				} 
+				else 
+				{
+					closeApp(event);
+				}
+			}				
+			
+			/**
+			 * Close the application
+			 * */
+			private function closeApp(event:Event):void 
+			{
+				closeApplicationEffect.play();				
+			}
+						
+		]]>
+	</mx:Script>
+	
+	<mx:Style source="../assets/skin/airbob_skins.css" />
+	
+	<mx:Style >
+		@font-face {
+		 	src:url("../assets/skin/airbob_fonts.swf"); 
+		 	fontFamily: "EN Moist";
+		 	fontWeight:normal;
+		}	
+		@font-face {
+		 	src:url("../assets/skin/airbob_fonts.swf"); 
+		 	fontFamily: "Helvetica 35 Thin";
+		} 			
+		@font-face {
+		 	src:url("../assets/skin/airbob_fonts.swf"); 
+		 	fontFamily: "Helvetica 65 Medium";
+		} 
+		@font-face {
+		 	src:url("../assets/skin/airbob_fonts.swf"); 
+		 	fontFamily: "Helvetica 65 Medium";
+		 	fontWeight:bold;
+		} 			
+		
+	</mx:Style>	
+	
+	<!--Visual effects-->
+	<mx:Fade id="closeApplicationEffect" duration="1000" alphaFrom="1.0" alphaTo="0.0" target="{this}" effectEnd="stage.nativeWindow.close();"/>
+    <mx:Fade id="openApplicationEffect" duration="1000" alphaFrom="0.0" alphaTo="1.0" target="{this}"/>
+	
+	<!--Airbob background container-->
+	<mx:UIComponent id="bgContainer" width="100%" height="100%" />
+	
+	<!--Url Button-->
+	<mx:UIComponent id="settingsButton" right="58" top="35" buttonMode="true" mouseChildren="false"
+		alpha="{dashboardView.settingsVisible?0.5:1}"  
+		toolTip="{dashboardView.settingsVisible?'Hide settings':'Show settings'}" 
+		click="dashboardView.handleSettingsButtonClick(event)" />
+	
+	<!--Favorite Button-->
+	<mx:UIComponent id="favButton" right="36" top="35" buttonMode="true" mouseChildren="false"
+		alpha="{dashboardView.showAll?0.5:1}"
+		toolTip="{dashboardView.showAll?'Show favorite projects':'Show all projects'}" 
+		click="dashboardView.showAll=!dashboardView.showAll" />	
+	
+	<mx:VBox width="100%" height="100%" >
+		
+		<mx:Spacer height="1" width="100%"/>
+		
+		<!--Custom Chrome Titlebar-->
+		<mx:HBox id="customChrome" height="25" width="100%" horizontalAlign="right" horizontalGap="1" paddingRight="2">			
+			<mx:Canvas mouseDown="nativeWindow.startMove()" width="100%" height="25" />
+			<chrome:WindowControlMinimize click="minimize()"/>
+			<chrome:WindowControlExit click="close()"/>
+			<mx:Spacer width="2.5"/>
+		</mx:HBox> 
+		
+		<!--The view with the project info-->
+		<view:DashboardView id="dashboardView" width="100%" height="100%"/>
+		
+		<!--Footer-->
+		<mx:Canvas width="100%">
+			<mx:Canvas right="20" width="70" height="20" click="navigateToURL(new URLRequest('http://www.nascom.be'))" buttonMode="true" mouseChildren="false"/>	
+		</mx:Canvas>
+				
+	</mx:VBox>	
+	
+</mx:WindowedApplication>

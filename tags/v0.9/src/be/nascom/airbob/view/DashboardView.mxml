@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (c) 2008 Airbob Contributors.  See:
+    http://code.google.com/p/airbob/wiki/ProjectContributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+<mx:Canvas 
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:view="be.nascom.airbob.view.*" 	
+	creationComplete="init()"
+	currentState="{model.connectedState}"
+	currentStateChange="handleCurrentStateChange(event)"
+	horizontalScrollPolicy="off" 
+	verticalScrollPolicy="off"
+	xmlns:components="be.nascom.airbob.view.components.*">		
+	
+	<mx:Script>
+		<![CDATA[
+			import be.nascom.airbob.events.CheckVersionEvent;
+			import mx.effects.easing.Elastic;
+			import be.nascom.airbob.events.SaveProjectSettingsEvent;
+			import be.nascom.airbob.commands.SaveProjectSettingsCommand;
+			import mx.effects.Resize;
+			import be.nascom.airbob.events.SaveCruiseControlConfigEvent;
+			import mx.events.StateChangeEvent;
+			import be.nascom.airbob.model.AppModelLocator;
+			import mx.logging.Log;
+			import mx.logging.ILogger;
+			import mx.rpc.events.FaultEvent;
+			import mx.collections.ArrayCollection;
+		  	import mx.collections.XMLListCollection;
+		  	import mx.rpc.events.ResultEvent;
+		  	
+		  	[Bindable]
+		  	public var settingsVisible:Boolean = false;		  	
+		  	
+		  	[Bindable]
+		  	public var model:AppModelLocator = AppModelLocator.getInstance();
+		  	
+		  	[Bindable]
+		  	private var connectedText:String;		  			  	
+		  	
+		  	private static var logger:ILogger = Log.getLogger("Dashboard");	
+		  	
+			private var _showAll:Boolean;
+			
+			[Bindable]
+			public function set showAll(value:Boolean):void
+			{
+				_showAll = value;
+				if (!_showAll) new SaveProjectSettingsEvent().dispatch();
+				model.refreshState();				
+				calculateHeight(currentState);
+			}
+			
+			public function get showAll():Boolean
+			{
+				return _showAll;
+			}
+		  	
+		  	private function init():void 
+		  	{
+		  		if (model.emptyConfig) 
+		  		{
+		  			// Initialize screen
+		  			currentState = AppModelLocator.STATE_INITIALIZING;		  			
+		  			handleSettingsButtonClick();
+		  		}
+		  		model.addEventListener(AppModelLocator.EVENT_MODEL_UPDATED, handleModelUpdated);		  				  				  	
+		  	}  
+		  	
+		  	private function handleModelUpdated(event:Event):void 
+		  	{
+		  		calculateHeight(currentState);		  				  		    
+		  	}		  
+		  	
+		  	private function handleCurrentStateChange(event:StateChangeEvent):void 
+		  	{
+		  		calculateHeight(event.newState);
+		  	}
+		  	
+		  	
+		  	public function handleSettingsButtonClick(event:Event=null):void 
+		  	{		
+		  		settingsVisible = !settingsVisible;  				  	
+		  		if (settingsVisible)
+		  		{		  			  			
+		  			showEffect.play();		  			 
+		  		}
+		  		else
+		  		{
+		  			hideEffect.play();
+		  			if (model.ccConfig.url!=urlInput.text) 
+		  			{	
+			  			model.ccConfig.url = urlInput.text;
+			  			new SaveCruiseControlConfigEvent().dispatch();
+		  			}
+		  		}		  					  	
+		  		calculateHeight(currentState);	  		
+		  	}
+		  	
+		  	private function calculateHeight(state:String):void
+		  	{
+		  		var appHeight:int = 1+25+25+20+4;
+		  		var blockHeight:int = 45+1;
+		  		
+		  		if (showAll) appHeight+=((blockHeight)*(model.projects.length+1));
+	  			else appHeight+=((blockHeight)*(model.favoriteProjectLength+1));		  			
+	  			
+	  			if (settingsVisible) appHeight+=25;
+	  			
+	  			if (this.parentApplication.height!=appHeight) 
+	  			{
+			  		var effect:Resize = new Resize(this.parentApplication);
+			  		effect.heightTo = appHeight; 
+			  		effect.play();
+			  		logger.debug("Resize from: " + this.parentApplication.height + " to: " + appHeight);
+		  		}		  		
+		  	}	
+		  			  			 	
+		]]>
+	</mx:Script>
+	
+	<mx:states>
+		<mx:State name="initializing">		
+			<mx:RemoveChild target="{progressbarConnecting}"/>
+			<mx:RemoveChild target="{labelDisconnected}"/>
+			<mx:RemoveChild target="{labelConnecting}"/>
+			<mx:RemoveChild target="{labelDisconnected}"/>		
+		</mx:State>
+		<mx:State name="connected">		
+			<mx:RemoveChild target="{labelInitializing}"/>
+			<mx:RemoveChild target="{progressbarConnecting}"/>
+			<mx:RemoveChild target="{labelConnecting}"/>
+			<mx:RemoveChild target="{labelDisconnected}"/>		
+		</mx:State>
+		<mx:State name="disconnected">		
+			<mx:RemoveChild target="{progressbarConnecting}"/>
+			<mx:RemoveChild target="{labelInitializing}"/>
+			<mx:RemoveChild target="{labelConnecting}"/>
+		</mx:State>
+		<mx:State name="connecting">
+			<mx:RemoveChild target="{labelDisconnected}"/>
+			<mx:RemoveChild target="{labelInitializing}"/>
+			<mx:RemoveChild target="{projectRepeater}"/>
+			<mx:RemoveChild target="{urlBox}"/>
+		</mx:State>
+	</mx:states>
+	
+	<mx:Resize id="showEffect" target="{settingsBox}" heightTo="25"/>
+    <mx:Resize id="hideEffect" target="{settingsBox}" heightTo="0"/>
+	
+	<mx:VBox width="100%" left="10" right="10" top="25" verticalGap="4" id="vbox1" >
+		<!--Components visible in 'initializing' state-->		
+		<mx:Label text="Enter the cruise control url and click the url button." color="#FFFFFF" id="labelInitializing" paddingLeft="10" visible="{settingsVisible}"/>
+		
+		<mx:VBox id="settingsBox" width="100%" hideEffect="{hideEffect}" showEffect="{showEffect}" height="0">
+			<mx:HBox id="urlBox" width="100%" >
+				<mx:Label text="url:" color="#FFFFFF"/>
+				<components:AirbobTextInput id="urlInput" text="{model.ccConfig.url}" color="White" width="100%" paddingLeft="2" paddingTop="2" paddingBottom="2" paddingRight="2"/>
+			</mx:HBox>
+			<!--
+			<mx:HBox id="startAtLoginBox" width="100%" height="0" >
+				<mx:CheckBox id="startAtLogin" label="Start at login" selected="{NativeApplication.nativeApplication.startAtLogin}" 
+					change="{NativeApplication.nativeApplication.startAtLogin=startAtLogin.selected}" />
+			</mx:HBox>
+			-->	
+		</mx:VBox>		
+			 	
+		
+		<!--Components visible in 'connecting' state-->
+		<mx:Label text="Connecting to Cruisecontrol..." toolTip="Connecting to {model.ccConfig.url}..." 
+			color="#FFFFFF" id="labelConnecting" paddingTop="10" paddingLeft="75"/>
+			
+		<mx:ProgressBar indeterminate="true" id="progressbarConnecting" width="200" label="" paddingLeft="125" />			
+		
+		<!--Components visible in 'disconnected' state-->		
+		<mx:Label text="Airbob can't connect to the cruise control server." color="#FFFFFF" id="labelDisconnected" paddingLeft="10" paddingTop="10"/>
+		
+		<mx:Canvas id="scrollbarCanvas" width="100%" horizontalScrollPolicy="off" >
+			<mx:VBox width="100%" left="0" right="0" top="0" verticalGap="4" id="vbox2">
+				<mx:Repeater id="projectRepeater" dataProvider="{model.projects}">
+					<view:ProjectView 
+						id="dashboadprojectview"
+						project="{projectRepeater.currentItem}" 
+						currentState="{projectRepeater.currentItem.state}" 
+						showAll="{showAll}"/>										
+				</mx:Repeater>			
+			</mx:VBox>	
+		</mx:Canvas>
+		
+	</mx:VBox>
+	
+</mx:Canvas>

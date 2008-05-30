@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (c) 2008 Airbob Contributors.  See:
+    http://code.google.com/p/airbob/wiki/ProjectContributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+<mx:Canvas 
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:vo="be.nascom.airbob.vo.*" 
+	width="100%"
+	height="45"
+	verticalScrollPolicy="off"
+	horizontalScrollPolicy="off"
+	creationComplete="init()" >		
+	<mx:Script>
+		<![CDATA[
+			import be.nascom.airbob.events.ForceBuildEvent;
+			import flash.net.navigateToURL;
+			import mx.events.StateChangeEvent;
+			import mx.logging.Log;
+			import mx.logging.ILogger;
+			import caurina.transitions.Tweener;
+			import mx.core.Window;
+			
+			private var _showAll:Boolean;
+			
+			private var block:ProjectBlock;
+			private var status:ProjectStatus;
+			
+			private static var logger:ILogger = Log.getLogger("DashboardProjectView");	
+			
+			private function init() :void 
+			{				
+				project.addEventListener(Project.EVENT_ACTIVITY_CHANGE, handleActivityChange);
+				project.addEventListener(Project.EVENT_STATUS_CHANGE, handleStatusChange);
+				
+				block = new ProjectBlock();	
+				block.gotoAndStop(project.state.toLowerCase());
+				
+				status = new ProjectStatus();
+				status.gotoAndStop(project.state.toLowerCase());
+													
+				backgroundContainer.addChild(block);
+				statusContainer.addChild(status);
+				
+				forceBuildButton.addChild(new ForceIcon());
+				moreInfoButton.addChild(new InfoIcon());				
+				favoriteButton.addChild(new FavIcon());
+				
+				updateViewState();
+				resize();				
+			}
+						
+			[Bindable]
+			public function set showAll(value:Boolean):void
+			{
+				_showAll = value;
+				updateViewState();
+			}
+			
+			public function get showAll():Boolean
+			{
+				return _showAll;
+			}
+			
+			private function updateViewState():void
+			{
+				if (_showAll&&project.setting.isFavorite) currentState = "ShowAllEnabled";
+				else if (_showAll&&!project.setting.isFavorite) currentState = "ShowAllDisabled";
+				else currentState = project.state;
+				
+				if (_showAll) visible = includeInLayout = true;
+				else visible = includeInLayout = project.setting.isFavorite;								
+			}
+			
+			public function setAssetsState(state:String):void 
+			{
+				status.gotoAndStop(state.toLowerCase());
+				block.gotoAndStop(state.toLowerCase());
+			}									
+			
+			private function handleActivityChange(event:Event) :void 
+			{
+				currentState = project.state;
+				setAssetsState(project.state);				
+			}
+			
+			private function handleStatusChange(event:Event) :void 
+			{
+				currentState = project.state;
+				setAssetsState(project.state);				
+			}
+			
+			private function resize():void 
+			{
+				try 
+				{		
+					if(block!=null && backgroundContainer!=null)
+					{			
+						block.width = backgroundContainer.width;
+						block.height = backgroundContainer.height;
+					}
+				} 
+				catch (error:Error) 
+				{
+					logger.debug(error.toString());
+				}
+			}		  	
+			
+			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void 
+			{
+				super.updateDisplayList(unscaledWidth, unscaledHeight);
+				resize();
+			}											
+			
+			private function handleForceBuildClick():void 
+			{
+				currentState = "WaitingForBuild";
+				new ForceBuildEvent(project).dispatch();	
+			}	
+			
+			private function handleMoreInfoClick():void
+			{
+				navigateToURL(new URLRequest(project.webUrl));
+			}	
+			
+			private function handleFavoriteClick():void
+			{
+				project.setting.isFavorite = !project.setting.isFavorite;
+				updateViewState();
+			}			
+
+		]]>
+	</mx:Script>
+		
+	<mx:states>
+		<mx:State name="Toaster">
+			<mx:SetProperty target="{forceBuildButton}" name="visible" value="false"/>
+			<mx:SetProperty target="{moreInfoButton}" name="visible" value="false"/>
+			<mx:SetProperty target="{favoriteButton}" name="visible" value="false"/>
+			<mx:SetProperty target="{labelInfo}" name="text" value="{project.state}" />
+		</mx:State>
+		<mx:State name="Success">
+			<mx:SetProperty target="{forceBuildButton}" name="visible" value="true"/>
+			<mx:SetProperty target="{moreInfoButton}" name="visible" value="true"/>
+		</mx:State>
+		<mx:State name="Building">	
+			<mx:SetProperty target="{forceBuildButton}" name="visible" value="false"/>
+			<mx:SetProperty target="{labelInfo}" name="text" value="Building..." />			
+		</mx:State>
+		<mx:State name="WaitingForBuild">	
+			<mx:SetProperty target="{forceBuildButton}" name="visible" value="false"/>
+			<mx:SetProperty target="{labelInfo}" name="text" value="Waiting for build" />			
+		</mx:State>
+		<mx:State name="Failure">
+			<mx:SetProperty target="{forceBuildButton}" name="visible" value="true"/>
+			<mx:SetProperty target="{moreInfoButton}" name="visible" value="true"/>
+		</mx:State>
+		<mx:State name="Inactive"/>
+		<mx:State name="ShowAllDisabled">
+			<mx:SetProperty target="{favoriteButton}" name="visible" value="true"/>
+			<mx:SetProperty target="{favoriteButton}" name="alpha" value="0.5" />
+			<mx:SetProperty target="{forceBuildButton}" name="visible" value="false"/>
+			<mx:SetProperty target="{moreInfoButton}" name="visible" value="false"/>
+			<mx:SetProperty target="{backgroundContainer}" name="alpha" value="0.5" />
+			<mx:SetProperty target="{statusContainer}" name="alpha" value="0.5" />
+			<mx:SetProperty target="{labelProjectName}" name="alpha" value="0.5" />
+			<mx:SetProperty target="{labelInfo}" name="alpha" value="0.5" />	
+		</mx:State>
+		<mx:State name="ShowAllEnabled">
+			<mx:SetProperty target="{favoriteButton}" name="visible" value="true"/>
+			<mx:SetProperty target="{forceBuildButton}" name="visible" value="false"/>
+			<mx:SetProperty target="{moreInfoButton}" name="visible" value="false"/>
+		</mx:State>
+	</mx:states>
+	
+	<mx:UIComponent id="backgroundContainer" width="100%" height="100%"/>
+	<mx:UIComponent id="statusContainer" height="100%" x="2" y="2.0"/>
+	
+	<vo:Project id="project" />
+	
+	<mx:Label id="labelProjectName" x="20" y="4" text="{project.name}" color="#333333" styleName="smallText" />
+	<mx:Label id="labelInfo" x="20" y="25" text="Last successfull build: {project.lastBuildTime.replace('T', ' ')}"  styleName="smallText" color="#333333"/>
+	
+	<mx:UIComponent id="forceBuildButton" 
+		y="11.5" right="48.5" buttonMode="true" mouseChildren="false" 
+		click="handleForceBuildClick()" 
+		toolTip="Force build"/>
+		
+	<mx:UIComponent id="moreInfoButton" y="11.5" right="26.5" buttonMode="true" mouseChildren="false" 
+		click="handleMoreInfoClick()" toolTip="More info"/>
+		
+	<mx:UIComponent id="favoriteButton" y="11.5" right="26.5" buttonMode="true" mouseChildren="false" 
+		click="handleFavoriteClick()" visible="false"		
+		toolTip="{project.setting.isFavorite?'Remove favorite':'Add favorite'}"/>
+</mx:Canvas>
