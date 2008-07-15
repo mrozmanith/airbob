@@ -46,7 +46,7 @@
 			<compiler.library-path dir="${FLEX_HOME}/frameworks" append="true">
 				<include name="lib" />
 				<include name="../bundles/{locale}" />
-			</compiler.library-path>			
+			</compiler.library-path>		    	
 		</mxmlc>
 	</target>  
 	
